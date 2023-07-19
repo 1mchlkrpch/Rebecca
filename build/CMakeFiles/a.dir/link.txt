@@ -1,0 +1,1 @@
+/usr/bin/cc -Wall -Wextra -Wpedantic -pedantic -rdynamic CMakeFiles/a.dir/home/mchlkrpch/Documents/c++/Rebecca/rbc.c.o CMakeFiles/a.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer.c.o -o a 

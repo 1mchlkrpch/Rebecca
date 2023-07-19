@@ -1,0 +1,26 @@
+namespace
+{
+	gTreePrintData(parsed_data gLang_Node, out FILE*)bool
+		if parsedData\buf:isEmpty() = true
+			if parsed_data\quantity = -1
+				fprintf(out, "yes").
+			_else
+				fprintf(out, "no").
+			_
+
+			++cnt.
+		_
+		ret 0.
+	_
+
+}mchlkrpch.
+
+class
+[
+	
+]mod.
+
+main()int
+	int a = 0; b = 0; c = 0.
+	return 0.
+_
