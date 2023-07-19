@@ -60,7 +60,12 @@ CMakeFiles/a.dir/home/mchlkrpch/Documents/c++/Rebecca/rbc.c.o: /home/mchlkrpch/D
   /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
   /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
   /usr/include/alloca.h \
-  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h
+  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+  /usr/include/string.h \
+  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
+  /usr/include/strings.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h
 
 CMakeFiles/a.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer.c.o: /home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer.c \
   /usr/include/stdc-predef.h \
@@ -121,8 +126,19 @@ CMakeFiles/a.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer.c.o: /home/m
   /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
   /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
   /usr/include/alloca.h \
-  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h
+  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+  /usr/include/string.h \
+  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
+  /usr/include/strings.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h
 
+
+/usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h:
+
+/usr/include/strings.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/floatn.h:
 
@@ -172,6 +188,8 @@ CMakeFiles/a.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer.c.o: /home/m
 
 /usr/include/x86_64-linux-gnu/bits/floatn-common.h:
 
+/usr/include/x86_64-linux-gnu/bits/types/__locale_t.h:
+
 /usr/include/stdio.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h:
@@ -211,6 +229,8 @@ CMakeFiles/a.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer.c.o: /home/m
 /usr/include/x86_64-linux-gnu/bits/types/timer_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/struct_mutex.h:
+
+/usr/include/string.h:
 
 /usr/include/x86_64-linux-gnu/bits/endian.h:
 

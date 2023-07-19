@@ -8,12 +8,15 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
 
 // #include <include/>
 
 #define kTokenMaxLen 256
 static const uint64_t kMaxLocals     = 256;
 static const uint64_t kMaxScopeDepth = 256;
+static const uint64_t kInitSequenceSize = 256;
 
 /**
  * @brief Logically different token types.
@@ -79,6 +82,35 @@ typedef enum
   
   TOKEN_EOF                 // end of file
 } TokenType;
+
+typedef struct
+{
+  const char *txt;
+  size_t      len;
+  TokenType   type;
+} Keyword;
+
+static Keyword keywords[] =
+{
+  {"break",     5, TOKEN_BREAK},
+  {"continue",  8, TOKEN_CONTINUE},
+  {"class",     5, TOKEN_CLASS},
+  {"else",      4, TOKEN_ELSE},
+  {"false",     5, TOKEN_FALSE},
+  {"cycle",     5, TOKEN_CYCLE},
+  {"if",        2, TOKEN_IF},
+  {"load",      4, TOKEN_LOAD},
+  {"null",      4, TOKEN_NULL},
+  {"public",    6, TOKEN_PUBLIC},
+  {"private",   7, TOKEN_PRIVATE},
+  {"ret",       3, TOKEN_RETURN},
+  {"static",    6, TOKEN_STATIC},
+  {"this",      4, TOKEN_THIS},
+  {"true",      4, TOKEN_TRUE},
+  {NULL,        0, TOKEN_EOF}
+};
+
+static const char *kSplitSymbols = " \n\t";
 
 /**
  * @addtogroup Variables
