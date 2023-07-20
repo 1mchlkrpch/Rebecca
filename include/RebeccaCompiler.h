@@ -1,6 +1,12 @@
 /**
  * @file RebeccaCompiler.h
  * Main compiler logic of Rebecca-language.
+ * 
+ * Provides
+ *   -main constants,
+ *   -token identifiers,
+ *   -token text representation,
+ *   -all functions of each part of compilation (from frontend to binary translation)
  */
 #pragma once
 
@@ -13,6 +19,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+
+// Global constants --------------------------------------------------------------------------
 
 /// Maximal token length in characters.
 #define kTokenMaxLen 256
@@ -89,6 +97,14 @@ typedef enum
   
   TOKEN_EOF                 // end of file
 } TokenType;
+
+
+// Lexer part --------------------------------------------------------------------------------
+/**
+ * @addtogroup Lexer
+ * Simple Lexer realization.
+ * @{
+ */
 
 typedef struct
 {
@@ -176,6 +192,14 @@ typedef struct
   uint64_t *depth;
 } Context;
 
+// Check src/Tokenizer.c
+Token *Tokenizer(const char *name, uint64_t *n_tokens);
+
+/**
+ * @}
+ */
+
+// AST part ----------------------------------------------------------------------------------
 /**
  * @brief parser machine.
  * Uses Token 'sequence' and build the AST.
@@ -189,9 +213,6 @@ typedef struct
   // Current context on each token.
   Context ctx;
 } Parser;
-
-// Check src/Tokenizer.c
-Token *Tokenizer(const char *name, uint64_t *n_tokens);
 // Check src/Parser.c
 Parser *BuildAst(Token *sequence, uint64_t n_tokens);
 

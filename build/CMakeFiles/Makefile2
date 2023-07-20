@@ -63,7 +63,7 @@ CMAKE_BINARY_DIR = /home/mchlkrpch/Documents/c++/Rebecca/build
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/a.dir/all
+all: CMakeFiles/rbc.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -71,34 +71,34 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/a.dir/clean
+clean: CMakeFiles/rbc.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/a.dir
+# Target rules for target CMakeFiles/rbc.dir
 
 # All Build rule for target.
-CMakeFiles/a.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/a.dir/build.make CMakeFiles/a.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/a.dir/build.make CMakeFiles/a.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mchlkrpch/Documents/c++/Rebecca/build/CMakeFiles --progress-num=1,2,3,4 "Built target a"
-.PHONY : CMakeFiles/a.dir/all
+CMakeFiles/rbc.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mchlkrpch/Documents/c++/Rebecca/build/CMakeFiles --progress-num=1,2,3,4 "Built target rbc"
+.PHONY : CMakeFiles/rbc.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/a.dir/rule: cmake_check_build_system
+CMakeFiles/rbc.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/mchlkrpch/Documents/c++/Rebecca/build/CMakeFiles 4
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/a.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/rbc.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/mchlkrpch/Documents/c++/Rebecca/build/CMakeFiles 0
-.PHONY : CMakeFiles/a.dir/rule
+.PHONY : CMakeFiles/rbc.dir/rule
 
 # Convenience name for target.
-a : CMakeFiles/a.dir/rule
-.PHONY : a
+rbc: CMakeFiles/rbc.dir/rule
+.PHONY : rbc
 
 # clean rule for target.
-CMakeFiles/a.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/a.dir/build.make CMakeFiles/a.dir/clean
-.PHONY : CMakeFiles/a.dir/clean
+CMakeFiles/rbc.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/clean
+.PHONY : CMakeFiles/rbc.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

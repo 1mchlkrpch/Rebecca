@@ -1,6 +1,9 @@
 /**
  * @file Tokenizer.c
+ * 
  * Tokenizer logic with reading file functions.
+ * Also this file provides functions to check correctness of tokens in
+ * source code.
  */
 #include <include/RebeccaCompiler.h>
 
