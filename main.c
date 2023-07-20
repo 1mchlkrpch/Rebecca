@@ -10,7 +10,10 @@ int main() {
   Token *sequence = Tokenizer("../examples/example2.rbc", &n_tokens);
 
   for (uint64_t cur_token = 0; cur_token < n_tokens; ++cur_token) {
-    printf("t(%zu)|%s\n", cur_token, sequence[cur_token].txt);
+    printf("t(%zu)|%s -- %s\n",
+      cur_token,
+      sequence[cur_token].txt,
+      TranslateTokenType(sequence[cur_token].type));
   }
 
   // TODO: Add compilation flags.

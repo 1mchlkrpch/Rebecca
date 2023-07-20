@@ -1,5 +1,7 @@
 namespace
 {
+	int a = 10.
+
 	gTreePrintData(parsed_data gLang_Node, out FILE*)bool
 		if parsedData\buf:isEmpty() = true
 			if parsed_data\quantity <=> -1

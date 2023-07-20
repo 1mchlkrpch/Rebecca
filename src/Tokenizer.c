@@ -39,6 +39,69 @@ char *GetSourceText(const char *name)
   return source_text;
 }
 
+const char *TranslateTokenType(TokenType type)
+{
+  switch (type) {
+    case TOKEN_UNKNOWN:             { return "UNKNOWN"; }
+    case TOKEN_LEFT_PARENTHESIS:    { return "LEFT_PARENTHESIS"; }
+    case TOKEN_RIGHT_PARENTHESIS:   { return "RIGHT_PARENTHESIS"; }
+    case TOKEN_LEFT_BRACKET:        { return "LEFT_BRACKET"; }
+    case TOKEN_RIGHT_BRACKET:       { return "RIGHT_BRACKET"; }
+    case TOKEN_LEFT_BRACE:          { return "LEFT_BRACE"; }
+    case TOKEN_RIGHT_BRACE:         { return "RIGHT_BRACE"; }
+    case TOKEN_COLON:               { return "COLON"; }
+    case TOKEN_DOT:                 { return "DOT"; }
+    case TOKEN_COMMA:               { return "COMMA"; }
+    case TOKEN_STAR:                { return "STAR"; }
+    case TOKEN_SLASH:               { return "SLASH"; }
+    case TOKEN_BACK_SLASH:          { return "BACK_SLASH"; }
+    case TOKEN_PERCENT:             { return "PERCENT"; }
+    case TOKEN_HASHTAG:             { return "HASHTAG"; }
+    case TOKEN_PLUS:                { return "PLUS"; }
+    case TOKEN_PLUSPLUS:            { return "PLUSPLUS"; }
+    case TOKEN_MINUS:               { return "MINUS"; }
+    case TOKEN_LL:                  { return "LL"; }
+    case TOKEN_GG:                  { return "GG"; }
+    case TOKEN_PIPE:                { return "PIPE"; }
+    case TOKEN_PIPEPIPE:            { return "PIPEPIPE"; }
+    case TOKEN_CARET:               { return "CARET"; }
+    case TOKEN_TILDE:               { return "TILDE"; }
+    case TOKEN_QUESTION:            { return "QUESTION"; }
+    case TOKEN_EXCLAMATION:         { return "EXCLAMATION"; }
+    case TOKEN_EQ:                  { return "EQ"; }
+    case TOKEN_L:                   { return "L"; }
+    case TOKEN_G:                   { return "G"; }
+    case TOKEN_LEQ:                 { return "LEQ"; }
+    case TOKEN_GEQ:                 { return "GEQ"; }
+    case TOKEN_EQEQ:                { return "EQEQ"; }
+    case TOKEN_EXCLAMATION_EQ:      { return "EXCLAMATION_EQ"; }
+    case TOKEN_BREAK:               { return "BREAK"; }
+    case TOKEN_CONTINUE:            { return "CONTINUE"; }
+    case TOKEN_CLASS:               { return "CLASS"; }
+    case TOKEN_STRUCT:              { return "STRUCT"; }
+    case TOKEN_ELSE:                { return "ELSE"; }
+    case TOKEN_FALSE:               { return "FALSE"; }
+    case TOKEN_CYCLE:               { return "CYCLE"; }
+    case TOKEN_IF:                  { return "IF"; }
+    case TOKEN_LOAD:                { return "LOAD"; }
+    case TOKEN_NULL:                { return "NULL"; }
+    case TOKEN_RETURN:              { return "RETURN"; }
+    case TOKEN_STATIC:              { return "STATIC"; }
+    case TOKEN_THIS:                { return "THIS"; }
+    case TOKEN_TRUE:                { return "TRUE"; }
+    case TOKEN_PRIVATE:             { return "PRIVATE"; }
+    case TOKEN_PUBLIC:              { return "PUBLIC"; }
+    case TOKEN_NAME:                { return "NAME"; }
+    case TOKEN_NUMBER:              { return "NUMBER"; }
+    case TOKEN_COMP:                { return "COMP"; }
+    case TOKEN_UNDERLINE:           { return "UNDERLINE"; }
+    case TOKEN_EOF:                 { return "EOF"; }
+  }
+
+  return "UNKNOWN";
+}
+
+
 /**
  * @brief Checks if symbol 'c' in kSplitSymbols which
  * contains all the splitter-symbols.
@@ -60,6 +123,17 @@ bool IsSplit(const char c)
 static inline __attribute__((always_inline))
 bool IsWhiteSpace(const char c)
 { return strchr(kWhiteSpace, c) != NULL; }
+
+/**
+ * @brief Checks if symbol 'c' in kDigitSymbols which
+ * contains all digit-symbols.
+ * 
+ * @param c Symbol to check.
+ * @return true if 'c' in 'kDigitSymbols'.
+ */
+static inline __attribute__((always_inline))
+bool IsDigit(const char c)
+{ return strchr(kDigitSymbols, c) != NULL; }
 
 static const size_t kUndefinedStableWordIdx = sizeof(stable_words) / sizeof(StableWord) + 1;
 
@@ -210,6 +284,23 @@ bool CanBeAppended(char *cur_word, char *cursor, uint64_t cur_token_len)
   }
 }
 
+void ReadHex(cursor, cur_word, cur_token_len);
+
+uint64_t ReadNumber(char **cursor, char *cur_word, uint64_t *cur_token_len)
+{
+  assert(cursor != NULL && "nullptr param");
+
+  printf("%c\n", **cursor);
+
+  while (IsDigit(**cursor) && **cursor != EOF) {
+    cur_word[*cur_token_len] = **cursor;
+    ++(*cur_token_len);
+    ++(*cursor);
+  }
+
+  return atoi(cur_word);
+}
+
 /**
  * @brief Siple tokenizer O(n*k) where k is
  * size of keywords + splitters size.
@@ -249,6 +340,14 @@ Token *Tokenizer(const char *name, uint64_t *n_tokens)
 
   // Read the symbols until we meet EOF symbol.
   while (*cursor != EOF) {
+    if (IsDigit(*cursor) && cur_token_len == 0) {
+      int num = ReadNumber(&cursor, cur_word, &cur_token_len);
+      
+      TryPushToken(&cur_token_len, cur_word, sequence, &sequence_size);
+      sequence[sequence_size - 1].type = TOKEN_NUMBER;
+
+      continue;
+    }
     /* If we meet white space symbol
     -skip all white symbols
     -push current collected token if it has non-zero size.*/
@@ -268,7 +367,7 @@ Token *Tokenizer(const char *name, uint64_t *n_tokens)
     if (IsSplit(*cursor)) {
       TryPushToken(&cur_token_len, cur_word, sequence, &sequence_size);
 
-      while (IsSplit(*cursor) != false  && *cursor != EOF) {
+      while (IsSplit(*cursor)  && *cursor != EOF) {
         cur_word[cur_token_len] = *cursor;
         ++cur_token_len;
         ++cursor;

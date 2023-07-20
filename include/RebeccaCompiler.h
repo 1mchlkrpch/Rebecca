@@ -98,6 +98,7 @@ typedef enum
   TOKEN_EOF                 // end of file
 } TokenType;
 
+const char *TranslateTokenType(TokenType type);
 
 // Lexer part --------------------------------------------------------------------------------
 /**
@@ -118,10 +119,11 @@ static const size_t kEofTokenLength = 3;
 
 static StableWord stable_words[] =
 {
+  {"return",    6, TOKEN_RETURN},
   {"break",     5, TOKEN_BREAK},
   {"continue",  8, TOKEN_CONTINUE},
   {"class",     5, TOKEN_CLASS},
-  {"else",      4, TOKEN_ELSE},
+  {"_else",     5, TOKEN_ELSE},
   {"false",     5, TOKEN_FALSE},
   {"cycle",     5, TOKEN_CYCLE},
   {"if",        2, TOKEN_IF},
@@ -138,21 +140,32 @@ static StableWord stable_words[] =
   {">>",        2, TOKEN_GG},
   {"<=",        2, TOKEN_LEQ},
   {">=",        2, TOKEN_GEQ},
+  {"=",         1, TOKEN_EQ},
+  {"[",         1, TOKEN_LEFT_BRACKET},
+  {"]",         1, TOKEN_RIGHT_BRACKET},
   {"(",         1, TOKEN_LEFT_PARENTHESIS},
   {")",         1, TOKEN_RIGHT_PARENTHESIS},
+  {"{",         1, TOKEN_LEFT_BRACE},
+  {"}",         1, TOKEN_RIGHT_BRACE},
   {"*",         1, TOKEN_STAR},
   {"+",         1, TOKEN_PLUS},
   {"++",        1, TOKEN_PLUSPLUS},
   {"-",         1, TOKEN_MINUS},
   {"_",         1, TOKEN_UNDERLINE},
+  {",",         1, TOKEN_COMMA},
+  {".",         1, TOKEN_DOT},
   {"%",         1, TOKEN_PERCENT},
   {"#",         1, TOKEN_HASHTAG},
   {"/",         1, TOKEN_SLASH},
   {"EOF",       3, TOKEN_EOF}
 };
 
+// Split symbols to split words in source code.
 static const char *kSplitSymbols = "()[]{}:;.,*/\\%#+-<>|^~?!=!";
+// Whitespace symbols in source code.
 static const char *kWhiteSpace   = " \n\t";
+// Digit symbols in source code.
+static const char *kDigitSymbols = "01234567890";
 
 /**
  * @addtogroup Variables
@@ -213,6 +226,7 @@ typedef struct
   // Current context on each token.
   Context ctx;
 } Parser;
+
 // Check src/Parser.c
 Parser *BuildAst(Token *sequence, uint64_t n_tokens);
 
