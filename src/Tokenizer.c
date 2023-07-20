@@ -63,6 +63,8 @@ bool IsWhiteSpace(const char c)
  */
 Token IdentifyToken(char *cur_word)
 {
+  assert(cur_word != NULL && "nullptr param");
+
   Token token = {0};
   
   token.txt = (char *)calloc(kTokenMaxLen, sizeof(char));
@@ -87,12 +89,21 @@ Token IdentifyToken(char *cur_word)
 
 void PushToken(Token *token, Token *sequence, uint64_t *sequence_size)
 {
+  assert(token         != NULL && "nullptr param");
+  assert(sequence      != NULL && "nullptr param");
+  assert(sequence_size != NULL && "nullptr param");
+
   sequence[*sequence_size] = *token;
   ++(*sequence_size);
 }
 
 void TryPushToken(uint64_t *cur_token_len, char *cur_word, Token *sequence, uint64_t *sequence_size)
 {
+  assert(cur_token_len != NULL && "nullptr param");
+  assert(cur_word      != NULL && "nullptr param");
+  assert(sequence      != NULL && "nullptr param");
+  assert(sequence_size != NULL && "nullptr param");
+
   if (*cur_token_len > 0) {
     Token token = IdentifyToken(cur_word);
     PushToken(&token, sequence, sequence_size);
@@ -121,7 +132,8 @@ void TryPushToken(uint64_t *cur_token_len, char *cur_word, Token *sequence, uint
  */
 Token *Tokenizer(const char *name, uint64_t *n_tokens)
 {
-  assert(name != NULL && "nullptr param");
+  assert(name     != NULL && "nullptr param");
+  assert(n_tokens != NULL && "nullptr param");
 
   // Read the file with name 'name'.
   char *source_text = GetSourceText(name);
