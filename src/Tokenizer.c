@@ -277,6 +277,8 @@ Token *Tokenizer(const char *name, uint64_t *n_tokens)
         }
       }
 
+      /* Try to push the biggest possible word
+      collected from split symbols.*/
       TryPushToken(&cur_token_len, cur_word, sequence, &sequence_size);
       continue;
     }
@@ -290,6 +292,12 @@ Token *Tokenizer(const char *name, uint64_t *n_tokens)
   /* Push the last token in sequence if
   the file doesn't end with whitespace symbol.*/
   TryPushToken(&cur_token_len, cur_word, sequence, &sequence_size);
+  
+  // Push the final terminatie token TOKEN_EOF.
+  cur_token_len = kEofTokenLength;
+  strcpy(cur_word, kEofTokenTxt);
+  TryPushToken(&cur_token_len, cur_word, sequence, &sequence_size);
+  
   *n_tokens = sequence_size;
 
   free(source_text);

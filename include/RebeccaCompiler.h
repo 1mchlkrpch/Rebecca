@@ -4,6 +4,9 @@
  */
 #pragma once
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-variable"
+
 #include <assert.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -11,11 +14,14 @@
 #include <string.h>
 #include <stdbool.h>
 
-// #include <include/>
-
+/// Maximal token length in characters.
 #define kTokenMaxLen 256
+
+/// Maximal local variables in scope restriction.
 static const uint64_t kMaxLocals     = 256;
+/// Maximal scope layers in program to restrict memory consuming.
 static const uint64_t kMaxScopeDepth = 256;
+/// Maximal scope layers in program.
 static const uint64_t kInitSequenceSize = 256;
 
 /**
@@ -91,6 +97,9 @@ typedef struct
   TokenType   type;
 } StableWord;
 
+static const char  *kEofTokenTxt = "EOF";
+static const size_t kEofTokenLength = 3;
+
 static StableWord stable_words[] =
 {
   {"break",     5, TOKEN_BREAK},
@@ -122,7 +131,8 @@ static StableWord stable_words[] =
   {"_",         1, TOKEN_UNDERLINE},
   {"%",         1, TOKEN_PERCENT},
   {"#",         1, TOKEN_HASHTAG},
-  {"/",         1, TOKEN_SLASH}
+  {"/",         1, TOKEN_SLASH},
+  {"EOF",       3, TOKEN_EOF}
 };
 
 static const char *kSplitSymbols = "()[]{}:;.,*/\\%#+-<>|^~?!=!";
@@ -174,8 +184,15 @@ typedef struct
 {
   // Tokens from tokenizer.
   Token *sequence;
+  // Token size.
+  uint64_t sequence_size;
   // Current context on each token.
   Context ctx;
 } Parser;
 
+// Check src/Tokenizer.c
 Token *Tokenizer(const char *name, uint64_t *n_tokens);
+// Check src/Parser.c
+Parser *BuildAst(Token *sequence, uint64_t n_tokens);
+
+#pragma GCC diagnostic pop
