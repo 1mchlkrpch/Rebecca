@@ -1,3 +1,7 @@
+/**
+ * @file Tokenizer.c
+ * Tokenizer logic with reading file functions.
+ */
 #include <include/RebeccaCompiler.h>
 
 /**
@@ -76,6 +80,13 @@ uint64_t IdentifyToken(char *cur_word)
   return kUndefinedStableWordIdx;
 }
 
+/**
+ * @brief build token with found index
+ * in 'stable_words' array.
+ * 
+ * @param idx Found index.
+ * @returns Build token.
+ */
 Token ConstructToken(uint64_t idx)
 {
   Token token = {0};
@@ -90,6 +101,13 @@ Token ConstructToken(uint64_t idx)
   return token;
 }
 
+/**
+ * @brief build token with const char* data.
+ * It's soppose that token wasn't found.
+ * 
+ * @param txt token txt to fill.
+ * @returns Build token.
+ */
 Token FillToken(const char *txt)
 {
   assert(txt != NULL && "nullptr param");
@@ -105,6 +123,14 @@ Token FillToken(const char *txt)
   return token;
 }
 
+/**
+ * @brief Adds new token 'token' to sequence of tokens 'sequence'
+ * and changes sequence's size
+ * 
+ * @param token Token to add.
+ * @param sequence Sequence to append.
+ * @param sequence_size Current size of sequence of tokens.
+ */
 void PushToken(Token *token, Token *sequence, uint64_t *sequence_size)
 {
   assert(token         != NULL && "nullptr param");
@@ -115,7 +141,18 @@ void PushToken(Token *token, Token *sequence, uint64_t *sequence_size)
   ++(*sequence_size);
 }
 
-void TryPushToken(uint64_t *cur_token_len, char *cur_word, Token *sequence, uint64_t *sequence_size)
+/**
+ * @brief Tries to build token from 'cur_word'
+ * and add it to token 'sequence'
+ * 
+ * @param cur_token_len Current size of 'cur_word'.
+ * @param cur_word Current collected word.
+ * @param sequence Sequence to append.
+ * @param sequence_size Current size of sequence.
+ */
+void TryPushToken(
+  uint64_t *cur_token_len, char *cur_word, Token *sequence,
+  uint64_t *sequence_size)
 {
   assert(cur_token_len != NULL && "nullptr param");
   assert(cur_word      != NULL && "nullptr param");
@@ -139,6 +176,18 @@ void TryPushToken(uint64_t *cur_token_len, char *cur_word, Token *sequence, uint
   }
 }
 
+/**
+ * @brief Checks if the next symbol can be good
+ * addition for 'cur_word' as
+ *    cur_word + *(cursor + 1) -- is in stable words again.
+ * Used after picking split symbol.
+ * 
+ * @param cur_word Current collected word.
+ * @param cursor Cursor position in source text.
+ * @param cur_token_len Current length of collected word.
+ * 
+ * @returns true if cur_word + *(cursor + 1) -- is in stable words again.
+ */
 bool CanBeAppended(char *cur_word, char *cursor, uint64_t cur_token_len)
 {
   assert(cur_word != NULL && "nullptr param");
