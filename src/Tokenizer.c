@@ -54,6 +54,8 @@ static inline __attribute__((always_inline))
 bool IsWhiteSpace(const char c)
 { return strchr(kWhiteSpace, c) != NULL; }
 
+static const size_t kUndefinedStableWordIdx = sizeof(stable_words) / sizeof(StableWord) + 1;
+
 /**
  * @brief Checks if the cur_word is
  * stable word or just name or number.
@@ -61,28 +63,44 @@ bool IsWhiteSpace(const char c)
  * @param cur_word Word to check.
  * @returns Token to push in sequence.
  */
-Token IdentifyToken(char *cur_word)
+uint64_t IdentifyToken(char *cur_word)
 {
   assert(cur_word != NULL && "nullptr param");
+
+  for (size_t idx = 0; idx < sizeof(stable_words) / sizeof(StableWord); ++idx) {
+    if (strcmp(stable_words[idx].txt, cur_word) == 0) {
+      return idx;
+    }
+  }
+
+  return kUndefinedStableWordIdx;
+}
+
+Token ConstructToken(uint64_t idx)
+{
+  Token token = {0};
+  
+  token.txt = (char *)calloc(kTokenMaxLen, sizeof(char));
+  assert(token.txt != NULL && "Null calloc allocation");
+
+
+  token.type = stable_words[idx].type;
+  strcpy(token.txt, stable_words[idx].txt);
+
+  return token;
+}
+
+Token FillToken(const char *txt)
+{
+  assert(txt != NULL && "nullptr param");
 
   Token token = {0};
   
   token.txt = (char *)calloc(kTokenMaxLen, sizeof(char));
   assert(token.txt != NULL && "Null calloc allocation");
 
-  token.type = TOKEN_LEFT_UNKNOWN;
-
-  for (size_t idx = 0; idx < sizeof(stable_words) / sizeof(StableWord); ++idx) {
-    if (strcmp(stable_words[idx].txt, cur_word) == 0) {
-      token.type = stable_words[idx].type;
-      strcpy(token.txt, cur_word);
-    }
-  }
-
-  if (token.type == TOKEN_LEFT_UNKNOWN) {
-    token.type = TOKEN_NAME;
-    strcpy(token.txt, cur_word);
-  }
+  token.type = TOKEN_NAME;
+  strcpy(token.txt, txt);
 
   return token;
 }
@@ -105,11 +123,38 @@ void TryPushToken(uint64_t *cur_token_len, char *cur_word, Token *sequence, uint
   assert(sequence_size != NULL && "nullptr param");
 
   if (*cur_token_len > 0) {
-    Token token = IdentifyToken(cur_word);
+    uint64_t idx = IdentifyToken(cur_word);
+
+    Token token = {0};
+    if (idx != kUndefinedStableWordIdx) {
+      token = ConstructToken(idx);
+    } else {
+      token = FillToken(cur_word);
+    }
+
     PushToken(&token, sequence, sequence_size);
     *cur_token_len = 0;
 
     memset(cur_word, '\0', kTokenMaxLen);
+  }
+}
+
+bool CanBeAppended(char *cur_word, char *cursor, uint64_t cur_token_len)
+{
+  assert(cur_word != NULL && "nullptr param");
+  assert(cursor   != NULL && "nullptr param");
+
+  char *copy = (char *)calloc(kTokenMaxLen, sizeof(char));
+  assert(copy != NULL && "Null calloc allocation");
+
+  strcpy(copy, cur_word);
+
+  copy[cur_token_len] = *cursor;
+
+  if (IdentifyToken(copy) == kUndefinedStableWordIdx) {
+    return false;
+  } else {
+    return true;
   }
 }
 
@@ -175,6 +220,12 @@ Token *Tokenizer(const char *name, uint64_t *n_tokens)
         cur_word[cur_token_len] = *cursor;
         ++cur_token_len;
         ++cursor;
+
+        if (CanBeAppended(cur_word, cursor, cur_token_len)) {
+          continue;
+        } else {
+          break;
+        }
       }
 
       TryPushToken(&cur_token_len, cur_word, sequence, &sequence_size);

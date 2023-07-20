@@ -153,6 +153,30 @@ home/mchlkrpch/Documents/c++/Rebecca/rbc.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/a.dir/build.make CMakeFiles/a.dir/home/mchlkrpch/Documents/c++/Rebecca/rbc.c.s
 .PHONY : home/mchlkrpch/Documents/c++/Rebecca/rbc.c.s
 
+home/mchlkrpch/Documents/c++/Rebecca/src/Parser.o: home/mchlkrpch/Documents/c++/Rebecca/src/Parser.c.o
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Parser.o
+
+# target to build an object file
+home/mchlkrpch/Documents/c++/Rebecca/src/Parser.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/a.dir/build.make CMakeFiles/a.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Parser.c.o
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Parser.c.o
+
+home/mchlkrpch/Documents/c++/Rebecca/src/Parser.i: home/mchlkrpch/Documents/c++/Rebecca/src/Parser.c.i
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Parser.i
+
+# target to preprocess a source file
+home/mchlkrpch/Documents/c++/Rebecca/src/Parser.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/a.dir/build.make CMakeFiles/a.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Parser.c.i
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Parser.c.i
+
+home/mchlkrpch/Documents/c++/Rebecca/src/Parser.s: home/mchlkrpch/Documents/c++/Rebecca/src/Parser.c.s
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Parser.s
+
+# target to generate assembly for a file
+home/mchlkrpch/Documents/c++/Rebecca/src/Parser.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/a.dir/build.make CMakeFiles/a.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Parser.c.s
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Parser.c.s
+
 home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer.o: home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer.c.o
 .PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer.o
 
@@ -189,6 +213,9 @@ help:
 	@echo "... home/mchlkrpch/Documents/c++/Rebecca/rbc.o"
 	@echo "... home/mchlkrpch/Documents/c++/Rebecca/rbc.i"
 	@echo "... home/mchlkrpch/Documents/c++/Rebecca/rbc.s"
+	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/Parser.o"
+	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/Parser.i"
+	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/Parser.s"
 	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer.o"
 	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer.i"
 	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer.s"

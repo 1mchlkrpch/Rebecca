@@ -26,7 +26,7 @@ static const uint64_t kInitSequenceSize = 256;
  */
 typedef enum
 {
-  TOKEN_LEFT_UNKNOWN,
+  TOKEN_UNKNOWN,
   TOKEN_LEFT_PARENTHESIS,   // '('
   TOKEN_RIGHT_PARENTHESIS,  // ')'
   TOKEN_LEFT_BRACKET,       // '['
@@ -42,6 +42,7 @@ typedef enum
   TOKEN_PERCENT,            // '%'
   TOKEN_HASHTAG,            // '#'
   TOKEN_PLUS,               // '+'
+  TOKEN_PLUSPLUS,           // '++'
   TOKEN_MINUS,              // '-'
   TOKEN_LL,                 // '<<'
   TOKEN_GG,                 // '>>'
@@ -58,7 +59,6 @@ typedef enum
   TOKEN_GEQ,                // '>='
   TOKEN_EQEQ,               // '=='
   TOKEN_EXCLAMATION_EQ,     // '!='
-
   TOKEN_BREAK,              // 'break'
   TOKEN_CONTINUE,           // 'continue'
   TOKEN_CLASS,              // 'class'
@@ -73,11 +73,11 @@ typedef enum
   TOKEN_STATIC,             // 'static'
   TOKEN_THIS,               // 'this'
   TOKEN_TRUE,               // 'true'
-
   TOKEN_PRIVATE,            // 'private'
   TOKEN_PUBLIC,             // 'public'
   TOKEN_NAME,               // any name of variavle/function/class/...
   TOKEN_NUMBER,             // any number for example: 123
+  TOKEN_COMP,               // '<=>'
 
   TOKEN_UNDERLINE,          // '_'
   
@@ -109,11 +109,15 @@ static StableWord stable_words[] =
   {"this",      4, TOKEN_THIS},
   {"true",      4, TOKEN_TRUE},
   {"<<",        2, TOKEN_LL},
+  {"<=>",       3, TOKEN_COMP},
   {">>",        2, TOKEN_GG},
   {"<=",        2, TOKEN_LEQ},
   {">=",        2, TOKEN_GEQ},
+  {"(",         1, TOKEN_LEFT_PARENTHESIS},
+  {")",         1, TOKEN_RIGHT_PARENTHESIS},
   {"*",         1, TOKEN_STAR},
   {"+",         1, TOKEN_PLUS},
+  {"++",        1, TOKEN_PLUSPLUS},
   {"-",         1, TOKEN_MINUS},
   {"_",         1, TOKEN_UNDERLINE},
   {"%",         1, TOKEN_PERCENT},
@@ -121,7 +125,7 @@ static StableWord stable_words[] =
   {"/",         1, TOKEN_SLASH}
 };
 
-static const char *kSplitSymbols = "()[]{}:.,*/\\%#+-<>|^~?!=!";
+static const char *kSplitSymbols = "()[]{}:;.,*/\\%#+-<>|^~?!=!";
 static const char *kWhiteSpace   = " \n\t";
 
 /**
@@ -159,7 +163,6 @@ typedef struct
 typedef struct
 {
   const char *name;
-
   uint64_t *depth;
 } Context;
 

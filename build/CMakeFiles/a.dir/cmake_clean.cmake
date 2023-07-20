@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/a.dir/home/mchlkrpch/Documents/c++/Rebecca/rbc.c.o"
   "CMakeFiles/a.dir/home/mchlkrpch/Documents/c++/Rebecca/rbc.c.o.d"
+  "CMakeFiles/a.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Parser.c.o"
+  "CMakeFiles/a.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Parser.c.o.d"
   "CMakeFiles/a.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer.c.o"
   "CMakeFiles/a.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer.c.o.d"
   "a"
