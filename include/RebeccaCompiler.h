@@ -26,6 +26,7 @@ static const uint64_t kInitSequenceSize = 256;
  */
 typedef enum
 {
+  TOKEN_LEFT_UNKNOWN,
   TOKEN_LEFT_PARENTHESIS,   // '('
   TOKEN_RIGHT_PARENTHESIS,  // ')'
   TOKEN_LEFT_BRACKET,       // '['
@@ -43,7 +44,7 @@ typedef enum
   TOKEN_PLUS,               // '+'
   TOKEN_MINUS,              // '-'
   TOKEN_LL,                 // '<<'
-  TOKEN_GG,                 // '<<'
+  TOKEN_GG,                 // '>>'
   TOKEN_PIPE,               // '|'
   TOKEN_PIPEPIPE,           // '||'
   TOKEN_CARET,              // '^'
@@ -88,9 +89,9 @@ typedef struct
   const char *txt;
   size_t      len;
   TokenType   type;
-} Keyword;
+} StableWord;
 
-static Keyword keywords[] =
+static StableWord stable_words[] =
 {
   {"break",     5, TOKEN_BREAK},
   {"continue",  8, TOKEN_CONTINUE},
@@ -107,10 +108,21 @@ static Keyword keywords[] =
   {"static",    6, TOKEN_STATIC},
   {"this",      4, TOKEN_THIS},
   {"true",      4, TOKEN_TRUE},
-  {NULL,        0, TOKEN_EOF}
+  {"<<",        2, TOKEN_LL},
+  {">>",        2, TOKEN_GG},
+  {"<=",        2, TOKEN_LEQ},
+  {">=",        2, TOKEN_GEQ},
+  {"*",         1, TOKEN_STAR},
+  {"+",         1, TOKEN_PLUS},
+  {"-",         1, TOKEN_MINUS},
+  {"_",         1, TOKEN_UNDERLINE},
+  {"%",         1, TOKEN_PERCENT},
+  {"#",         1, TOKEN_HASHTAG},
+  {"/",         1, TOKEN_SLASH}
 };
 
-static const char *kSplitSymbols = " \n\t";
+static const char *kSplitSymbols = "()[]{}:.,*/\\%#+-<>|^~?!=!";
+static const char *kWhiteSpace   = " \n\t";
 
 /**
  * @addtogroup Variables
@@ -139,11 +151,9 @@ typedef struct
 {
   // Type of token.
   TokenType type;
+  char *txt;
   // Static value (if exists).
   Value     value;
-
-  // Number to identify token.
-  uint64_t identifier;
 } Token;
 
 typedef struct
@@ -165,4 +175,4 @@ typedef struct
   Context ctx;
 } Parser;
 
-Token *Tokenizer(const char *name);
+Token *Tokenizer(const char *name, uint64_t *n_tokens);
