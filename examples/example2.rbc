@@ -1,6 +1,8 @@
 namespace
 {
-	int a = 10.
+	// lol
+	/*container*/
+	int a = /*value*/ 10.
 
 	gTreePrintData(parsed_data gLang_Node, out FILE*)bool
 		if parsedData\buf:isEmpty() = true

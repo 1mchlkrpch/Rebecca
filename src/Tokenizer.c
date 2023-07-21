@@ -284,13 +284,13 @@ bool CanBeAppended(char *cur_word, char *cursor, uint64_t cur_token_len)
   }
 }
 
-void ReadHex(cursor, cur_word, cur_token_len);
+// void ReadHex(cursor, cur_word, cur_token_len);
 
 uint64_t ReadNumber(char **cursor, char *cur_word, uint64_t *cur_token_len)
 {
-  assert(cursor != NULL && "nullptr param");
-
-  printf("%c\n", **cursor);
+  assert(cursor        != NULL && "nullptr param");
+  assert(cur_word      != NULL && "nullptr param");
+  assert(cur_token_len != NULL && "nullptr param");
 
   while (IsDigit(**cursor) && **cursor != EOF) {
     cur_word[*cur_token_len] = **cursor;
@@ -299,6 +299,28 @@ uint64_t ReadNumber(char **cursor, char *cur_word, uint64_t *cur_token_len)
   }
 
   return atoi(cur_word);
+}
+
+bool CheckIfItsCommentary(char *cursor)
+{ return (*cursor == '/' && *(cursor + 1) == '*') || (*cursor == '/' && *(cursor + 1) == '/'); }
+
+void SkipCommentary(char **cursor)
+{
+  ++(*cursor);
+
+  if (**cursor != EOF && **cursor == '*') {
+    while (**cursor != '/' || *(*cursor - 1) != '*') {
+      ++(*cursor);
+    }
+
+    ++(*cursor);
+  } else if (**cursor != EOF && **cursor == '/') {
+    while (**cursor != EOF && **cursor != '\n'){
+      ++(*cursor);
+    }
+
+    ++(*cursor);
+  }
 }
 
 /**
@@ -340,11 +362,21 @@ Token *Tokenizer(const char *name, uint64_t *n_tokens)
 
   // Read the symbols until we meet EOF symbol.
   while (*cursor != EOF) {
+    /* Checks if current symbol
+    is the beginning of the commentary block of cosequent types:
+      one-string commentary: //...
+      several-strings commentary: /*...'star'/
+    And then skip commentary in 'SkipCommentary function'.*/
+    if (CheckIfItsCommentary(cursor) && cur_token_len == 0) {
+      SkipCommentary(&cursor);
+    }
+
     if (IsDigit(*cursor) && cur_token_len == 0) {
       int num = ReadNumber(&cursor, cur_word, &cur_token_len);
-      
       TryPushToken(&cur_token_len, cur_word, sequence, &sequence_size);
+
       sequence[sequence_size - 1].type = TOKEN_NUMBER;
+      sequence[sequence_size - 1].value.val = num;
 
       continue;
     }
@@ -365,6 +397,11 @@ Token *Tokenizer(const char *name, uint64_t *n_tokens)
     -collect next token (it will be splitter with size 1 or 2)
     -push it to sequence.*/
     if (IsSplit(*cursor)) {
+      if (CheckIfItsCommentary(cursor)) {
+        TryPushToken(&cur_token_len, cur_word, sequence, &sequence_size);
+        continue;
+      }
+
       TryPushToken(&cur_token_len, cur_word, sequence, &sequence_size);
 
       while (IsSplit(*cursor)  && *cursor != EOF) {

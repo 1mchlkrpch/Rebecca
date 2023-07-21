@@ -166,6 +166,8 @@ static const char *kSplitSymbols = "()[]{}:;.,*/\\%#+-<>|^~?!=!";
 static const char *kWhiteSpace   = " \n\t";
 // Digit symbols in source code.
 static const char *kDigitSymbols = "01234567890";
+// Commentary symbols in source code.
+static const char *kCommentarySymbols = "/";
 
 /**
  * @addtogroup Variables
@@ -196,7 +198,7 @@ typedef struct
   TokenType type;
   char *txt;
   // Static value (if exists).
-  Value     value;
+  Value value;
 } Token;
 
 typedef struct
