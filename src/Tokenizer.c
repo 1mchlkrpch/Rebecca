@@ -284,8 +284,15 @@ bool CanBeAppended(char *cur_word, char *cursor, uint64_t cur_token_len)
   }
 }
 
-// void ReadHex(cursor, cur_word, cur_token_len);
-
+/**
+ * @brief Reads the value of current number-token.
+ * 
+ * @param cursor Pointer to pointer in source text.
+ * @param cur_word Current collected word.
+ * @param cur_token_len Pointer to current length of collected token.
+ * 
+ * @returns Value of number.
+ */
 uint64_t ReadNumber(char **cursor, char *cur_word, uint64_t *cur_token_len)
 {
   assert(cursor        != NULL && "nullptr param");
@@ -301,9 +308,22 @@ uint64_t ReadNumber(char **cursor, char *cur_word, uint64_t *cur_token_len)
   return atoi(cur_word);
 }
 
+/**
+ * @brief Checks if the current and next symbols are beginning of
+ * the commentary block or commentary line.
+ * 
+ * @param cursor Cursor in source code.
+ * @returns true if the current and next symbols is the beginning. 
+ */
 bool CheckIfItsCommentary(char *cursor)
 { return (*cursor == '/' && *(cursor + 1) == '*') || (*cursor == '/' && *(cursor + 1) == '/'); }
 
+/**
+ * @brief Moves cursor untill the cursor
+ * peek not commentary block.
+ * 
+ * @param cursor Pointer to cursor in source text.
+ */
 void SkipCommentary(char **cursor)
 {
   ++(*cursor);
