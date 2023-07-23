@@ -1,0 +1,105 @@
+digraph G{
+	n0 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">EOF</td><td>0</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">EOF</td></tr>
+		</table>
+	>]
+
+	n2 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">EQ</td><td>2</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">=</td></tr>
+		</table>
+	>]
+
+	n1 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>1</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">identifier</td></tr>
+		</table>
+	>]
+
+	n3 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>3</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">aba</td></tr>
+		</table>
+	>]
+
+	n5 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">EQ</td><td>5</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">=</td></tr>
+		</table>
+	>]
+
+	n4 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>4</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">lol</td></tr>
+		</table>
+	>]
+
+	n6 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>6</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">kek</td></tr>
+		</table>
+	>]
+
+	n8 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">EQ</td><td>8</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">=</td></tr>
+		</table>
+	>]
+
+	n7 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>7</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">misha</td></tr>
+		</table>
+	>]
+
+	n9 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>9</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">krapchatov</td></tr>
+		</table>
+	>]
+
+	n11 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">EQ</td><td>11</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">=</td></tr>
+		</table>
+	>]
+
+	n10 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>10</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">andrey</td></tr>
+		</table>
+	>]
+
+	n12 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>12</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">krap</td></tr>
+		</table>
+	>]
+
+	n0 -> n2
+	n0 -> n5
+	n0 -> n8
+	n0 -> n11
+	n2 -> n1
+	n2 -> n3
+	n5 -> n4
+	n5 -> n6
+	n8 -> n7
+	n8 -> n9
+	n11 -> n10
+	n11 -> n12
+}

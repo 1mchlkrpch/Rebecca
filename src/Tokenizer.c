@@ -50,8 +50,11 @@ const char *TranslateTokenType(TokenType type)
     case TOKEN_LEFT_BRACE:          { return "LEFT_BRACE"; }
     case TOKEN_RIGHT_BRACE:         { return "RIGHT_BRACE"; }
     case TOKEN_COLON:               { return "COLON"; }
+    case TOKEN_SEMICOLON:           { return "SEMICOLON"; }
     case TOKEN_DOT:                 { return "DOT"; }
     case TOKEN_COMMA:               { return "COMMA"; }
+    case TOKEN_SINGLE_QUOTE:        { return "SINGLE QUOTE"; }
+    case TOKEN_DOUBLE_QUOTE:        { return "DOUBLE QUOTE"; }
     case TOKEN_STAR:                { return "STAR"; }
     case TOKEN_SLASH:               { return "SLASH"; }
     case TOKEN_BACK_SLASH:          { return "BACK_SLASH"; }
@@ -95,7 +98,11 @@ const char *TranslateTokenType(TokenType type)
     case TOKEN_NUMBER:              { return "NUMBER"; }
     case TOKEN_COMP:                { return "COMP"; }
     case TOKEN_UNDERLINE:           { return "UNDERLINE"; }
+    case TOKEN_ABSTRACT_TYPE:       { return "ABSTRACT_TYPE"; }
     case TOKEN_EOF:                 { return "EOF"; }
+    default: {
+      return "UNKNOWN";
+    }
   }
 
   return "UNKNOWN";
@@ -228,8 +235,7 @@ void PushToken(Token *token, Token *sequence, uint64_t *sequence_size)
  * @param sequence_size Current size of sequence.
  */
 void TryPushToken(
-  uint64_t *cur_token_len, char *cur_word, Token *sequence,
-  uint64_t *sequence_size)
+  uint64_t *cur_token_len, char *cur_word, Token *sequence, uint64_t *sequence_size)
 {
   assert(cur_token_len != NULL && "nullptr param");
   assert(cur_word      != NULL && "nullptr param");
@@ -238,9 +244,15 @@ void TryPushToken(
 
   if (*cur_token_len > 0) {
     uint64_t idx = IdentifyToken(cur_word);
+    if (strcmp(";", cur_word) == 0) {
+      printf("MET SEMICOLON:%ld\n", idx);
+    }
 
     Token token = {0};
     if (idx != kUndefinedStableWordIdx) {
+      if (strcmp(";", cur_word) == 0) {
+        printf("here?\n");
+      }
       token = ConstructToken(idx);
     } else {
       token = FillToken(cur_word);
@@ -385,7 +397,7 @@ Token *Tokenizer(const char *name, uint64_t *n_tokens)
     /* Checks if current symbol
     is the beginning of the commentary block of cosequent types:
       one-string commentary: //...
-      several-strings commentary: /*...'star'/
+      several-strings commentary: /'star'...'star'/
     And then skip commentary in 'SkipCommentary function'.*/
     if (CheckIfItsCommentary(cursor) && cur_token_len == 0) {
       SkipCommentary(&cursor);
@@ -462,4 +474,20 @@ Token *Tokenizer(const char *name, uint64_t *n_tokens)
   free(source_text);
 
   return sequence;
+}
+
+void PreParserAnalisys(Token *sequence, uint64_t n_tokens)
+{
+  assert(sequence != NULL && "Null param");
+
+  if (n_tokens == 0) {
+    printf("Empty file!\n");
+    return;
+  }
+
+  for (size_t cur_token = 0; cur_token < n_tokens - 1; ++cur_token) {
+    if (sequence[cur_token].type == TOKEN_NAME && sequence[cur_token + 1].type == TOKEN_NAME) {
+      sequence[cur_token].type = TOKEN_ABSTRACT_TYPE;
+    }
+  }
 }

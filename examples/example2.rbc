@@ -4,7 +4,7 @@ namespace
 	/*container*/
 	int a = /*value*/ 10.
 
-	gTreePrintData(parsed_data gLang_Node, out FILE*)bool
+	bool gTreePrintData(parsed_data gLang_Node, out)
 		if parsedData\buf:isEmpty() = true
 			if parsed_data\quantity <=> -1
 				fprintf(out, "yes").

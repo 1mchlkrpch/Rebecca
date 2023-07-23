@@ -20,6 +20,8 @@
 #include <string.h>
 #include <stdbool.h>
 
+#include <include/utilities.h>
+
 // Global constants --------------------------------------------------------------------------
 
 /// Maximal token length in characters.
@@ -38,7 +40,7 @@ static const uint64_t kInitSequenceSize = 256;
  * @note For example '|' and '||' is one logical
  * token and they have different meanings.
  */
-typedef enum
+typedef enum TokenType
 {
   TOKEN_UNKNOWN,
   TOKEN_LEFT_PARENTHESIS,   // '('
@@ -48,6 +50,7 @@ typedef enum
   TOKEN_LEFT_BRACE,         // '{'
   TOKEN_RIGHT_BRACE,        // '}'
   TOKEN_COLON,              // ':'
+  TOKEN_SEMICOLON,          // ';'
   TOKEN_DOT,                // '.'
   TOKEN_COMMA,              // ','
   TOKEN_STAR,               // '*'
@@ -64,6 +67,8 @@ typedef enum
   TOKEN_PIPEPIPE,           // '||'
   TOKEN_CARET,              // '^'
   TOKEN_TILDE,              // '~'
+  TOKEN_SINGLE_QUOTE,       // '''
+  TOKEN_DOUBLE_QUOTE,       // '"'
   TOKEN_QUESTION,           // '?'
   TOKEN_EXCLAMATION,        // '!'
   TOKEN_EQ,                 // '='
@@ -92,8 +97,11 @@ typedef enum
   TOKEN_NAME,               // any name of variavle/function/class/...
   TOKEN_NUMBER,             // any number for example: 123
   TOKEN_COMP,               // '<=>'
-
   TOKEN_UNDERLINE,          // '_'
+
+  TOKEN_ABSTRACT_TYPE,      // abstract type token means that tokenizer can't guess the type
+                            // at the stem of lexing but it's definately
+                            // or embeded or user's type.
   
   TOKEN_EOF                 // end of file
 } TokenType;
@@ -107,10 +115,24 @@ const char *TranslateTokenType(TokenType type);
  * @{
  */
 
+/**
+ * @brief auxilary structure to create
+ * cosequent array of stable words for matching
+ * collected words from source code with stable words
+ * in this array.
+ * 
+ * If tokenizer collect stabe word in 'cur_word'
+ * it will matched with 'txt' in 'stable_words'-particular
+ * word and tokenizer will push token with the 'txt' and 'type'
+ * to token sequence.
+ */
 typedef struct
 {
+  // Text representation of token.
   const char *txt;
+  // Length of token.
   size_t      len;
+  // Token logic type.
   TokenType   type;
 } StableWord;
 
@@ -137,10 +159,12 @@ static StableWord stable_words[] =
   {"true",      4, TOKEN_TRUE},
   {"<<",        2, TOKEN_LL},
   {"<=>",       3, TOKEN_COMP},
+  {";",         1, TOKEN_SEMICOLON},
   {">>",        2, TOKEN_GG},
   {"<=",        2, TOKEN_LEQ},
   {">=",        2, TOKEN_GEQ},
   {"=",         1, TOKEN_EQ},
+  {"\\",        1, TOKEN_BACK_SLASH},
   {"[",         1, TOKEN_LEFT_BRACKET},
   {"]",         1, TOKEN_RIGHT_BRACKET},
   {"(",         1, TOKEN_LEFT_PARENTHESIS},
@@ -150,6 +174,10 @@ static StableWord stable_words[] =
   {"*",         1, TOKEN_STAR},
   {"+",         1, TOKEN_PLUS},
   {"++",        1, TOKEN_PLUSPLUS},
+  {":",         1, TOKEN_COLON},
+  {"\'",        1, TOKEN_SINGLE_QUOTE},
+  {"\"",        1, TOKEN_DOUBLE_QUOTE},
+  {"|",         1, TOKEN_PIPE},
   {"-",         1, TOKEN_MINUS},
   {"_",         1, TOKEN_UNDERLINE},
   {",",         1, TOKEN_COMMA},
@@ -161,7 +189,7 @@ static StableWord stable_words[] =
 };
 
 // Split symbols to split words in source code.
-static const char *kSplitSymbols = "()[]{}:;.,*/\\%#+-<>|^~?!=!";
+static const char *kSplitSymbols = "()[]{}:;.,*/\\%#+-<>|^~?!=!\'\"";
 // Whitespace symbols in source code.
 static const char *kWhiteSpace   = " \n\t";
 // Digit symbols in source code.
@@ -194,17 +222,20 @@ typedef enum
 
 typedef struct
 {
+  // ---------------- This part fill the tokenizer
   // Type of token.
   TokenType type;
+  // Text representation of token.
   char *txt;
   // Static value (if exists).
   Value value;
+  // ---------------- This part fill the parser
+  Scope scope;
 } Token;
 
 typedef struct
 {
-  const char *name;
-  uint64_t *depth;
+  uint64_t n_parsed;
 } Context;
 
 // Check src/Tokenizer.c
@@ -215,6 +246,86 @@ Token *Tokenizer(const char *name, uint64_t *n_tokens);
  */
 
 // AST part ----------------------------------------------------------------------------------
+void GenerateParserFile(Token *sequence, uint64_t n_tokens);
+
+// typedef enum GrammarEntity
+// {
+//   // Identifier in grammar.
+//   ENTITY_IDENTIFIER,
+//   // Expression in grammar.
+//   ENTITY_EXPRESSION,
+//   // Statement in grammar.
+//   ENTITY_STATEMENT,
+//   // Function in grammar.
+//   ENTITY_FUNCITON,
+//   // File in grammar.
+//   ENTITY_FILE,
+//   // Self entity for recursive definitions of grammar rules.
+//   ENTITY_SELF,
+// } GrammarEntity;
+
+// typedef union
+// {
+//   TokenType     token_type;
+//   GrammarEntity entity;
+// } GrammarUnit;
+
+// static const GrammarUnit Statement[] =
+// {
+//   {.entity = ENTITY_IDENTIFIER}
+// };
+
+/**
+ * @brief Node of abstract syntax tree
+ * structure for ast representation.
+ */
+typedef struct
+{
+  // Children of particular node.
+  Array *children;
+  // Token of current cell in AST.
+  Token token;
+  uint64_t id;
+  struct Node *parent;
+} Node;
+
+/**
+ * @brief abstract syntax tree
+ * structure. The next repsesentation
+ * of source code after token sequence.
+ * 
+ * After buildint abstract syntax tree
+ * we can easily check it for errors and print out
+ * mistake.
+ * 
+ * After translating token sequence to AST
+ * it will be easy to generate IR code from it
+ * and optimize.
+ */
+typedef struct
+{
+  // Root node of AST.
+  Node *root;
+  Node *current;
+  // Number of nodes in AST.
+  size_t size;
+  const char *data;
+} Tree;
+
+Node *AddChild(Tree *t, Node *n);
+
+Node *GetChild(Node *n, uint64_t idx);
+
+void FillCurrent(Tree *t, Token *token);
+
+void DebugTree(Tree *t);
+
+void Parent(Tree *t);
+
+Node *NodeCtor();
+
+void FillNodeWith(Token *token);
+
 /**
  * @brief parser machine.
  * Uses Token 'sequence' and build the AST.
@@ -222,14 +333,24 @@ Token *Tokenizer(const char *name, uint64_t *n_tokens);
 typedef struct
 {
   // Tokens from tokenizer.
-  Token *sequence;
-  // Token size.
-  uint64_t sequence_size;
+  Tree *tree;
   // Current context on each token.
   Context ctx;
+  // Index of current token to parse in sequence.
+  Token *current_token;
+  // Sequence to parse.
+  Token *sequence;
 } Parser;
 
 // Check src/Parser.c
 Parser *BuildAst(Token *sequence, uint64_t n_tokens);
+
+void InsertParent(Tree *t, Node *n);
+
+void PrintNode(FILE *f, Node *n);
+
+Node *CreateNode(Tree *t, Token *token);
+
+void PreParserAnalisys(Token *sequence, uint64_t n_tokens);
 
 #pragma GCC diagnostic pop

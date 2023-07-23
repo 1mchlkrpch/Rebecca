@@ -81,12 +81,12 @@ clean: CMakeFiles/rbc.dir/clean
 CMakeFiles/rbc.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mchlkrpch/Documents/c++/Rebecca/build/CMakeFiles --progress-num=1,2,3,4 "Built target rbc"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mchlkrpch/Documents/c++/Rebecca/build/CMakeFiles --progress-num=1,2,3,4,5,6 "Built target rbc"
 .PHONY : CMakeFiles/rbc.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/rbc.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mchlkrpch/Documents/c++/Rebecca/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mchlkrpch/Documents/c++/Rebecca/build/CMakeFiles 6
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/rbc.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/mchlkrpch/Documents/c++/Rebecca/build/CMakeFiles 0
 .PHONY : CMakeFiles/rbc.dir/rule

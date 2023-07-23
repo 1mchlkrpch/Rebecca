@@ -153,29 +153,29 @@ home/mchlkrpch/Documents/c++/Rebecca/main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/main.c.s
 .PHONY : home/mchlkrpch/Documents/c++/Rebecca/main.c.s
 
-home/mchlkrpch/Documents/c++/Rebecca/src/Parser.o: home/mchlkrpch/Documents/c++/Rebecca/src/Parser.c.o
-.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Parser.o
+home/mchlkrpch/Documents/c++/Rebecca/src/ParserGenerator.o: home/mchlkrpch/Documents/c++/Rebecca/src/ParserGenerator.c.o
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/ParserGenerator.o
 
 # target to build an object file
-home/mchlkrpch/Documents/c++/Rebecca/src/Parser.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Parser.c.o
-.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Parser.c.o
+home/mchlkrpch/Documents/c++/Rebecca/src/ParserGenerator.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/ParserGenerator.c.o
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/ParserGenerator.c.o
 
-home/mchlkrpch/Documents/c++/Rebecca/src/Parser.i: home/mchlkrpch/Documents/c++/Rebecca/src/Parser.c.i
-.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Parser.i
+home/mchlkrpch/Documents/c++/Rebecca/src/ParserGenerator.i: home/mchlkrpch/Documents/c++/Rebecca/src/ParserGenerator.c.i
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/ParserGenerator.i
 
 # target to preprocess a source file
-home/mchlkrpch/Documents/c++/Rebecca/src/Parser.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Parser.c.i
-.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Parser.c.i
+home/mchlkrpch/Documents/c++/Rebecca/src/ParserGenerator.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/ParserGenerator.c.i
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/ParserGenerator.c.i
 
-home/mchlkrpch/Documents/c++/Rebecca/src/Parser.s: home/mchlkrpch/Documents/c++/Rebecca/src/Parser.c.s
-.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Parser.s
+home/mchlkrpch/Documents/c++/Rebecca/src/ParserGenerator.s: home/mchlkrpch/Documents/c++/Rebecca/src/ParserGenerator.c.s
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/ParserGenerator.s
 
 # target to generate assembly for a file
-home/mchlkrpch/Documents/c++/Rebecca/src/Parser.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Parser.c.s
-.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Parser.c.s
+home/mchlkrpch/Documents/c++/Rebecca/src/ParserGenerator.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/ParserGenerator.c.s
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/ParserGenerator.c.s
 
 home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer.o: home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer.c.o
 .PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer.o
@@ -201,6 +201,54 @@ home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer.c.s
 .PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer.c.s
 
+home/mchlkrpch/Documents/c++/Rebecca/src/Tree.o: home/mchlkrpch/Documents/c++/Rebecca/src/Tree.c.o
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Tree.o
+
+# target to build an object file
+home/mchlkrpch/Documents/c++/Rebecca/src/Tree.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tree.c.o
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Tree.c.o
+
+home/mchlkrpch/Documents/c++/Rebecca/src/Tree.i: home/mchlkrpch/Documents/c++/Rebecca/src/Tree.c.i
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Tree.i
+
+# target to preprocess a source file
+home/mchlkrpch/Documents/c++/Rebecca/src/Tree.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tree.c.i
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Tree.c.i
+
+home/mchlkrpch/Documents/c++/Rebecca/src/Tree.s: home/mchlkrpch/Documents/c++/Rebecca/src/Tree.c.s
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Tree.s
+
+# target to generate assembly for a file
+home/mchlkrpch/Documents/c++/Rebecca/src/Tree.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tree.c.s
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Tree.c.s
+
+home/mchlkrpch/Documents/c++/Rebecca/src/utilities.o: home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.o
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/utilities.o
+
+# target to build an object file
+home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.o
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.o
+
+home/mchlkrpch/Documents/c++/Rebecca/src/utilities.i: home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.i
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/utilities.i
+
+# target to preprocess a source file
+home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.i
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.i
+
+home/mchlkrpch/Documents/c++/Rebecca/src/utilities.s: home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.s
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/utilities.s
+
+# target to generate assembly for a file
+home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.s
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -213,12 +261,18 @@ help:
 	@echo "... home/mchlkrpch/Documents/c++/Rebecca/main.o"
 	@echo "... home/mchlkrpch/Documents/c++/Rebecca/main.i"
 	@echo "... home/mchlkrpch/Documents/c++/Rebecca/main.s"
-	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/Parser.o"
-	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/Parser.i"
-	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/Parser.s"
+	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/ParserGenerator.o"
+	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/ParserGenerator.i"
+	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/ParserGenerator.s"
 	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer.o"
 	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer.i"
 	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer.s"
+	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/Tree.o"
+	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/Tree.i"
+	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/Tree.s"
+	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/utilities.o"
+	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/utilities.i"
+	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/utilities.s"
 .PHONY : help
 
 
