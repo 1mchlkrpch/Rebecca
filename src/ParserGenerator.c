@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 #include <include/RebeccaCompiler.h>
+#include <MchlkrpchLogger/logger.h>
 
 /**
  * @brief Grammar rules has consequent structure:
@@ -82,6 +83,7 @@ void ReadGrammarRule(Tree *t, Token *sequence, uint64_t *cur_token_idx)
  */
 void ReadDefinition(Tree *t, Token *sequence, uint64_t *cur_token_idx)
 {
+	// DEBUG_MSG(D_TREE,      W, "created\n");
 	assert(t             != NULL && "Null param");
 	assert(sequence      != NULL && "Null param");
 	assert(cur_token_idx != NULL && "Null param");
@@ -135,7 +137,6 @@ void GenerateParserFile(Token *sequence, uint64_t n_tokens)
 
 	size_t cur_token_idx = 0;
 	for (; cur_token_idx < n_tokens; ++cur_token_idx) {
-		printf("name:%s\n", sequence[cur_token_idx].txt);
 		if (sequence[cur_token_idx].type == TOKEN_NAME) {			
 			Node *new_node = CreateNode(&t, sequence + cur_token_idx);
 			AddChild(&t, new_node);
@@ -158,7 +159,6 @@ void GenerateParserFile(Token *sequence, uint64_t n_tokens)
 				// Text definition.
 				case TOKEN_EQ: {
 					ReadDefinition(&t, sequence, &cur_token_idx);
-					printf("!\n");
 					Parent(&t);
 					break;
 				}

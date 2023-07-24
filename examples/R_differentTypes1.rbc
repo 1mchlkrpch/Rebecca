@@ -1,3 +1,4 @@
+// Description
 NAME = "A-Z1-9"
 
 NUMBER = '1-9'
@@ -11,4 +12,5 @@ function
 	: statement
 	| expression
 	| identifier
+	| struct
 	;

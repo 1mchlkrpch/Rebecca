@@ -2,7 +2,7 @@ set(CMAKE_C_FLAGS "-Wall -Wextra -Wpedantic -pedantic")
 
 include_directories(../)
 
-set(SOURCES ../main.c ../src/Tokenizer.c ../src/Tree.c ../src/utilities.c ../src/ParserGenerator.c)
+set(SOURCES ../main.c ../src/Tokenizer.c ../src/Tree.c ../src/utilities.c ../src/ParserGenerator.c ../MchlkrpchLogger/logger.c)
 
 project(HelloWorld)
 cmake_minimum_required(VERSION 3.0)

@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/logger.c.o"
+  "CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/logger.c.o.d"
   "CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/main.c.o"
   "CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/main.c.o.d"
   "CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/ParserGenerator.c.o"

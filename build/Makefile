@@ -129,6 +129,30 @@ rbc/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/build
 .PHONY : rbc/fast
 
+home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/logger.o: home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/logger.c.o
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/logger.o
+
+# target to build an object file
+home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/logger.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/logger.c.o
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/logger.c.o
+
+home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/logger.i: home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/logger.c.i
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/logger.i
+
+# target to preprocess a source file
+home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/logger.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/logger.c.i
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/logger.c.i
+
+home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/logger.s: home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/logger.c.s
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/logger.s
+
+# target to generate assembly for a file
+home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/logger.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/logger.c.s
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/logger.c.s
+
 home/mchlkrpch/Documents/c++/Rebecca/main.o: home/mchlkrpch/Documents/c++/Rebecca/main.c.o
 .PHONY : home/mchlkrpch/Documents/c++/Rebecca/main.o
 
@@ -258,6 +282,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... rbc"
+	@echo "... home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/logger.o"
+	@echo "... home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/logger.i"
+	@echo "... home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/logger.s"
 	@echo "... home/mchlkrpch/Documents/c++/Rebecca/main.o"
 	@echo "... home/mchlkrpch/Documents/c++/Rebecca/main.i"
 	@echo "... home/mchlkrpch/Documents/c++/Rebecca/main.s"

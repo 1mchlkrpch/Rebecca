@@ -154,6 +154,13 @@ digraph G{
 		</table>
 	>]
 
+	n22 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>22</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">struct</td></tr>
+		</table>
+	>]
+
 	n0 -> n2
 	n0 -> n9
 	n0 -> n13
@@ -175,4 +182,5 @@ digraph G{
 	n18 -> n19
 	n18 -> n20
 	n18 -> n21
+	n18 -> n22
 }
