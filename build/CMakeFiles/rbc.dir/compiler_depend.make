@@ -272,8 +272,7 @@ CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tree.c.o: /home/mchl
 CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.o: /home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c \
   /usr/include/stdc-predef.h \
   /home/mchlkrpch/Documents/c++/Rebecca/include/utilities.h \
-  /usr/include/stdlib.h \
-  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
+  /usr/include/assert.h \
   /usr/include/features.h \
   /usr/include/features-time64.h \
   /usr/include/x86_64-linux-gnu/bits/wordsize.h \
@@ -282,6 +281,8 @@ CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.o: /home
   /usr/include/x86_64-linux-gnu/bits/long-double.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+  /usr/include/stdlib.h \
+  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h \
   /usr/include/x86_64-linux-gnu/bits/waitflags.h \
   /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
@@ -323,7 +324,6 @@ CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.o: /home
   /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
   /usr/include/strings.h \
-  /usr/include/assert.h \
   /home/mchlkrpch/Documents/c++/Rebecca/include/RebeccaCompiler.h \
   /usr/include/stdio.h \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h \

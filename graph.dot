@@ -17,7 +17,7 @@ digraph G{
 	n1 [shape=diamond label=<
 		<table border="0">
 			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>1</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">const</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">NAME</td></tr>
 		</table>
 	>]
 
@@ -66,62 +66,98 @@ digraph G{
 	n8 [shape=diamond label=<
 		<table border="0">
 			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>8</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">TOKEN_EQ</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">NUMBER</td></tr>
 		</table>
 	>]
 
 	n10 [shape=diamond label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">EQ</td><td>10</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">=</td></tr>
+			<tr><td colspan="1" bgcolor="Peru">NUMBER</td><td>10</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">1</td></tr>
 		</table>
 	>]
 
 	n11 [shape=diamond label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>11</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">RULE</td></tr>
+			<tr><td colspan="1" bgcolor="Peru">MINUS</td><td>11</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">-</td></tr>
 		</table>
 	>]
 
 	n12 [shape=diamond label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">COLON</td><td>12</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">:</td></tr>
+			<tr><td colspan="1" bgcolor="Peru">NUMBER</td><td>12</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">9</td></tr>
 		</table>
 	>]
 
 	n13 [shape=diamond label=<
 		<table border="0">
 			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>13</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">line1</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">FILE</td></tr>
 		</table>
 	>]
 
 	n14 [shape=diamond label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>14</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">tok1</td></tr>
+			<tr><td colspan="1" bgcolor="Peru">COLON</td><td>14</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">:</td></tr>
 		</table>
 	>]
 
 	n15 [shape=diamond label=<
 		<table border="0">
 			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>15</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">tok2</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">function</td></tr>
 		</table>
 	>]
 
 	n16 [shape=diamond label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">RIGHT_PARENTHESIS</td><td>16</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">)</td></tr>
+			<tr><td colspan="1" bgcolor="Peru">CLASS</td><td>16</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">class</td></tr>
+		</table>
+	>]
+
+	n17 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>17</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">function</td></tr>
+		</table>
+	>]
+
+	n18 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">COLON</td><td>18</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">:</td></tr>
+		</table>
+	>]
+
+	n19 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>19</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">statement</td></tr>
+		</table>
+	>]
+
+	n20 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>20</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">expression</td></tr>
+		</table>
+	>]
+
+	n21 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>21</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">identifier</td></tr>
 		</table>
 	>]
 
 	n0 -> n2
 	n0 -> n9
-	n0 -> n11
+	n0 -> n13
+	n0 -> n17
 	n2 -> n1
 	n2 -> n3
 	n3 -> n4
@@ -130,9 +166,13 @@ digraph G{
 	n6 -> n7
 	n9 -> n8
 	n9 -> n10
+	n10 -> n11
 	n11 -> n12
-	n12 -> n13
-	n12 -> n14
+	n13 -> n14
 	n14 -> n15
-	n15 -> n16
+	n14 -> n16
+	n17 -> n18
+	n18 -> n19
+	n18 -> n20
+	n18 -> n21
 }

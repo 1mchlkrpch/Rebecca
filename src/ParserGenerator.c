@@ -109,9 +109,6 @@ void ReadDefinition(Tree *t, Token *sequence, uint64_t *cur_token_idx)
 		}
 
 		t->current = old_current;
-		printf("old cur:%s\n", t->current->token.txt);
-		// ++(*cur_token_idx);
-		printf("next cur in sequence:%s\n", sequence[*cur_token_idx].txt);
 	}
 }
 

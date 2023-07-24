@@ -11,8 +11,8 @@
  * @brief returns source text
  * which is come from FILE with name 'name'.
  * 
- * @param name Name of file to read.
- * @returns source_text char* text of file.
+ * @param     name Name of file to read.
+ * @returns   source_text char* text of file.
  */
 char *GetSourceText(const char *name)
 {
@@ -40,6 +40,13 @@ char *GetSourceText(const char *name)
   return source_text;
 }
 
+/**
+ * @brief auxilary function to get
+ * text representation of token by token type.
+ * 
+ * @param type     Type of incoming token.
+ * @returns Text   name of token.
+ */
 const char *TranslateTokenType(TokenType type)
 {
   switch (type) {
@@ -114,8 +121,8 @@ const char *TranslateTokenType(TokenType type)
  * @brief Checks if symbol 'c' in kSplitSymbols which
  * contains all the splitter-symbols.
  * 
- * @param c Symbol to check.
- * @return true if 'c' in 'kSplitSYmbols'.
+ * @param c   Symbol to check.
+ * @return    true if 'c' in 'kSplitSYmbols'.
  */
 static inline __attribute__((always_inline))
 bool IsSplit(const char c)
@@ -125,8 +132,8 @@ bool IsSplit(const char c)
  * @brief Checks if symbol 'c' in kWhiteSpace which
  * contains all the whitespace-symbols.
  * 
- * @param c Symbol to check.
- * @return true if 'c' in 'kWhiteSpace'.
+ * @param c   Symbol to check.
+ * @return    true if 'c' in 'kWhiteSpace'.
  */
 static inline __attribute__((always_inline))
 bool IsWhiteSpace(const char c)
@@ -136,8 +143,8 @@ bool IsWhiteSpace(const char c)
  * @brief Checks if symbol 'c' in kDigitSymbols which
  * contains all digit-symbols.
  * 
- * @param c Symbol to check.
- * @return true if 'c' in 'kDigitSymbols'.
+ * @param c   Symbol to check.
+ * @return    true if 'c' in 'kDigitSymbols'.
  */
 static inline __attribute__((always_inline))
 bool IsDigit(const char c)
@@ -149,8 +156,8 @@ static const size_t kUndefinedStableWordIdx = sizeof(stable_words) / sizeof(Stab
  * @brief Checks if the cur_word is
  * stable word or just name or number.
  * 
- * @param cur_word Word to check.
- * @returns Token to push in sequence.
+ * @param cur_word   Word to check.
+ * @returns          Token to push in sequence.
  */
 uint64_t IdentifyToken(char *cur_word)
 {
@@ -169,8 +176,8 @@ uint64_t IdentifyToken(char *cur_word)
  * @brief build token with found index
  * in 'stable_words' array.
  * 
- * @param idx Found index.
- * @returns Build token.
+ * @param idx   Found index.
+ * @returns     Build token.
  */
 Token ConstructToken(uint64_t idx)
 {
@@ -190,8 +197,8 @@ Token ConstructToken(uint64_t idx)
  * @brief build token with const char* data.
  * It's soppose that token wasn't found.
  * 
- * @param txt token txt to fill.
- * @returns Build token.
+ * @param txt   token txt to fill.
+ * @returns     Build token.
  */
 Token FillToken(const char *txt)
 {
@@ -212,9 +219,9 @@ Token FillToken(const char *txt)
  * @brief Adds new token 'token' to sequence of tokens 'sequence'
  * and changes sequence's size
  * 
- * @param token Token to add.
- * @param sequence Sequence to append.
- * @param sequence_size Current size of sequence of tokens.
+ * @param token           Token to add.
+ * @param sequence        Sequence to append.
+ * @param sequence_size   Current size of sequence of tokens.
  */
 void PushToken(Token *token, Token *sequence, uint64_t *sequence_size)
 {
@@ -230,10 +237,10 @@ void PushToken(Token *token, Token *sequence, uint64_t *sequence_size)
  * @brief Tries to build token from 'cur_word'
  * and add it to token 'sequence'
  * 
- * @param cur_token_len Current size of 'cur_word'.
- * @param cur_word Current collected word.
- * @param sequence Sequence to append.
- * @param sequence_size Current size of sequence.
+ * @param cur_token_len   Current size of 'cur_word'.
+ * @param cur_word        Current collected word.
+ * @param sequence        Sequence to append.
+ * @param sequence_size   Current size of sequence.
  */
 void TryPushToken(
   uint64_t *cur_token_len, char *cur_word, Token *sequence, uint64_t *sequence_size)
@@ -266,11 +273,10 @@ void TryPushToken(
  *    cur_word + *(cursor + 1) -- is in stable words again.
  * Used after picking split symbol.
  * 
- * @param cur_word Current collected word.
- * @param cursor Cursor position in source text.
- * @param cur_token_len Current length of collected word.
- * 
- * @returns true if cur_word + *(cursor + 1) -- is in stable words again.
+ * @param cur_word        Current collected word.
+ * @param cursor Cursor   position in source text.
+ * @param cur_token_len   Current length of collected word.
+ * @returns               true if cur_word + *(cursor + 1) -- is in stable words again.
  */
 bool CanBeAppended(char *cur_word, char *cursor, uint64_t cur_token_len)
 {
@@ -294,11 +300,10 @@ bool CanBeAppended(char *cur_word, char *cursor, uint64_t cur_token_len)
 /**
  * @brief Reads the value of current number-token.
  * 
- * @param cursor Pointer to pointer in source text.
- * @param cur_word Current collected word.
- * @param cur_token_len Pointer to current length of collected token.
- * 
- * @returns Value of number.
+ * @param cursor          Pointer to pointer in source text.
+ * @param cur_word        Current collected word.
+ * @param cur_token_len   Pointer to current length of collected token.
+ * @returns               Value of number.
  */
 uint64_t ReadNumber(char **cursor, char *cur_word, uint64_t *cur_token_len)
 {
@@ -319,8 +324,8 @@ uint64_t ReadNumber(char **cursor, char *cur_word, uint64_t *cur_token_len)
  * @brief Checks if the current and next symbols are beginning of
  * the commentary block or commentary line.
  * 
- * @param cursor Cursor in source code.
- * @returns true if the current and next symbols is the beginning. 
+ * @param cursor   Cursor in source code.
+ * @returns        true if the current and next symbols is the beginning. 
  */
 bool CheckIfItsCommentary(char *cursor)
 { return (*cursor == '/' && *(cursor + 1) == '*') || (*cursor == '/' && *(cursor + 1) == '/'); }
@@ -329,7 +334,7 @@ bool CheckIfItsCommentary(char *cursor)
  * @brief Moves cursor untill the cursor
  * peek not commentary block.
  * 
- * @param cursor Pointer to cursor in source text.
+ * @param cursor   Pointer to cursor in source text.
  */
 void SkipCommentary(char **cursor)
 {
@@ -364,8 +369,8 @@ void SkipCommentary(char **cursor)
  * If it isn't it will be pushed to 'sequence' as name
  * of particular variable.
  * 
- * @param name Name of file to tokenize.
- * @returns sequence of Tokens.
+ * @param name   Name of file to tokenize.
+ * @returns      sequence of Tokens.
  */
 Token *Tokenizer(const char *name, uint64_t *n_tokens)
 {
@@ -466,13 +471,17 @@ Token *Tokenizer(const char *name, uint64_t *n_tokens)
   
   *n_tokens = sequence_size;
 
-  printf("?\n");
   free(source_text);
-  printf("?\n");
 
   return sequence;
 }
 
+/**
+ * @brief fast analisys targeted to identifier types of tokens.
+ * 
+ * @param sequence   Sequence of token to analize.
+ * @param n_tokens   size of sequence(in tokens).
+ */
 void PreParserAnalisys(Token *sequence, uint64_t n_tokens)
 {
   assert(sequence != NULL && "Null param");

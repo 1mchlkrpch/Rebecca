@@ -1,5 +1,12 @@
 #include <include/RebeccaCompiler.h>
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-function"
+
+/**
+ * @brief Allocates new node.
+ * @returns   New allocated node.
+ */
 Node *NodeCtor()
 {
   Node *n = (Node *)calloc(1, sizeof(Node));
@@ -8,6 +15,14 @@ Node *NodeCtor()
   return n;
 }
 
+/**
+ * @brief Adds new child to 't->current'-node with new_child node.
+ * Also makes 't-current'-node equal to inserted child.
+ * 
+ * @param t           Tree to append
+ * @param new_child   New node to insert in 't'.
+ * @returns           New 't->current'-node.
+ */
 Node *AddChild(Tree *t, Node *new_child)
 {
 	assert(t                    != NULL && "Null param");
@@ -31,12 +46,21 @@ Node *AddChild(Tree *t, Node *new_child)
 	return t->current;
 }
 
+/**
+ * @brief Insert's parent node 'n' as parent
+ * for 't->current'-node.
+ * 
+ * @param t   Tree to append.
+ * @param n   New parent node.
+ */
 void InsertParent(Tree *t, Node *n)
 {
 	Node *old_current = t->current;
 
 	if (t->current->parent != NULL) {
 		Node *parent = t->current->parent;
+		// TODO: fix always last place in array correction.
+		// sometimes we want to change parent for not last inserted node.
 		memcpy((Node **)parent->children->data + parent->children->size - 1, &n, sizeof(Node*));
 		n->parent = parent;
 	}
@@ -68,6 +92,13 @@ static Parser *ParserCtor(Token *sequence)
 	return parser;
 }
 
+/**
+ * @brief Fills .dot file 'f' with data of particular node.
+ * Works recursively.
+ * 
+ * @param f   File to fill with data of node.
+ * @param n   Node to write to file 'f'.
+ */
 void PrintNode(FILE *f, Node *n)
 {
 	assert(f != NULL && "Null param");
@@ -89,6 +120,14 @@ void PrintNode(FILE *f, Node *n)
 	}
 }
 
+/**
+ * @brief Fills .dot file 'f' with connections
+ * of particular node with it's children.
+ * Works recursively.
+ * 
+ * @param f   File to fill with data of node.
+ * @param n   Node to write to file 'f'.
+ */
 void ConnectNode(FILE *f, Node *n)
 {
 	assert(f != NULL && "Null param");
@@ -107,6 +146,10 @@ void ConnectNode(FILE *f, Node *n)
 	}
 }
 
+/**
+ * @brief Draws tree 't' with graphviz software.
+ * @param t   Tree to draw.
+ */
 void DebugTree(Tree *t)
 {
 	assert(t != NULL && "Null param");
@@ -124,12 +167,35 @@ void DebugTree(Tree *t)
 	system("dot -Tpng ../graph.dot -o ../graph.png");
 }
 
+/**
+ * @brief Changes 't->current'-node to 't->current->parent'-node.
+ * @param t   Tree to correct.
+ */
+inline __attribute__((always_inline))
 void Parent(Tree *t)
 { t->current = (Node *)t->current->parent; }
 
+/**
+ * @brief Gets pointer to particular child
+ * of node 'n' with index 'idx' in 'n''s array of children.
+ * 
+ * @param n     Parent node.
+ * @param idx   Index of child to get.
+ */
+inline __attribute__((always_inline))
 Node *GetChild(Node *n, uint64_t idx)
 { return (*(Node **)((char *)n->children->data + idx * sizeof(Node*))); }
 
+/**
+ * @brief Creates node with new unique index
+ * and adds it to tree 't'.
+ * Gathers data from token 'token'.
+ * Also increments 't->size'
+ * 
+ * @param t       Tree to generate new unique 'id' of new node.
+ * @param token   Token to gather data.
+ * @returns       New generated node.
+ */
 Node *CreateNode(Tree *t, Token *token)
 {
 	Node *new_node = NodeCtor();
@@ -142,3 +208,5 @@ Node *CreateNode(Tree *t, Token *token)
 
 	return new_node;
 }
+
+#pragma GCC diagnostic pop

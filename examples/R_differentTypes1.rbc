@@ -1,8 +1,14 @@
-const = "A-Z1-9"
+NAME = "A-Z1-9"
 
-TOKEN_EQ = '='
+NUMBER = '1-9'
 
-RULE
-	: line1
-	| tok1 tok2 ')'
+FILE
+	: function
+	| class
+	;
+
+function
+	: statement
+	| expression
+	| identifier
 	;
