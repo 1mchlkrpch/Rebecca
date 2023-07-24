@@ -25,7 +25,7 @@ int main() {
   ///////////////////////////////////////
   uint64_t n_tokens = 0;
   // TODO: Add analysis of tokens.
-  Token *sequence = Tokenizer("../include/GrammarRules.rbc", &n_tokens);
+  Token *sequence = Tokenizer("../examples/R_differentTypes1.rbc", &n_tokens);
   for (uint64_t cur_token = 0; cur_token < n_tokens; ++cur_token) {
     printf("t(%zu)|%s -- %s\n",
       cur_token,

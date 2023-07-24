@@ -3,6 +3,29 @@
 
 #include <include/RebeccaCompiler.h>
 
+/**
+ * @brief Grammar rules has consequent structure:
+ * 
+ * NameOfRule       --- unique name of particular rule
+ *   : line-1     <--*
+ *   | line-2     <---*----- sequence of tokens
+ *   ...             /
+ *   | line-n     <-*
+ *   ;
+ * 
+ * Line is sequence of names or data in single or double quotes.
+ * In 'GenerateParserFile' we parse 'NameOfRule'-token,
+ * by the 'COLON'-token that it's grammar rule structure in YACC-file,
+ * we start parsing lines until we meet 'SEMICOLON'-token.
+ * Each line we read until we meet 'PIPE'-token or 'SEMICOLON'-token.
+ * 
+ * After that we insert brunces in 't'-tree.
+ * 
+ * @param t               Tree to append.
+ * @param sequence        Sequence of tokens.
+ * @param cur_token_idx   Index of current token in sequence.
+ * 
+ */
 void ReadGrammarRule(Tree *t, Token *sequence, uint64_t *cur_token_idx)
 {
 	assert(t             != NULL && "Null param");
@@ -77,11 +100,18 @@ void ReadDefinition(Tree *t, Token *sequence, uint64_t *cur_token_idx)
 		// Skip comma token and insert data token.
 		++(*cur_token_idx);
 
-		Node *new_child = CreateNode(t, sequence + *cur_token_idx);
-		AddChild(t, new_child);
-		Parent(t);
+		Node *old_current = t->current;
+		while (sequence[*cur_token_idx].type != TOKEN_SINGLE_QUOTE &&
+		  		 sequence[*cur_token_idx].type != TOKEN_DOUBLE_QUOTE) {
+			Node *new_child = CreateNode(t, sequence + *cur_token_idx);
+			AddChild(t, new_child);
+			++(*cur_token_idx);
+		}
 
-		++(*cur_token_idx);
+		t->current = old_current;
+		printf("old cur:%s\n", t->current->token.txt);
+		// ++(*cur_token_idx);
+		printf("next cur in sequence:%s\n", sequence[*cur_token_idx].txt);
 	}
 }
 
@@ -108,6 +138,7 @@ void GenerateParserFile(Token *sequence, uint64_t n_tokens)
 
 	size_t cur_token_idx = 0;
 	for (; cur_token_idx < n_tokens; ++cur_token_idx) {
+		printf("name:%s\n", sequence[cur_token_idx].txt);
 		if (sequence[cur_token_idx].type == TOKEN_NAME) {			
 			Node *new_node = CreateNode(&t, sequence + cur_token_idx);
 			AddChild(&t, new_node);
@@ -130,6 +161,7 @@ void GenerateParserFile(Token *sequence, uint64_t n_tokens)
 				// Text definition.
 				case TOKEN_EQ: {
 					ReadDefinition(&t, sequence, &cur_token_idx);
+					printf("!\n");
 					Parent(&t);
 					break;
 				}

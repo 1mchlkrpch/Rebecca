@@ -1,0 +1,8 @@
+const = "A-Z1-9"
+
+TOKEN_EQ = '='
+
+RULE
+	: line1
+	| tok1 tok2 ')'
+	;
