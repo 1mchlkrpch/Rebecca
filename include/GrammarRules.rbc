@@ -1,4 +1,4 @@
-CONST = [a-z]
+CONST = "az"
 
 privary_expression
 	: IDENTIFIER
@@ -8,7 +8,7 @@ privary_expression
 	;
 
 unary_operator
-	: '&'
+	: '\&'
 	| '*'
 	| '+'
 	| '-'
@@ -47,8 +47,8 @@ shift_expression
 
 relational_expression
 	: shift_expression
-	| relational_expression '<' shift_expressional
-	| relational_expression '>' shift_expressional
+	| relational_expression '\<' shift_expressional
+	| relational_expression '\>' shift_expressional
 	| relational_expression LE_OP shift_expression
 	| relational_expression GE_OP shift_expression
 	;

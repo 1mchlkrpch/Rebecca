@@ -32,7 +32,7 @@ static const uint64_t kMaxLocals     = 256;
 /// Maximal scope layers in program to restrict memory consuming.
 static const uint64_t kMaxScopeDepth = 256;
 /// Maximal scope layers in program.
-static const uint64_t kInitSequenceSize = 256;
+static const uint64_t kInitSequenceSize = 1024;
 
 /**
  * @brief Logically different token types.

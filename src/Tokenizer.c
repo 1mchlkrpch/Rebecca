@@ -25,6 +25,7 @@ char *GetSourceText(const char *name)
   /* Contains number of symbols wihtout EOF-symbol.
   For example with file "abaEOF" n_symbols = 3.*/
   size_t n_symbols = ftell(f);
+  printf("mush be allocated:%zu\n", n_symbols);
   fseek(f, 0, SEEK_SET);
 
   char *source_text = (char *)calloc(n_symbols + 1, sizeof(char));
