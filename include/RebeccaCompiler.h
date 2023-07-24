@@ -279,7 +279,7 @@ void GenerateParserFile(Token *sequence, uint64_t n_tokens);
  * @brief Node of abstract syntax tree
  * structure for ast representation.
  */
-typedef struct
+struct Node
 {
   // Children of particular node.
   Array *children;
@@ -287,7 +287,9 @@ typedef struct
   Token token;
   uint64_t id;
   struct Node *parent;
-} Node;
+};
+
+typedef struct Node Node;
 
 /**
  * @brief abstract syntax tree

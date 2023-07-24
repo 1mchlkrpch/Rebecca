@@ -244,15 +244,9 @@ void TryPushToken(
 
   if (*cur_token_len > 0) {
     uint64_t idx = IdentifyToken(cur_word);
-    if (strcmp(";", cur_word) == 0) {
-      printf("MET SEMICOLON:%ld\n", idx);
-    }
 
     Token token = {0};
     if (idx != kUndefinedStableWordIdx) {
-      if (strcmp(";", cur_word) == 0) {
-        printf("here?\n");
-      }
       token = ConstructToken(idx);
     } else {
       token = FillToken(cur_word);
@@ -471,7 +465,9 @@ Token *Tokenizer(const char *name, uint64_t *n_tokens)
   
   *n_tokens = sequence_size;
 
+  printf("?\n");
   free(source_text);
+  printf("?\n");
 
   return sequence;
 }

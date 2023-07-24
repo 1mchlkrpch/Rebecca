@@ -1,4 +1,5 @@
 digraph G{
+	graph [ dpi = 50 ];
 	n0 [shape=diamond label=<
 		<table border="0">
 			<tr><td colspan="1" bgcolor="Peru">EOF</td><td>0</td></tr>
@@ -6,100 +7,172 @@ digraph G{
 		</table>
 	>]
 
-	n2 [shape=diamond label=<
-		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">EQ</td><td>2</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">=</td></tr>
-		</table>
-	>]
-
 	n1 [shape=diamond label=<
 		<table border="0">
 			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>1</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">identifier</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">assignment_operator</td></tr>
+		</table>
+	>]
+
+	n2 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">COLON</td><td>2</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">:</td></tr>
 		</table>
 	>]
 
 	n3 [shape=diamond label=<
 		<table border="0">
 			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>3</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">aba</td></tr>
-		</table>
-	>]
-
-	n5 [shape=diamond label=<
-		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">EQ</td><td>5</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">=</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">MUL_ASSIGN</td></tr>
 		</table>
 	>]
 
 	n4 [shape=diamond label=<
 		<table border="0">
 			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>4</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">lol</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">DIV_ASSIGN</td></tr>
+		</table>
+	>]
+
+	n5 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>5</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">MOD_ASSIGN</td></tr>
 		</table>
 	>]
 
 	n6 [shape=diamond label=<
 		<table border="0">
 			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>6</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">kek</td></tr>
-		</table>
-	>]
-
-	n8 [shape=diamond label=<
-		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">EQ</td><td>8</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">=</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">ADD_ASSIGN</td></tr>
 		</table>
 	>]
 
 	n7 [shape=diamond label=<
 		<table border="0">
 			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>7</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">misha</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">SUB_ASSIGN</td></tr>
+		</table>
+	>]
+
+	n8 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>8</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">LEFT_ASSIGN</td></tr>
 		</table>
 	>]
 
 	n9 [shape=diamond label=<
 		<table border="0">
 			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>9</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">krapchatov</td></tr>
-		</table>
-	>]
-
-	n11 [shape=diamond label=<
-		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">EQ</td><td>11</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">=</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">RIGHT_ASSIGN</td></tr>
 		</table>
 	>]
 
 	n10 [shape=diamond label=<
 		<table border="0">
 			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>10</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">andrey</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">AND_ASSIGN</td></tr>
+		</table>
+	>]
+
+	n11 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>11</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">XOR_ASSIGN</td></tr>
 		</table>
 	>]
 
 	n12 [shape=diamond label=<
 		<table border="0">
 			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>12</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">krap</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">OR_ASSIGN</td></tr>
 		</table>
 	>]
 
-	n0 -> n2
-	n0 -> n5
-	n0 -> n8
-	n0 -> n11
-	n2 -> n1
+	n13 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>13</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">expression</td></tr>
+		</table>
+	>]
+
+	n14 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">COLON</td><td>14</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">:</td></tr>
+		</table>
+	>]
+
+	n15 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>15</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">assignment_expression</td></tr>
+		</table>
+	>]
+
+	n16 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>16</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">expression</td></tr>
+		</table>
+	>]
+
+	n17 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">COMMA</td><td>17</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">,</td></tr>
+		</table>
+	>]
+
+	n18 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>18</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">assignment_expression</td></tr>
+		</table>
+	>]
+
+	n19 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>19</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">constant_expression</td></tr>
+		</table>
+	>]
+
+	n20 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">COLON</td><td>20</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">:</td></tr>
+		</table>
+	>]
+
+	n21 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>21</td></tr>
+			<tr><td colspan="2" bgcolor="Peru">conditional_expression</td></tr>
+		</table>
+	>]
+
+	n0 -> n1
+	n0 -> n13
+	n0 -> n19
+	n1 -> n2
 	n2 -> n3
-	n5 -> n4
-	n5 -> n6
-	n8 -> n7
-	n8 -> n9
-	n11 -> n10
-	n11 -> n12
+	n2 -> n4
+	n2 -> n5
+	n2 -> n6
+	n2 -> n7
+	n2 -> n8
+	n2 -> n9
+	n2 -> n10
+	n2 -> n11
+	n2 -> n12
+	n13 -> n14
+	n14 -> n15
+	n14 -> n16
+	n16 -> n17
+	n17 -> n18
+	n19 -> n20
+	n20 -> n21
 }
