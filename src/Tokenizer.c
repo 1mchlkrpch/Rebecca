@@ -117,6 +117,8 @@ const char *TranslateTokenType(TokenType type)
 }
 
 
+static const size_t kUndefinedStableWordIdx = sizeof(stable_words) / sizeof(StableWord) + 1;
+
 /**
  * @brief Checks if symbol 'c' in kSplitSymbols which
  * contains all the splitter-symbols.
@@ -149,8 +151,6 @@ bool IsWhiteSpace(const char c)
 static inline __attribute__((always_inline))
 bool IsDigit(const char c)
 { return strchr(kDigitSymbols, c) != NULL; }
-
-static const size_t kUndefinedStableWordIdx = sizeof(stable_words) / sizeof(StableWord) + 1;
 
 /**
  * @brief Checks if the cur_word is
