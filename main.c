@@ -4,6 +4,7 @@
 #include <MchlkrpchLogger/logger.h>
 
 int main() {
+  SetLogfile(fopen("../ligfile.txt", "w"));
   ///////////////////////////////////////
   SetTabSize(2);
   __msg(D_TOKENIZER, M, "Start of tokenizer work\n");
