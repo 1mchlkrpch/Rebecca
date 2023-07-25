@@ -93,6 +93,29 @@ static Parser *ParserCtor(Token *sequence)
 }
 
 /**
+ * @brief Get's better style of
+ * graph of AST tree by give each node
+ * it's own shape.
+ * 
+ * @param t   Type of incoming node from tree.
+ * @returns   const char shape-name from type.
+ */
+const char *CellBordersFormat(TokenType t)
+{
+	switch (t) {
+		case TOKEN_COLON:
+		case TOKEN_SLASH:
+		case TOKEN_STAR:
+		case TOKEN_EOF:
+		case TOKEN_EQ: { return "none"; }
+		case TOKEN_NAME: { return "rectangle"; }
+		default: {
+			return 	"diamond";
+		}
+	}
+}
+
+/**
  * @brief Fills .dot file 'f' with data of particular node.
  * Works recursively.
  * 
@@ -104,12 +127,12 @@ void PrintNode(FILE *f, Node *n)
 	assert(f != NULL && "Null param");
 	assert(n != NULL && "Null param");
 
-	fprintf(f, "\tn%lu [shape=diamond label=<\n"
-			"\t\t<table border=\"0\">\n"
-			  "\t\t\t<tr><td colspan=\"1\" bgcolor=\"Peru\">%s</td><td>%lu</td></tr>\n"
-			  "\t\t\t<tr><td colspan=\"2\" bgcolor=\"Peru\">%s</td></tr>\n"
-			"\t\t</table>\n"
-		"\t>]\n", n->id, TranslateTokenType(n->token.type), n->id, n->token.txt);
+	// See NODE_FMT in RebeccaCompiler.h
+	fprintf(f, NODE_FMT,
+		n->id,
+		CellBordersFormat(n->token.type),
+		TranslateTokenType(n->token.type),
+		n->id, n->token.txt);
 
 	fprintf(f, "\n");
 

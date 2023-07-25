@@ -6,7 +6,7 @@ number = '985136'
 NUMBER = '1-9'
 
 FILE
-	: function
+	: function '='
 	| class
 	;
 

@@ -1,0 +1,17 @@
+name = "TOKEN_NAME";
+primary_opr = '*' | '/';
+
+// multiplication devision
+primary_opr
+	: secondary_opr
+	;
+
+// P
+secondary_opr
+	: parentheses
+	;
+
+parentheses
+	: primary_opr
+	| name
+	;

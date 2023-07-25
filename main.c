@@ -11,7 +11,7 @@ int main() {
   uint64_t n_tokens = 0;
 
   // TODO: Add analysis of tokens.
-  Token *sequence = Tokenizer("../examples/R_differentTypes1.rbc", &n_tokens);
+  Token *sequence = Tokenizer("../include/SimpleRules.rbc", &n_tokens);
   
   __spt(D_TOKENIZER);
   __msg(D_TOKENIZER_OUTPUT, M, "Output of tokenizer:\n");
@@ -26,21 +26,9 @@ int main() {
 
   __spt(D_TOKENIZER_OUTPUT);
   GenerateParserFile(sequence, n_tokens);
+  // End of parser-generator's work work.
   __msg(D_PARSER_GENERATING, M,
     "End of generating parser's file\n");
-
-  // // Token *sequence = Tokenizer("../examples/example2.rbc", &n_tokens);
-  // printf("n tokens:%lu\n", n_tokens);
-  // PreParserAnalisys(sequence, n_tokens);
-
-  // for (uint64_t cur_token = 0; cur_token < n_tokens; ++cur_token) {
-  //   printf("t(%zu)|%s -- %s\n",
-  //     cur_token,
-  //     sequence[cur_token].txt,
-  //     TranslateTokenType(sequence[cur_token].type)
-  //     );
-  // }
-
 
   // TODO: Add compilation flags.
   // TODO: Add analysis of syntax tree.

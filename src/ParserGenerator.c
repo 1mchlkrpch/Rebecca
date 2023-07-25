@@ -4,61 +4,12 @@
 #include <include/RebeccaCompiler.h>
 #include <MchlkrpchLogger/logger.h>
 
-/**
- * @brief Grammar rules has consequent structure:
- * 
- * NameOfRule     --- unique name of particular rule
- *   : line-1     <--*
- *   | line-2     <---*----- sequence of tokens
- *   ...             /
- *   | line-n     <-*
- *   ;
- * 
- * Line is sequence of names or data in single or double quotes.
- * In 'GenerateParserFile' we parse 'NameOfRule'-token,
- * by the 'COLON'-token that it's grammar rule structure in YACC-file,
- * we start parsing lines until we meet 'SEMICOLON'-token.
- * Each line we read until we meet 'PIPE'-token or 'SEMICOLON'-token.
- * 
- * After that we insert brunces in 't'-tree.
- * 
- * @param t               Tree to append.
- * @param sequence        Sequence of tokens.
- * @param cur_token_idx   Index of current token in sequence.
- * 
- */
-void ReadGrammarRule(Tree *t, Token *sequence, uint64_t *cur_token_idx)
+void ReadTheRest(Tree *t, Token *sequence, uint64_t *cur_token_idx)
 {
-	assert(t             != NULL && "Null param");
-	assert(sequence      != NULL && "Null param");
-	assert(cur_token_idx != NULL && "Null param");
+	__asrt(t             != NULL, "Null param");
+	__asrt(sequence      != NULL, "Null param");
+	__asrt(cur_token_idx != NULL, "Null param");
 
-	__tab_incr();
-	__msg(D_PARSER_GENERATING, M,
-		"Read new node:\"%s\"\n",
-		(sequence + *cur_token_idx)->txt);
-
-	/* Read first consequent child
-	in rule-hierarchy.*/
-	Node *primal_node = t->current;
-	Node *or_node = CreateNode(t, sequence + *cur_token_idx);
-	AddChild(t, or_node);
-	++(*cur_token_idx);
-
-	/* Lines of grammar rule is
-	Cosequent grammar entities after particular
-	grammar entity, for example:
-		file
-	  	: struct    -*
-	  	| funcion   -|
-			| variable  -*----lines
-	  	;
-	So we will parse tokens untill we meet ';'-token.*/
-	__msg(D_PARSER_GENERATING, M,
-		"Continue to parse lines of grammar rule\n");
-	__tab_incr();
-
-	// Rule's line parsing.
 	while (sequence[*cur_token_idx].type != TOKEN_SEMICOLON) {
 		/* If it's just a PIPE token it's dummy-token of
 		YACC-files syntax. So we just skip it.*/
@@ -116,15 +67,71 @@ void ReadGrammarRule(Tree *t, Token *sequence, uint64_t *cur_token_idx)
 					(sequence + *cur_token_idx)->txt);
 				continue;
 			}
-			__tab_decr();
 
 			Node *new_rule_option = CreateNode(t, sequence + *cur_token_idx);
 			AddChild(t, new_rule_option);
 			++(*cur_token_idx);
 		}
+		__tab_decr();
 
 		t->current = old_current;
 	}
+}
+
+/**
+ * @brief Grammar rules has consequent structure:
+ * 
+ * NameOfRule     --- unique name of particular rule
+ *   : line-1     <--*
+ *   | line-2     <---*----- sequence of tokens
+ *   ...             /
+ *   | line-n     <-*
+ *   ;
+ * 
+ * Line is sequence of names or data in single or double quotes.
+ * In 'GenerateParserFile' we parse 'NameOfRule'-token,
+ * by the 'COLON'-token that it's grammar rule structure in YACC-file,
+ * we start parsing lines until we meet 'SEMICOLON'-token.
+ * Each line we read until we meet 'PIPE'-token or 'SEMICOLON'-token.
+ * 
+ * After that we insert brunces in 't'-tree.
+ * 
+ * @param t               Tree to append.
+ * @param sequence        Sequence of tokens.
+ * @param cur_token_idx   Index of current token in sequence.
+ */
+void ReadGrammarRule(Tree *t, Token *sequence, uint64_t *cur_token_idx)
+{
+	__asrt(t             != NULL, "Null param");
+	__asrt(sequence      != NULL, "Null param");
+	__asrt(cur_token_idx != NULL, "Null param");
+
+	__tab_incr();
+	__msg(D_PARSER_GENERATING, M,
+		"Read new node:\"%s\"\n",
+		(sequence + *cur_token_idx)->txt);
+
+	/* Read first consequent child
+	in rule-hierarchy.*/
+	Node *primal_node = t->current;
+	Node *or_node = CreateNode(t, sequence + *cur_token_idx);
+	AddChild(t, or_node);
+	++(*cur_token_idx);
+
+	/* Lines of grammar rule is
+	Cosequent grammar entities after particular
+	grammar entity, for example:
+		file
+	  	: struct    -*
+	  	| funcion   -|
+			| variable  -*----lines
+	  	;
+	So we will parse tokens untill we meet ';'-token.*/
+	__msg(D_PARSER_GENERATING, M,
+		"Continue to parse lines of grammar rule\n");
+	__tab_incr();
+	// Start to parse the rest of ther rule.
+	ReadTheRest(t,sequence, cur_token_idx);
 	// Stop parse lines.
 	__tab_decr();
 
@@ -147,35 +154,16 @@ void ReadGrammarRule(Tree *t, Token *sequence, uint64_t *cur_token_idx)
  */
 void ReadDefinition(Tree *t, Token *sequence, uint64_t *cur_token_idx)
 {
-	// DEBUG_MSG(D_TREE,      W, "created\n");
-	assert(t             != NULL && "Null param");
-	assert(sequence      != NULL && "Null param");
-	assert(cur_token_idx != NULL && "Null param");
+	__asrt(t             != NULL, "Null parametr\n");
+	__asrt(sequence      != NULL, "Null parametr\n");
+	__asrt(cur_token_idx != NULL, "Null parametr\n");
 
 	// Insert 'TOKEN_EQ' token in tree.
 	Node *equal_node = CreateNode(t, sequence + *cur_token_idx);
 	InsertParent(t, equal_node);
 	++(*cur_token_idx);
 
-	/* Next token indicates to
-	identifier = (>)'SYMBOL' or identifier = (>)"CONSTANT"*/ 
-	Token *next = sequence + *cur_token_idx;
-
-	if (next->type == TOKEN_SINGLE_QUOTE ||
-		  next->type == TOKEN_DOUBLE_QUOTE) {
-		// Skip comma token and insert data token.
-		++(*cur_token_idx);
-
-		Node *old_current = t->current;
-		while (sequence[*cur_token_idx].type != TOKEN_SINGLE_QUOTE &&
-		  		 sequence[*cur_token_idx].type != TOKEN_DOUBLE_QUOTE) {
-			Node *new_child = CreateNode(t, sequence + *cur_token_idx);
-			AddChild(t, new_child);
-			++(*cur_token_idx);
-		}
-
-		t->current = old_current;
-	}
+	ReadTheRest(t, sequence, cur_token_idx);
 }
 
 /**
@@ -188,21 +176,21 @@ void ReadDefinition(Tree *t, Token *sequence, uint64_t *cur_token_idx)
  * 
  * @param sequence   Token sequence of grammar file.
  * @param n_tokens   Number of tokens in 'sequence'.
+ * @returns          Generated AST.
  */
 Tree *GenerateParserAst(Token *sequence, uint64_t n_tokens)
 {
-	assert(sequence != NULL && "Null param");
+	__asrt(sequence != NULL, "Null parametr\n");
 
 	__msg(D_PARSER_GENERATING, M, "Start of generating parser's AST\n");
-
-	// Tree t = {0};
+		// Create new ast tree.
 	Tree *t = (Tree *)calloc(1, sizeof(Tree));
 	assert(t != NULL && "Null calloc allocation");
 
 	bool previous_token_is_name = false;
 
-	/* Add the root of tree as 'EOF'-token.
-	It's easier to add new nodes to dummy node.*/ 
+		/* Add the root of tree as 'EOF'-token.
+		It's easier to add new nodes to dummy node.*/ 
 	__msg(D_PARSER_GENERATING, M, "Tree's root init\n");	
 	Node *common_node = CreateNode(t, sequence + n_tokens - 1);
 	AddChild(t, common_node);
@@ -214,9 +202,9 @@ Tree *GenerateParserAst(Token *sequence, uint64_t n_tokens)
 		__msg(D_PARSER_GENERATING, M,
 			"Current token:\"%s\"\n", sequence[cur_token_idx].txt);
 
-		/* Check if the current token is name.
-		If it is it can be followed by rule-expression
-		or definition.*/
+			/* Check if the current token is name.
+			If it is it can be followed by rule-expression
+			or definition.*/
 		if (sequence[cur_token_idx].type == TOKEN_NAME) {
 			__tab_incr();
 			__msg(D_PARSER_GENERATING, M,
@@ -225,13 +213,15 @@ Tree *GenerateParserAst(Token *sequence, uint64_t n_tokens)
 			// Add child to tree.
 			Node *new_node = CreateNode(t, sequence + cur_token_idx);
 			AddChild(t, new_node);
+			// Check after inserting new node in tree.
 			__msg(D_PARSER_GENERATING, M,
 				"Token with data:\"%s\" was added\n",
 				new_node->token.txt);
 
-			/* Set this flag as true to realize that
-			construction NAME + '=' + ... can be grammar rule or definition.*/
+				/* Set this flag as true to realize that
+				construction NAME + '=' + ... can be grammar rule or definition.*/
 			previous_token_is_name = true;
+				// Parse new token.
 			__msg(D_PARSER_GENERATING, M,
 				"Last token is \'previous_token_is_name\' = true(%d)\n",
 				previous_token_is_name);
@@ -242,24 +232,24 @@ Tree *GenerateParserAst(Token *sequence, uint64_t n_tokens)
 		if (previous_token_is_name) {
 			__tab_incr();
 			previous_token_is_name = false;
-			/* Name token may be inheritated by
-			text definition (by '='-symbol) or grammar rule (':'-symbol*/
+				/* Name token may be inheritated by
+				text definition (by '='-symbol) or grammar rule (':'-symbol*/
 			switch (sequence[cur_token_idx].type) {
-				// Grammar rule.
+					// Grammar rule.
 				case TOKEN_COLON: {
 					__msg(D_PARSER_GENERATING, M,
 						"Previous name followed by rule\n");
 
 					ReadGrammarRule(t, sequence, &cur_token_idx);
-					/* Move to parent to
-					add new rules and definitions to the tree.*/
+						/* Move to parent to
+						add new rules and definitions to the tree.*/
 					Parent(t);
 					__msg(D_PARSER_GENERATING, M,
 						"Current parent after \'ReadGrammarRule\' is:\"%s\"\n",
 						t->current->token.txt);
 					break;
 				}
-				// Text definition.
+					// Text definition.
 				case TOKEN_EQ: {
 					ReadDefinition(t, sequence, &cur_token_idx);
 					Parent(t);
@@ -271,19 +261,24 @@ Tree *GenerateParserAst(Token *sequence, uint64_t n_tokens)
 					continue;
 				}
 			}
-			// Stop parse grammar structure.
+				// Stop parse grammar structure.
 			__tab_decr();
 		}
 	}
-	// Stop parse grammar rules.
+		// Stop parse grammar rules.
 	__tab_decr();
 	return t;
 }
 
 void GenerateParserFile(Token *sequence, uint64_t n_tokens)
 {
+	__asrt(sequence != NULL, "Null parametr\n");
+
 	Tree *t = GenerateParserAst(sequence, n_tokens);
+	// Generate picture of created tree.
 	DebugTree(t);
 	__msg(D_PARSER_GENERATING, M,
 		"Picture of tree was created!\n");
+
+
 }

@@ -246,6 +246,13 @@ Token *Tokenizer(const char *name, uint64_t *n_tokens);
  */
 
 // AST part ----------------------------------------------------------------------------------
+#define NODE_FMT                                                                            \
+  "\tn%lu [shape=%s label=<\n"                                                               \
+    "\t\t<table border=\"0\">\n"                                                              \
+      "\t\t\t<tr><td colspan=\"1\" bgcolor=\"slategray2\">%s</td><td>%lu</td></tr>\n"          \
+      "\t\t\t<tr><td colspan=\"2\" bgcolor=\"slategray1\">%s</td></tr>\n"                       \
+    "\t\t</table>\n"                                                                             \
+  "\t>]\n"
 /**
  * @brief Node of abstract syntax tree
  * structure for ast representation.

@@ -1,210 +1,146 @@
 digraph G{
 	graph [ dpi = 50 ];
-	n0 [shape=diamond label=<
+	n0 [shape=none label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">EOF</td><td>0</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">EOF</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">EOF</td><td>0</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">EOF</td></tr>
 		</table>
 	>]
 
-	n2 [shape=diamond label=<
+	n2 [shape=none label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">EQ</td><td>2</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">=</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">EQ</td><td>2</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">=</td></tr>
 		</table>
 	>]
 
-	n1 [shape=diamond label=<
+	n1 [shape=rectangle label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>1</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">NAME</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">NAME</td><td>1</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">name</td></tr>
 		</table>
 	>]
 
-	n3 [shape=diamond label=<
+	n3 [shape=rectangle label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>3</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">A</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">NAME</td><td>3</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">TOKEN_NAME</td></tr>
 		</table>
 	>]
 
-	n4 [shape=diamond label=<
+	n5 [shape=none label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">MINUS</td><td>4</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">-</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">EQ</td><td>5</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">=</td></tr>
 		</table>
 	>]
 
-	n5 [shape=diamond label=<
+	n4 [shape=rectangle label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>5</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">Z1</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">NAME</td><td>4</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">primary_opr</td></tr>
 		</table>
 	>]
 
-	n6 [shape=diamond label=<
+	n6 [shape=none label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">MINUS</td><td>6</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">-</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">STAR</td><td>6</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">*</td></tr>
 		</table>
 	>]
 
-	n7 [shape=diamond label=<
+	n7 [shape=none label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">NUMBER</td><td>7</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">9</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">SLASH</td><td>7</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">/</td></tr>
 		</table>
 	>]
 
-	n9 [shape=diamond label=<
+	n8 [shape=rectangle label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">EQ</td><td>9</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">=</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">NAME</td><td>8</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">primary_opr</td></tr>
 		</table>
 	>]
 
-	n8 [shape=diamond label=<
+	n9 [shape=none label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>8</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">number</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">COLON</td><td>9</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">:</td></tr>
 		</table>
 	>]
 
-	n10 [shape=diamond label=<
+	n10 [shape=rectangle label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">NUMBER</td><td>10</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">985136</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">NAME</td><td>10</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">secondary_opr</td></tr>
 		</table>
 	>]
 
-	n12 [shape=diamond label=<
+	n11 [shape=rectangle label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">EQ</td><td>12</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">=</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">NAME</td><td>11</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">secondary_opr</td></tr>
 		</table>
 	>]
 
-	n11 [shape=diamond label=<
+	n12 [shape=none label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>11</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">NUMBER</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">COLON</td><td>12</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">:</td></tr>
 		</table>
 	>]
 
-	n13 [shape=diamond label=<
+	n13 [shape=rectangle label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">NUMBER</td><td>13</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">1</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">NAME</td><td>13</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">parentheses</td></tr>
 		</table>
 	>]
 
-	n14 [shape=diamond label=<
+	n14 [shape=rectangle label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">MINUS</td><td>14</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">-</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">NAME</td><td>14</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">parentheses</td></tr>
 		</table>
 	>]
 
-	n15 [shape=diamond label=<
+	n15 [shape=none label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">NUMBER</td><td>15</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">9</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">COLON</td><td>15</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">:</td></tr>
 		</table>
 	>]
 
-	n16 [shape=diamond label=<
+	n16 [shape=rectangle label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>16</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">FILE</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">NAME</td><td>16</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">primary_opr</td></tr>
 		</table>
 	>]
 
-	n17 [shape=diamond label=<
+	n17 [shape=rectangle label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">COLON</td><td>17</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">:</td></tr>
-		</table>
-	>]
-
-	n18 [shape=diamond label=<
-		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>18</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">function</td></tr>
-		</table>
-	>]
-
-	n19 [shape=diamond label=<
-		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">CLASS</td><td>19</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">class</td></tr>
-		</table>
-	>]
-
-	n20 [shape=diamond label=<
-		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>20</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">function</td></tr>
-		</table>
-	>]
-
-	n21 [shape=diamond label=<
-		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">COLON</td><td>21</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">:</td></tr>
-		</table>
-	>]
-
-	n22 [shape=diamond label=<
-		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>22</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">statement</td></tr>
-		</table>
-	>]
-
-	n23 [shape=diamond label=<
-		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>23</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">expression</td></tr>
-		</table>
-	>]
-
-	n24 [shape=diamond label=<
-		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>24</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">identifier</td></tr>
-		</table>
-	>]
-
-	n25 [shape=diamond label=<
-		<table border="0">
-			<tr><td colspan="1" bgcolor="Peru">NAME</td><td>25</td></tr>
-			<tr><td colspan="2" bgcolor="Peru">struct</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">NAME</td><td>17</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">name</td></tr>
 		</table>
 	>]
 
 	n0 -> n2
-	n0 -> n9
-	n0 -> n12
-	n0 -> n16
-	n0 -> n20
+	n0 -> n5
+	n0 -> n8
+	n0 -> n11
+	n0 -> n14
 	n2 -> n1
 	n2 -> n3
-	n3 -> n4
-	n4 -> n5
+	n5 -> n4
 	n5 -> n6
-	n6 -> n7
-	n9 -> n8
+	n5 -> n7
+	n8 -> n9
 	n9 -> n10
-	n12 -> n11
+	n11 -> n12
 	n12 -> n13
-	n13 -> n14
 	n14 -> n15
-	n16 -> n17
-	n17 -> n18
-	n17 -> n19
-	n20 -> n21
-	n21 -> n22
-	n21 -> n23
-	n21 -> n24
-	n21 -> n25
+	n15 -> n16
+	n15 -> n17
 }
