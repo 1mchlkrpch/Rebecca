@@ -1,17 +1,26 @@
+/* This file is
+Similar to YACC-file you can define variables by value in
+double quotes and it will be value that will compare with
+types in token sequence.*/
+
+// Token names type.
 name = "TOKEN_NAME";
-primary_opr = '*' | '/';
 
 // multiplication devision
-primary_opr
-	: secondary_opr
+primary_opr_rule
+	: '*'
+	| '/'
+	| secondary_opr
 	;
 
-// P
+// 
 secondary_opr
-	: parentheses
+	: '+'
+	| '-'
+	| parentheses
 	;
 
 parentheses
-	: primary_opr
+	: primary_opr_rule
 	| name
 	;

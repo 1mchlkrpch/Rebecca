@@ -451,7 +451,14 @@ Token *Tokenizer(const char *name, uint64_t *n_tokens)
       TryPushToken(&cur_token_len, cur_word, sequence, &sequence_size);
 
       sequence[sequence_size - 1].type = TOKEN_NUMBER;
-      sequence[sequence_size - 1].value.val = num;
+
+      // Adding a value manually.
+      // TODO: fix later.
+      sequence[sequence_size - 1].value = (Value*)calloc(1, sizeof(Value));
+      __asrt(sequence[sequence_size - 1].value != NULL, "Null calloc allocation");
+      sequence[sequence_size - 1].value->obj = calloc(1, sizeof(int));
+      sequence[sequence_size - 1].value->type = OBJ_INT;
+      memcpy(&sequence[sequence_size - 1].value->obj, &num, sizeof(int));
 
       __tab_decr();
       continue;

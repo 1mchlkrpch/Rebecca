@@ -101,7 +101,8 @@ CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/main.c.o: /home/mchlkrpc
   /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
   /usr/include/strings.h \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h \
-  /home/mchlkrpch/Documents/c++/Rebecca/include/utilities.h \
+  /home/mchlkrpch/Documents/c++/Rebecca/include/Utilities.h \
+  /home/mchlkrpch/Documents/c++/Rebecca/include/Value.h \
   /home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/logger.h \
   /home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/loggerGroups.h
 
@@ -170,7 +171,8 @@ CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/ParserGenerator.c.o:
   /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
   /usr/include/strings.h \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h \
-  /home/mchlkrpch/Documents/c++/Rebecca/include/utilities.h \
+  /home/mchlkrpch/Documents/c++/Rebecca/include/Utilities.h \
+  /home/mchlkrpch/Documents/c++/Rebecca/include/Value.h \
   /home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/logger.h \
   /home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/loggerGroups.h
 
@@ -239,7 +241,8 @@ CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer.c.o: /home
   /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
   /usr/include/strings.h \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h \
-  /home/mchlkrpch/Documents/c++/Rebecca/include/utilities.h \
+  /home/mchlkrpch/Documents/c++/Rebecca/include/Utilities.h \
+  /home/mchlkrpch/Documents/c++/Rebecca/include/Value.h \
   /home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/logger.h \
   /home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/loggerGroups.h
 
@@ -308,11 +311,14 @@ CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tree.c.o: /home/mchl
   /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
   /usr/include/strings.h \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h \
-  /home/mchlkrpch/Documents/c++/Rebecca/include/utilities.h
+  /home/mchlkrpch/Documents/c++/Rebecca/include/Utilities.h \
+  /home/mchlkrpch/Documents/c++/Rebecca/include/Value.h \
+  /home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/logger.h \
+  /home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/loggerGroups.h
 
-CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.o: /home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c \
+CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Utilities.c.o: /home/mchlkrpch/Documents/c++/Rebecca/src/Utilities.c \
   /usr/include/stdc-predef.h \
-  /home/mchlkrpch/Documents/c++/Rebecca/include/utilities.h \
+  /home/mchlkrpch/Documents/c++/Rebecca/include/Utilities.h \
   /usr/include/assert.h \
   /usr/include/features.h \
   /usr/include/features-time64.h \
@@ -375,12 +381,15 @@ CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.o: /home
   /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
   /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
   /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h \
+  /home/mchlkrpch/Documents/c++/Rebecca/include/Value.h
 
+
+/home/mchlkrpch/Documents/c++/Rebecca/src/Utilities.c:
 
 /home/mchlkrpch/Documents/c++/Rebecca/src/Tree.c:
 
-/home/mchlkrpch/Documents/c++/Rebecca/include/utilities.h:
+/home/mchlkrpch/Documents/c++/Rebecca/include/Utilities.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h:
 
@@ -396,8 +405,6 @@ CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.o: /home
 
 /home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/logger.h:
 
-/home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c:
-
 /usr/include/x86_64-linux-gnu/bits/wordsize.h:
 
 /usr/include/stdlib.h:
@@ -405,6 +412,8 @@ CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.o: /home
 /usr/include/x86_64-linux-gnu/bits/floatn.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
+
+/home/mchlkrpch/Documents/c++/Rebecca/include/Value.h:
 
 /usr/include/x86_64-linux-gnu/gnu/stubs.h:
 

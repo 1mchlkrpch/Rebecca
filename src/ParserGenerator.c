@@ -29,7 +29,7 @@ void ReadTheRest(Tree *t, Token *sequence, uint64_t *cur_token_idx)
 		Node *old_current = t->current;
 		__msg(D_PARSER_GENERATING, M,
 			"Save the \'t->current\':\"%s\"\n",
-			old_current->token.txt);
+			old_current->token->txt);
 
 		// Rule's particular line parsing.
 		__tab_incr();
@@ -47,7 +47,11 @@ void ReadTheRest(Tree *t, Token *sequence, uint64_t *cur_token_idx)
 			/* If quote was met we push last token and return
 			old current node as t->current.*/
 			if (sequence[*cur_token_idx].type == TOKEN_SINGLE_QUOTE ||
-				  sequence[*cur_token_idx].type == TOKEN_DOUBLE_QUOTE) {
+				sequence[*cur_token_idx].type == TOKEN_DOUBLE_QUOTE) {
+
+				ObjType tp = (sequence[*cur_token_idx].type == TOKEN_DOUBLE_QUOTE)?
+					OBJ_STRING :
+					OBJ_SYM;
 				/* Parse quoted argument: we
 				should split quotes and add it's data to new token.*/
 				__msg(D_PARSER_GENERATING, M,
@@ -57,7 +61,13 @@ void ReadTheRest(Tree *t, Token *sequence, uint64_t *cur_token_idx)
 				Node *new_rule_option = CreateNode(t, sequence + *cur_token_idx);
 				__msg(D_PARSER_GENERATING, M,
 					"data:\"%s\"\n",
-					new_rule_option->token.txt);
+					new_rule_option->token->txt);
+
+				new_rule_option->token->value = (Value*)calloc(1, sizeof(Value));
+				__asrt(new_rule_option->token->value != NULL, "Null calloc allocation");
+				new_rule_option->token->value->obj = calloc(strlen(new_rule_option->token->txt), sizeof(char));
+				new_rule_option->token->value->type = tp;
+				strcpy(new_rule_option->token->value->obj, new_rule_option->token->txt);
 
 				AddChild(t, new_rule_option);
 				++(*cur_token_idx);
@@ -139,7 +149,7 @@ void ReadGrammarRule(Tree *t, Token *sequence, uint64_t *cur_token_idx)
 	// Returns old current node in tree.
 	__msg(D_PARSER_GENERATING, M,
 		"Now current in tree is:\"%s\"\n",
-		t->current->token.txt);
+		t->current->token->txt);
 	__tab_decr();
 }
 
@@ -216,7 +226,7 @@ Tree *GenerateParserAst(Token *sequence, uint64_t n_tokens)
 			// Check after inserting new node in tree.
 			__msg(D_PARSER_GENERATING, M,
 				"Token with data:\"%s\" was added\n",
-				new_node->token.txt);
+				new_node->token->txt);
 
 				/* Set this flag as true to realize that
 				construction NAME + '=' + ... can be grammar rule or definition.*/
@@ -246,7 +256,7 @@ Tree *GenerateParserAst(Token *sequence, uint64_t n_tokens)
 					Parent(t);
 					__msg(D_PARSER_GENERATING, M,
 						"Current parent after \'ReadGrammarRule\' is:\"%s\"\n",
-						t->current->token.txt);
+						t->current->token->txt);
 					break;
 				}
 					// Text definition.
@@ -270,15 +280,110 @@ Tree *GenerateParserAst(Token *sequence, uint64_t n_tokens)
 	return t;
 }
 
+void AddName(NameTable *table, Token *token)
+{
+	__asrt(table != NULL, "Null parametr\n");
+	__asrt(token != NULL, "Null parametr\n");
+
+	bool found = false;
+	// Try to find this token in nametable.
+	for (size_t cur_el = 0; cur_el < table->size; ++cur_el) {
+		if (strcmp(table->names[cur_el].txt, token->txt) == 0) {
+			found = true;
+			__msg(D_NAMETABLE, M,
+				"Already exists\n");
+			return;
+		}
+	}
+	// Add new name in table.
+	memcpy(&table->names[table->size], token, sizeof(Token));
+	__msg(D_NAMETABLE, M,
+		"Name was inserted\n");
+
+	++table->size;
+	__msg(D_NAMETABLE, M,
+		"Current size:%ld\n", table->size);
+}
+
+void SearchNamesInBrance(Node *n, NameTable *table)
+{
+	__asrt(n     != NULL, "Null parametr\n");
+	__asrt(table != NULL, "Null parametr\n");
+
+	__msg(D_NAMETABLE, M,
+		"Check node(%s)\n", n->token->txt);
+
+	if (n->token->value == NULL && n->token->type == TOKEN_NAME) {
+		__msg(D_PARSER_GENERATING, M,
+			"It is name\n");
+		AddName(table, n->token);
+	} else {
+		__msg(D_PARSER_GENERATING, M,
+			"Not name\n");
+	}
+
+	if (n->children != NULL) {
+		for (size_t cur_child_idx = 0; cur_child_idx < n->children->size; ++cur_child_idx) {
+			Node *cur_child = GetChild(n, cur_child_idx);
+			__tab_incr();
+			SearchNamesInBrance(cur_child, table);
+			__tab_decr();
+			__msg(D_NAMETABLE, M,
+				"End this child\n");
+		}
+	}
+
+	__msg(D_NAMETABLE, M,
+		"End(%s)-node\n", n->token->txt);
+}
+
+NameTable *ScanForNames(Tree *t)
+{
+	__asrt(t != NULL, "Null parametr\n");
+
+	// Allocate name table for searching familiar names
+	NameTable *table = (NameTable*)calloc(1, sizeof(NameTable));
+	__asrt(table != NULL, "Null calloc allocation\n");
+	// Allocate array of names.
+	table->names = (Token*)calloc(kInitSizeNamesArray, sizeof(Token));
+	__asrt(table != NULL, "Null calloc allocation\n");
+
+	__tab_incr();
+	SearchNamesInBrance(t->root, table);
+	__tab_decr();
+
+	return table;
+}
+
 void GenerateParserFile(Token *sequence, uint64_t n_tokens)
 {
 	__asrt(sequence != NULL, "Null parametr\n");
 
 	Tree *t = GenerateParserAst(sequence, n_tokens);
-	// Generate picture of created tree.
+		// Generate picture of created tree.
 	DebugTree(t);
 	__msg(D_PARSER_GENERATING, M,
 		"Picture of tree was created!\n");
 
+	__spt(D_PARSER_GENERATING);
 
+	__msg(D_NAMETABLE, M,
+		"Start of work of nametable\n");
+		/* To generate parser's file
+		It's necessary to extract all the variables from the tree
+		to identify which tokens rules are refer to.*/
+	NameTable *table = ScanForNames(t);
+
+	for (size_t cur_el = 0; cur_el < table->size; ++cur_el) {
+		__msg(D_NAMETABLE, M,
+			"name[%d]:%s\n", cur_el, table->names[cur_el].txt);
+	}
+
+		/* After extracting all names
+		Print all rules with followed structure:
+		if we have to parse primary_opr we
+		try to parse target token: multiply or devide firstly.
+		if we get needed token we return to parent rule.
+		If we didn't extract needed token we start descent
+		according to the following rule in the hierarchy rule*/
 }

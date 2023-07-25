@@ -28,17 +28,17 @@ digraph G{
 		</table>
 	>]
 
-	n5 [shape=none label=<
-		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">EQ</td><td>5</td></tr>
-			<tr><td colspan="2" bgcolor="slategray1">=</td></tr>
-		</table>
-	>]
-
 	n4 [shape=rectangle label=<
 		<table border="0">
 			<tr><td colspan="1" bgcolor="slategray2">NAME</td><td>4</td></tr>
-			<tr><td colspan="2" bgcolor="slategray1">primary_opr</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">primary_opr_rule</td></tr>
+		</table>
+	>]
+
+	n5 [shape=none label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="slategray2">COLON</td><td>5</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">:</td></tr>
 		</table>
 	>]
 
@@ -59,35 +59,35 @@ digraph G{
 	n8 [shape=rectangle label=<
 		<table border="0">
 			<tr><td colspan="1" bgcolor="slategray2">NAME</td><td>8</td></tr>
-			<tr><td colspan="2" bgcolor="slategray1">primary_opr</td></tr>
-		</table>
-	>]
-
-	n9 [shape=none label=<
-		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">COLON</td><td>9</td></tr>
-			<tr><td colspan="2" bgcolor="slategray1">:</td></tr>
-		</table>
-	>]
-
-	n10 [shape=rectangle label=<
-		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">NAME</td><td>10</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">secondary_opr</td></tr>
 		</table>
 	>]
 
-	n11 [shape=rectangle label=<
+	n9 [shape=rectangle label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">NAME</td><td>11</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">NAME</td><td>9</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">secondary_opr</td></tr>
 		</table>
 	>]
 
-	n12 [shape=none label=<
+	n10 [shape=none label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">COLON</td><td>12</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">COLON</td><td>10</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">:</td></tr>
+		</table>
+	>]
+
+	n11 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="slategray2">PLUS</td><td>11</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">+</td></tr>
+		</table>
+	>]
+
+	n12 [shape=diamond label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="slategray2">MINUS</td><td>12</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">-</td></tr>
 		</table>
 	>]
 
@@ -115,7 +115,7 @@ digraph G{
 	n16 [shape=rectangle label=<
 		<table border="0">
 			<tr><td colspan="1" bgcolor="slategray2">NAME</td><td>16</td></tr>
-			<tr><td colspan="2" bgcolor="slategray1">primary_opr</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">primary_opr_rule</td></tr>
 		</table>
 	>]
 
@@ -127,19 +127,19 @@ digraph G{
 	>]
 
 	n0 -> n2
-	n0 -> n5
-	n0 -> n8
-	n0 -> n11
+	n0 -> n4
+	n0 -> n9
 	n0 -> n14
 	n2 -> n1
 	n2 -> n3
-	n5 -> n4
+	n4 -> n5
 	n5 -> n6
 	n5 -> n7
-	n8 -> n9
+	n5 -> n8
 	n9 -> n10
-	n11 -> n12
-	n12 -> n13
+	n10 -> n11
+	n10 -> n12
+	n10 -> n13
 	n14 -> n15
 	n15 -> n16
 	n15 -> n17

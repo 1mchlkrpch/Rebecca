@@ -1,0 +1,238 @@
+MSG 20:36:57| Output of tokenizer:
+MSG 20:36:57| t(0)|name -- NAME
+MSG 20:36:57| t(1)|= -- EQ
+MSG 20:36:57| t(2)|" -- DOUBLE QUOTE
+MSG 20:36:57| t(3)|TOKEN_NAME -- NAME
+MSG 20:36:57| t(4)|" -- DOUBLE QUOTE
+MSG 20:36:57| t(5)|; -- SEMICOLON
+MSG 20:36:57| t(6)|primary_opr_rule -- NAME
+MSG 20:36:57| t(7)|: -- COLON
+MSG 20:36:57| t(8)|' -- SINGLE QUOTE
+MSG 20:36:57| t(9)|* -- STAR
+MSG 20:36:57| t(10)|' -- SINGLE QUOTE
+MSG 20:36:57| t(11)|| -- PIPE
+MSG 20:36:57| t(12)|' -- SINGLE QUOTE
+MSG 20:36:57| t(13)|/ -- SLASH
+MSG 20:36:57| t(14)|' -- SINGLE QUOTE
+MSG 20:36:57| t(15)|| -- PIPE
+MSG 20:36:57| t(16)|secondary_opr -- NAME
+MSG 20:36:57| t(17)|; -- SEMICOLON
+MSG 20:36:57| t(18)|secondary_opr -- NAME
+MSG 20:36:57| t(19)|: -- COLON
+MSG 20:36:57| t(20)|' -- SINGLE QUOTE
+MSG 20:36:57| t(21)|+ -- PLUS
+MSG 20:36:57| t(22)|' -- SINGLE QUOTE
+MSG 20:36:57| t(23)|| -- PIPE
+MSG 20:36:57| t(24)|' -- SINGLE QUOTE
+MSG 20:36:57| t(25)|- -- MINUS
+MSG 20:36:57| t(26)|' -- SINGLE QUOTE
+MSG 20:36:57| t(27)|| -- PIPE
+MSG 20:36:57| t(28)|parentheses -- NAME
+MSG 20:36:57| t(29)|; -- SEMICOLON
+MSG 20:36:57| t(30)|parentheses -- NAME
+MSG 20:36:57| t(31)|: -- COLON
+MSG 20:36:57| t(32)|primary_opr_rule -- NAME
+MSG 20:36:57| t(33)|| -- PIPE
+MSG 20:36:57| t(34)|name -- NAME
+MSG 20:36:57| t(35)|; -- SEMICOLON
+MSG 20:36:57| t(36)|EOF -- EOF
+MSG 20:36:57| 
+MSG 20:36:57| 
+MSG 20:36:57| 
+MSG 20:36:57| 
+MSG 20:36:57| 
+MSG 20:36:57| Start of generating parser's AST
+MSG 20:36:57| Tree's root init
+MSG 20:36:57| Start parsing
+MSG 20:36:57|   Current token:"name"
+MSG 20:36:57|   . Current token is Name
+MSG 20:36:57|   . Token with data:"name" was added
+MSG 20:36:57|   . Last token is 'previous_token_is_name' = true(1)
+MSG 20:36:57|   Current token:"="
+MSG 20:36:57|   . Current token in line:"""
+MSG 20:36:57|   . Save the 't->current':"="
+MSG 20:36:57|   .   Wait until the quote appeared
+MSG 20:36:57|   .   Add quoted data
+MSG 20:36:57|   .   data:"TOKEN_NAME"
+MSG 20:36:57|   .   Now current token is:";"
+MSG 20:36:57|   .   Next token is 'PIPE' or 'SEMICOLON'
+MSG 20:36:57|   Current token:"primary_opr_rule"
+MSG 20:36:57|   . Current token is Name
+MSG 20:36:57|   . Token with data:"primary_opr_rule" was added
+MSG 20:36:57|   . Last token is 'previous_token_is_name' = true(1)
+MSG 20:36:57|   Current token:":"
+MSG 20:36:57|   . Previous name followed by rule
+MSG 20:36:57|   .   Read new node:":"
+MSG 20:36:57|   .   Continue to parse lines of grammar rule
+MSG 20:36:57|   .    .Current token in line:"'"
+MSG 20:36:57|   .    .Save the 't->current':":"
+MSG 20:36:57|   .    .  Wait until the quote appeared
+MSG 20:36:57|   .    .  Add quoted data
+MSG 20:36:57|   .    .  data:"*"
+MSG 20:36:57|   .    .  Now current token is:"|"
+MSG 20:36:57|   .    .  Next token is 'PIPE' or 'SEMICOLON'
+MSG 20:36:57|   .    .Current token in line:"|"
+MSG 20:36:57|   .    .Skip the token.
+MSG 20:36:57|   .    .Current token in line:"'"
+MSG 20:36:57|   .    .Save the 't->current':":"
+MSG 20:36:57|   .    .  Wait until the quote appeared
+MSG 20:36:57|   .    .  Add quoted data
+MSG 20:36:57|   .    .  data:"/"
+MSG 20:36:57|   .    .  Now current token is:"|"
+MSG 20:36:57|   .    .  Next token is 'PIPE' or 'SEMICOLON'
+MSG 20:36:57|   .    .Current token in line:"|"
+MSG 20:36:57|   .    .Skip the token.
+MSG 20:36:57|   .    .Current token in line:"secondary_opr"
+MSG 20:36:57|   .    .Save the 't->current':":"
+MSG 20:36:57|   .    .  Wait until the quote appeared
+MSG 20:36:57|   .    .  Next token is 'PIPE' or 'SEMICOLON'
+MSG 20:36:57|   .   Now current in tree is:"primary_opr_rule"
+MSG 20:36:57|   . Current parent after 'ReadGrammarRule' is:"EOF"
+MSG 20:36:57|   Current token:"secondary_opr"
+MSG 20:36:57|   . Current token is Name
+MSG 20:36:57|   . Token with data:"secondary_opr" was added
+MSG 20:36:57|   . Last token is 'previous_token_is_name' = true(1)
+MSG 20:36:57|   Current token:":"
+MSG 20:36:57|   . Previous name followed by rule
+MSG 20:36:57|   .   Read new node:":"
+MSG 20:36:57|   .   Continue to parse lines of grammar rule
+MSG 20:36:57|   .    .Current token in line:"'"
+MSG 20:36:57|   .    .Save the 't->current':":"
+MSG 20:36:57|   .    .  Wait until the quote appeared
+MSG 20:36:57|   .    .  Add quoted data
+MSG 20:36:57|   .    .  data:"+"
+MSG 20:36:57|   .    .  Now current token is:"|"
+MSG 20:36:57|   .    .  Next token is 'PIPE' or 'SEMICOLON'
+MSG 20:36:57|   .    .Current token in line:"|"
+MSG 20:36:57|   .    .Skip the token.
+MSG 20:36:57|   .    .Current token in line:"'"
+MSG 20:36:57|   .    .Save the 't->current':":"
+MSG 20:36:57|   .    .  Wait until the quote appeared
+MSG 20:36:57|   .    .  Add quoted data
+MSG 20:36:57|   .    .  data:"-"
+MSG 20:36:57|   .    .  Now current token is:"|"
+MSG 20:36:57|   .    .  Next token is 'PIPE' or 'SEMICOLON'
+MSG 20:36:57|   .    .Current token in line:"|"
+MSG 20:36:57|   .    .Skip the token.
+MSG 20:36:57|   .    .Current token in line:"parentheses"
+MSG 20:36:57|   .    .Save the 't->current':":"
+MSG 20:36:57|   .    .  Wait until the quote appeared
+MSG 20:36:57|   .    .  Next token is 'PIPE' or 'SEMICOLON'
+MSG 20:36:57|   .   Now current in tree is:"secondary_opr"
+MSG 20:36:57|   . Current parent after 'ReadGrammarRule' is:"EOF"
+MSG 20:36:57|   Current token:"parentheses"
+MSG 20:36:57|   . Current token is Name
+MSG 20:36:57|   . Token with data:"parentheses" was added
+MSG 20:36:57|   . Last token is 'previous_token_is_name' = true(1)
+MSG 20:36:57|   Current token:":"
+MSG 20:36:57|   . Previous name followed by rule
+MSG 20:36:57|   .   Read new node:":"
+MSG 20:36:57|   .   Continue to parse lines of grammar rule
+MSG 20:36:57|   .    .Current token in line:"primary_opr_rule"
+MSG 20:36:57|   .    .Save the 't->current':":"
+MSG 20:36:57|   .    .  Wait until the quote appeared
+MSG 20:36:57|   .    .  Next token is 'PIPE' or 'SEMICOLON'
+MSG 20:36:57|   .    .Current token in line:"|"
+MSG 20:36:57|   .    .Skip the token.
+MSG 20:36:57|   .    .Current token in line:"name"
+MSG 20:36:57|   .    .Save the 't->current':":"
+MSG 20:36:57|   .    .  Wait until the quote appeared
+MSG 20:36:57|   .    .  Next token is 'PIPE' or 'SEMICOLON'
+MSG 20:36:57|   .   Now current in tree is:"parentheses"
+MSG 20:36:57|   . Current parent after 'ReadGrammarRule' is:"EOF"
+MSG 20:36:57|   Current token:"EOF"
+MSG 20:36:57| Picture of tree was created!
+MSG 20:36:57| 
+MSG 20:36:57| 
+MSG 20:36:57| 
+MSG 20:36:57| 
+MSG 20:36:57| 
+MSG 20:36:57| Start of work of nametable
+MSG 20:36:57|   Check node(EOF)
+MSG 20:36:57|   Not name
+MSG 20:36:57|   . Check node(=)
+MSG 20:36:57|   . Not name
+MSG 20:36:57|   .   Check node(name)
+MSG 20:36:57|   .   It is name
+MSG 20:36:57|   .   Name was inserted
+MSG 20:36:57|   .   Current size:1
+MSG 20:36:57|   .   End(name)-node
+MSG 20:36:57|   . End this child
+MSG 20:36:57|   .   Check node(TOKEN_NAME)
+MSG 20:36:57|   .   Not name
+MSG 20:36:57|   .   End(TOKEN_NAME)-node
+MSG 20:36:57|   . End this child
+MSG 20:36:57|   . End(=)-node
+MSG 20:36:57|   End this child
+MSG 20:36:57|   . Check node(primary_opr_rule)
+MSG 20:36:57|   . It is name
+MSG 20:36:57|   . Name was inserted
+MSG 20:36:57|   . Current size:2
+MSG 20:36:57|   .   Check node(:)
+MSG 20:36:57|   .   Not name
+MSG 20:36:57|   .    .Check node(*)
+MSG 20:36:57|   .    .Not name
+MSG 20:36:57|   .    .End(*)-node
+MSG 20:36:57|   .   End this child
+MSG 20:36:57|   .    .Check node(/)
+MSG 20:36:57|   .    .Not name
+MSG 20:36:57|   .    .End(/)-node
+MSG 20:36:57|   .   End this child
+MSG 20:36:57|   .    .Check node(secondary_opr)
+MSG 20:36:57|   .    .It is name
+MSG 20:36:57|   .    .Name was inserted
+MSG 20:36:57|   .    .Current size:3
+MSG 20:36:57|   .    .End(secondary_opr)-node
+MSG 20:36:57|   .   End this child
+MSG 20:36:57|   .   End(:)-node
+MSG 20:36:57|   . End this child
+MSG 20:36:57|   . End(primary_opr_rule)-node
+MSG 20:36:57|   End this child
+MSG 20:36:57|   . Check node(secondary_opr)
+MSG 20:36:57|   . It is name
+MSG 20:36:57|   . Already exists
+MSG 20:36:57|   .   Check node(:)
+MSG 20:36:57|   .   Not name
+MSG 20:36:57|   .    .Check node(+)
+MSG 20:36:57|   .    .Not name
+MSG 20:36:57|   .    .End(+)-node
+MSG 20:36:57|   .   End this child
+MSG 20:36:57|   .    .Check node(-)
+MSG 20:36:57|   .    .Not name
+MSG 20:36:57|   .    .End(-)-node
+MSG 20:36:57|   .   End this child
+MSG 20:36:57|   .    .Check node(parentheses)
+MSG 20:36:57|   .    .It is name
+MSG 20:36:57|   .    .Name was inserted
+MSG 20:36:57|   .    .Current size:4
+MSG 20:36:57|   .    .End(parentheses)-node
+MSG 20:36:57|   .   End this child
+MSG 20:36:57|   .   End(:)-node
+MSG 20:36:57|   . End this child
+MSG 20:36:57|   . End(secondary_opr)-node
+MSG 20:36:57|   End this child
+MSG 20:36:57|   . Check node(parentheses)
+MSG 20:36:57|   . It is name
+MSG 20:36:57|   . Already exists
+MSG 20:36:57|   .   Check node(:)
+MSG 20:36:57|   .   Not name
+MSG 20:36:57|   .    .Check node(primary_opr_rule)
+MSG 20:36:57|   .    .It is name
+MSG 20:36:57|   .    .Already exists
+MSG 20:36:57|   .    .End(primary_opr_rule)-node
+MSG 20:36:57|   .   End this child
+MSG 20:36:57|   .    .Check node(name)
+MSG 20:36:57|   .    .It is name
+MSG 20:36:57|   .    .Already exists
+MSG 20:36:57|   .    .End(name)-node
+MSG 20:36:57|   .   End this child
+MSG 20:36:57|   .   End(:)-node
+MSG 20:36:57|   . End this child
+MSG 20:36:57|   . End(parentheses)-node
+MSG 20:36:57|   End this child
+MSG 20:36:57|   End(EOF)-node
+MSG 20:36:57| name[0]:name
+MSG 20:36:57| name[1]:primary_opr_rule
+MSG 20:36:57| name[2]:secondary_opr
+MSG 20:36:57| name[3]:parentheses
+MSG 20:36:57| End of generating parser's file

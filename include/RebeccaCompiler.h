@@ -20,7 +20,8 @@
 #include <string.h>
 #include <stdbool.h>
 
-#include <include/utilities.h>
+#include <include/Utilities.h>
+#include <include/Value.h>
 
 // Global constants --------------------------------------------------------------------------
 
@@ -196,26 +197,6 @@ static const char *kWhiteSpace   = " \n\t";
 static const char *kDigitSymbols = "01234567890";
 // Commentary symbols in source code.
 static const char *kCommentarySymbols = "/";
-
-/**
- * @addtogroup Variables
- * @{
- */
-typedef struct
-{
-  int val;
-} Value;
-
-typedef enum
-{
-  // Local scope.
-  SCOPE_LOCAL,
-  // Upper scope.
-  SCOPE_UPPER,
-  // Global scope.
-  SCOPE_GLOBAL
-} Scope;
-
 /**
  * @}
  */
@@ -228,7 +209,7 @@ typedef struct
   // Text representation of token.
   char *txt;
   // Static value (if exists).
-  Value value;
+  Value *value;
   // ---------------- This part fill the parser
   Scope scope;
 } Token;
@@ -262,7 +243,7 @@ struct Node
   // Children of particular node.
   Array *children;
   // Token of current cell in AST.
-  Token token;
+  Token *token;
   uint64_t id;
   struct Node *parent;
 };
@@ -285,10 +266,10 @@ typedef struct Node Node;
 typedef struct
 {
   // Root node of AST.
-  Node *root;
-  Node *current;
+  Node       *root;
+  Node       *current;
   // Number of nodes in AST.
-  size_t size;
+  size_t      size;
   const char *data;
 } Tree;
 
@@ -337,5 +318,13 @@ void PrintNode(FILE *f, Node *n);
 Node *CreateNode(Tree *t, Token *token);
 
 void PreParserAnalisys(Token *sequence, uint64_t n_tokens);
+
+static const size_t kInitSizeNamesArray = 512;
+
+typedef struct
+{
+  size_t size;
+  Token *names;
+} NameTable;
 
 #pragma GCC diagnostic pop

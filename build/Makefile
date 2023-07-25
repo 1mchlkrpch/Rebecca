@@ -249,29 +249,29 @@ home/mchlkrpch/Documents/c++/Rebecca/src/Tree.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tree.c.s
 .PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Tree.c.s
 
-home/mchlkrpch/Documents/c++/Rebecca/src/utilities.o: home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.o
-.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/utilities.o
+home/mchlkrpch/Documents/c++/Rebecca/src/Utilities.o: home/mchlkrpch/Documents/c++/Rebecca/src/Utilities.c.o
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Utilities.o
 
 # target to build an object file
-home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.o
-.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.o
+home/mchlkrpch/Documents/c++/Rebecca/src/Utilities.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Utilities.c.o
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Utilities.c.o
 
-home/mchlkrpch/Documents/c++/Rebecca/src/utilities.i: home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.i
-.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/utilities.i
+home/mchlkrpch/Documents/c++/Rebecca/src/Utilities.i: home/mchlkrpch/Documents/c++/Rebecca/src/Utilities.c.i
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Utilities.i
 
 # target to preprocess a source file
-home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.i
-.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.i
+home/mchlkrpch/Documents/c++/Rebecca/src/Utilities.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Utilities.c.i
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Utilities.c.i
 
-home/mchlkrpch/Documents/c++/Rebecca/src/utilities.s: home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.s
-.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/utilities.s
+home/mchlkrpch/Documents/c++/Rebecca/src/Utilities.s: home/mchlkrpch/Documents/c++/Rebecca/src/Utilities.c.s
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Utilities.s
 
 # target to generate assembly for a file
-home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.s
-.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/utilities.c.s
+home/mchlkrpch/Documents/c++/Rebecca/src/Utilities.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Utilities.c.s
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Utilities.c.s
 
 # Help Target
 help:
@@ -297,9 +297,9 @@ help:
 	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/Tree.o"
 	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/Tree.i"
 	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/Tree.s"
-	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/utilities.o"
-	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/utilities.i"
-	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/utilities.s"
+	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/Utilities.o"
+	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/Utilities.i"
+	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/Utilities.s"
 .PHONY : help
 
 

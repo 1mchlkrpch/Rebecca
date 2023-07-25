@@ -1,4 +1,5 @@
 #include <include/RebeccaCompiler.h>
+#include <MchlkrpchLogger/logger.h>
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-function"
@@ -10,7 +11,10 @@
 Node *NodeCtor()
 {
   Node *n = (Node *)calloc(1, sizeof(Node));
-  assert(n != NULL && "Null calloc allocation");
+  __asrt(n != NULL, "Null calloc allocation");
+
+  n->token = (Node *)calloc(1, sizeof(Token));
+  __asrt(n->token != NULL, "Null calloc allocation");
 
   return n;
 }
@@ -25,9 +29,9 @@ Node *NodeCtor()
  */
 Node *AddChild(Tree *t, Node *new_child)
 {
-	assert(t                    != NULL && "Null param");
-	assert(new_child            != NULL && "Null param");
-	assert(new_child->token.txt != NULL && "Null param");
+	__asrt(t                     != NULL, "Null param");
+	__asrt(new_child             != NULL, "Null param");
+	__asrt(new_child->token->txt != NULL, "Null param");
 
 	if (t->root == NULL) {
 		t->root    = new_child;
@@ -130,9 +134,9 @@ void PrintNode(FILE *f, Node *n)
 	// See NODE_FMT in RebeccaCompiler.h
 	fprintf(f, NODE_FMT,
 		n->id,
-		CellBordersFormat(n->token.type),
-		TranslateTokenType(n->token.type),
-		n->id, n->token.txt);
+		CellBordersFormat(n->token->type),
+		TranslateTokenType(n->token->type),
+		n->id, n->token->txt);
 
 	fprintf(f, "\n");
 
@@ -223,8 +227,8 @@ Node *CreateNode(Tree *t, Token *token)
 {
 	Node *new_node = NodeCtor();
 
-	FillEmptyStr(&new_node->token.txt, token->txt);
-	new_node->token.type = token->type;
+	FillEmptyStr(&new_node->token->txt, token->txt);
+	new_node->token->type = token->type;
 	new_node->id = t->size;
 
 	++t->size;

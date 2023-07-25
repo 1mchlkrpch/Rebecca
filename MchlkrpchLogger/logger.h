@@ -58,6 +58,9 @@ void DebugPrint(const char style, char *fmt, ...);
   DebugPrint(msg_style, ((msg_group_name & chosen_group) != 0x0 && msg_style != ' ') ? logger_ptr->indent : NULL, ##__VA_ARGS__);      \
   DebugPrint(' ',       ((msg_group_name & chosen_group) != 0x0) ? fmt                : NULL, ##__VA_ARGS__);
 
+// #define __if_msg(expr, msg_group_name, msg_style, fmt, ...) 
+//   ((expr) == true)? __msg(msg_group_name, msg_style, fmt, ##__VA_ARGS__) :; 
+
 
 #define __asrt(expr, fmt, ...)                                                                                     \
   ((expr) == true)?                                                                                                 \

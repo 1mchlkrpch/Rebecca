@@ -1,4 +1,4 @@
-#include <include/utilities.h>
+#include <include/Utilities.h>
 #include <include/RebeccaCompiler.h>
 
 #include <stdio.h>
