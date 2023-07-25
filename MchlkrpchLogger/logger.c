@@ -35,7 +35,7 @@ void __tab_incr()
 {
   for (uint64_t cur_sym = logger_ptr->tab_size * logger_ptr->n_tabs;
     cur_sym < logger_ptr->tab_size * (logger_ptr->n_tabs + 1); ++cur_sym) {
-    logger_ptr->indent[cur_sym] = (cur_sym % 2 == 1)? ' ' : '\'';
+    logger_ptr->indent[cur_sym] = (cur_sym % 2 == 1)? ' ' : ' ';
   }
 
   ++logger_ptr->n_tabs;

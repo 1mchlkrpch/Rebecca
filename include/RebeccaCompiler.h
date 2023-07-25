@@ -246,35 +246,6 @@ Token *Tokenizer(const char *name, uint64_t *n_tokens);
  */
 
 // AST part ----------------------------------------------------------------------------------
-void GenerateParserFile(Token *sequence, uint64_t n_tokens);
-
-// typedef enum GrammarEntity
-// {
-//   // Identifier in grammar.
-//   ENTITY_IDENTIFIER,
-//   // Expression in grammar.
-//   ENTITY_EXPRESSION,
-//   // Statement in grammar.
-//   ENTITY_STATEMENT,
-//   // Function in grammar.
-//   ENTITY_FUNCITON,
-//   // File in grammar.
-//   ENTITY_FILE,
-//   // Self entity for recursive definitions of grammar rules.
-//   ENTITY_SELF,
-// } GrammarEntity;
-
-// typedef union
-// {
-//   TokenType     token_type;
-//   GrammarEntity entity;
-// } GrammarUnit;
-
-// static const GrammarUnit Statement[] =
-// {
-//   {.entity = ENTITY_IDENTIFIER}
-// };
-
 /**
  * @brief Node of abstract syntax tree
  * structure for ast representation.
@@ -313,6 +284,11 @@ typedef struct
   size_t size;
   const char *data;
 } Tree;
+
+// YACC-simmilar tiny ast-builder.
+Tree *GenerateParserAst(Token *sequence, uint64_t n_tokens);
+// Translate YACC-similar file to parser file.
+void GenerateParserFile(Token *sequence, uint64_t n_tokens);
 
 Node *AddChild(Tree *t, Node *n);
 

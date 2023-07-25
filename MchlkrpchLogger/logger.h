@@ -43,8 +43,10 @@ void WriteStatusFile(const char style);
 
 void DebugPrint(const char style, char *fmt, ...);
 
-#define __spt(x)                                                                                                                \
-  DebugPrint(' ',   ((x & chosen_group) != 0x0) ? "--------------------------------------------\n" : NULL);
+#define __spt(x)                                                                                                 \
+  for (size_t i = 0; i < 5; ++i) {                                                                                \
+    DebugPrint(M,   ((x & chosen_group) != 0x0) ? "\n" : NULL);                                                    \
+  }
 
 #define __msg(x, msg_style, fmt, ...)                                                                \
   DebugPrint(msg_style, ((x & chosen_group) != 0x0 && msg_style != ' ') ? logger_ptr->indent : NULL, ##__VA_ARGS__);      \
