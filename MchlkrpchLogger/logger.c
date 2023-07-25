@@ -31,7 +31,7 @@ void SetLogfile(FILE *f)
 }
 
 /// @brief Increases 'logger_ptr->n_tabs'. 
-void __TabIncr()
+void __tab_incr()
 {
   for (uint64_t cur_sym = logger_ptr->tab_size * logger_ptr->n_tabs;
     cur_sym < logger_ptr->tab_size * (logger_ptr->n_tabs + 1); ++cur_sym) {
@@ -42,7 +42,7 @@ void __TabIncr()
 }
 
 /// @brief Decreases 'logger_ptr->n_tabs'. 
-void __TabDecr()
+void __tab_decr()
 {
   if (logger_ptr->n_tabs == 0) {
     return;
@@ -66,12 +66,50 @@ void WriteStatusFile(const char style)
 {
   // Prefix message contains: message status, time, split pipe-symbol.
   char msg_prefix[512] = "";
-  
+
+  char *cursor = msg_prefix;
+  uint64_t written = 0;
+
+  if (logger_ptr->f == NULL) {
+    switch (style) {
+      case W: { written = sprintf(msg_prefix, "%s", YELLOW_FMT); break; }
+      case E: { written = sprintf(msg_prefix, "%s",    RED_FMT); break; }
+      case M: { written = sprintf(msg_prefix, "%s",  WHITE_FMT); break; }
+      default:{}
+    }
+  }
+
   switch (style) {
-    case W: { sprintf(msg_prefix, "%s", "" YELLOW_FMT "WRN " WHITE_FMT __TIME__ "| "); break; }
-    case E: { sprintf(msg_prefix, "%s", "" RED_FMT    "ERR " WHITE_FMT __TIME__ "| "); break; }
-    case M: { sprintf(msg_prefix, "%s", "" WHITE_FMT  "MSG " WHITE_FMT __TIME__ "| "); break; }
+    case W: { written += sprintf(cursor + written, "%s", "WRN "); break; }
+    case E: { written += sprintf(cursor + written, "%s", "ERR "); break; }
+    case M: { written += sprintf(cursor + written, "%s", "MSG "); break; }
     default:{}
+  }
+
+  if (logger_ptr->f == NULL) {
+    switch (style) {
+      case W: { written += sprintf(cursor + written, "%s", BLUE_FMT); break; }
+      case E: { written += sprintf(cursor + written, "%s", BLUE_FMT); break; }
+      case M: { written += sprintf(cursor + written, "%s", BLUE_FMT); break; }
+      default:{}
+    }
+  }
+
+  switch (style) {
+    case W: { written +=sprintf(cursor + written, "%s", __TIME__ "| "); break; }
+    case E: { written +=sprintf(cursor + written, "%s", __TIME__ "| "); break; }
+    case M: { written +=sprintf(cursor + written, "%s", __TIME__ "| "); break; }
+    default:{}
+  }
+  
+
+  if (logger_ptr->f == NULL) {
+    switch (style) {
+      case W: { written += sprintf(cursor + written, "%s", WHITE_FMT); break; }
+      case E: { written += sprintf(cursor + written, "%s", WHITE_FMT); break; }
+      case M: { written += sprintf(cursor + written, "%s", WHITE_FMT); break; }
+      default:{}
+    }
   }
 
   if (logger_ptr->f != NULL) {
@@ -87,7 +125,7 @@ void WriteStatusFile(const char style)
  * 
  * @param msg   message to print.
  */
-void DebugPrint(const char style, const char *fmt, ...)
+void DebugPrint(const char style, char *fmt, ...)
 {
   if (fmt == NULL) {
     return;
@@ -99,16 +137,17 @@ void DebugPrint(const char style, const char *fmt, ...)
   va_list args;
   va_start(args, fmt);
 
-  char *msg = va_arg(args, char*);
+  // char *msg = va_arg(args, char*);
   // printf("buff:%s", msg);
 
-  char msg_prefix[512] = "";
-  sprintf(msg_prefix, fmt, msg);
+  // char msg_prefix[512] = "";
 
   if (logger_ptr->f == NULL) {
-    printf("%s", msg_prefix);
+    vprintf(fmt, args);
   } else {
-    fprintf(logger_ptr->f, "%s", msg_prefix);
+    vfprintf(logger_ptr->f, fmt, args);
   }
+
+  va_end(args);
 }
 

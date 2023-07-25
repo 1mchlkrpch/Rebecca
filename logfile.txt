@@ -1,3 +1,475 @@
-hello!
- YESS!
-NO!
+MSG 11:37:09| Start of tokenizer work
+MSG 11:37:09| Read text
+MSG 11:37:09| ' mush be allocated:160
+MSG 11:37:09| Source text successfully copied!
+MSG 11:37:09| sym:'/'
+MSG 11:37:09| ' Skip commentary
+MSG 11:37:09| ' Waiting for small commentary-end symbol
+MSG 11:37:09| ' Commentary ends
+MSG 11:37:09| sym:'N'
+MSG 11:37:09| sym:'A'
+MSG 11:37:09| sym:'M'
+MSG 11:37:09| sym:'E'
+MSG 11:37:09| sym:' '
+MSG 11:37:09| ' Whitespace symbol; try to push collected token
+MSG 11:37:09| ' Try push token"NAME"
+MSG 11:37:09| ' ' token filled
+MSG 11:37:09| ' ' now cur_word:""-empty
+MSG 11:37:09| ' Token:"NAME" - pushed
+MSG 11:37:09| sym:'='
+MSG 11:37:09| Split symbol; try to push collected token
+MSG 11:37:09| Push current token with data ""
+MSG 11:37:09| Try push token""
+MSG 11:37:09| Not pushed
+MSG 11:37:09| Try push token"="
+MSG 11:37:09| ' token filled
+MSG 11:37:09| ' now cur_word:""-empty
+MSG 11:37:09| Token:"=" - pushed
+MSG 11:37:09| sym:' '
+MSG 11:37:09| ' Whitespace symbol; try to push collected token
+MSG 11:37:09| ' Try push token""
+MSG 11:37:09| ' Not pushed
+MSG 11:37:09| sym:'"'
+MSG 11:37:09| Split symbol; try to push collected token
+MSG 11:37:09| Push current token with data ""
+MSG 11:37:09| Try push token""
+MSG 11:37:09| Not pushed
+MSG 11:37:09| Try push token"""
+MSG 11:37:09| ' token filled
+MSG 11:37:09| ' now cur_word:""-empty
+MSG 11:37:09| Token:""" - pushed
+MSG 11:37:09| sym:'A'
+MSG 11:37:09| sym:'-'
+MSG 11:37:09| Split symbol; try to push collected token
+MSG 11:37:09| Push current token with data "A"
+MSG 11:37:09| Try push token"A"
+MSG 11:37:09| ' token filled
+MSG 11:37:09| ' now cur_word:""-empty
+MSG 11:37:09| Token:"A" - pushed
+MSG 11:37:09| Try push token"-"
+MSG 11:37:09| ' token filled
+MSG 11:37:09| ' now cur_word:""-empty
+MSG 11:37:09| Token:"-" - pushed
+MSG 11:37:09| sym:'Z'
+MSG 11:37:09| sym:'1'
+MSG 11:37:09| sym:'-'
+MSG 11:37:09| Split symbol; try to push collected token
+MSG 11:37:09| Push current token with data "Z1"
+MSG 11:37:09| Try push token"Z1"
+MSG 11:37:09| ' token filled
+MSG 11:37:09| ' now cur_word:""-empty
+MSG 11:37:09| Token:"Z1" - pushed
+MSG 11:37:09| Try push token"-"
+MSG 11:37:09| ' token filled
+MSG 11:37:09| ' now cur_word:""-empty
+MSG 11:37:09| Token:"-" - pushed
+MSG 11:37:09| sym:'9'
+MSG 11:37:09| ' Current token is digit value
+MSG 11:37:09| ' ' Reading number:
+MSG 11:37:09| ' ' ' (9)
+MSG 11:37:09| ' ' number done
+MSG 11:37:09| ' Try push token"9"
+MSG 11:37:09| ' ' token filled
+MSG 11:37:09| ' ' now cur_word:""-empty
+MSG 11:37:09| ' Token:"9" - pushed
+MSG 11:37:09| sym:'"'
+MSG 11:37:09| Split symbol; try to push collected token
+MSG 11:37:09| Push current token with data ""
+MSG 11:37:09| Try push token""
+MSG 11:37:09| Not pushed
+MSG 11:37:09| Try push token"""
+MSG 11:37:09| ' token filled
+MSG 11:37:09| ' now cur_word:""-empty
+MSG 11:37:09| Token:""" - pushed
+MSG 11:37:09| sym:'\n'
+MSG 11:37:09| ' Whitespace symbol; try to push collected token
+MSG 11:37:09| ' Try push token""
+MSG 11:37:09| ' Not pushed
+MSG 11:37:09| sym:'n'
+MSG 11:37:09| sym:'u'
+MSG 11:37:09| sym:'m'
+MSG 11:37:09| sym:'b'
+MSG 11:37:09| sym:'e'
+MSG 11:37:09| sym:'r'
+MSG 11:37:09| sym:' '
+MSG 11:37:09| ' Whitespace symbol; try to push collected token
+MSG 11:37:09| ' Try push token"number"
+MSG 11:37:09| ' ' token filled
+MSG 11:37:09| ' ' now cur_word:""-empty
+MSG 11:37:09| ' Token:"number" - pushed
+MSG 11:37:09| sym:'='
+MSG 11:37:09| Split symbol; try to push collected token
+MSG 11:37:09| Push current token with data ""
+MSG 11:37:09| Try push token""
+MSG 11:37:09| Not pushed
+MSG 11:37:09| Try push token"="
+MSG 11:37:09| ' token filled
+MSG 11:37:09| ' now cur_word:""-empty
+MSG 11:37:09| Token:"=" - pushed
+MSG 11:37:09| sym:' '
+MSG 11:37:09| ' Whitespace symbol; try to push collected token
+MSG 11:37:09| ' Try push token""
+MSG 11:37:09| ' Not pushed
+MSG 11:37:09| sym:'''
+MSG 11:37:09| Split symbol; try to push collected token
+MSG 11:37:09| Push current token with data ""
+MSG 11:37:09| Try push token""
+MSG 11:37:09| Not pushed
+MSG 11:37:09| Try push token"'"
+MSG 11:37:09| ' token filled
+MSG 11:37:09| ' now cur_word:""-empty
+MSG 11:37:09| Token:"'" - pushed
+MSG 11:37:09| sym:'9'
+MSG 11:37:09| ' Current token is digit value
+MSG 11:37:09| ' ' Reading number:
+MSG 11:37:09| ' ' ' (985136)
+MSG 11:37:09| ' ' number done
+MSG 11:37:09| ' Try push token"985136"
+MSG 11:37:09| ' ' token filled
+MSG 11:37:09| ' ' now cur_word:""-empty
+MSG 11:37:09| ' Token:"985136" - pushed
+MSG 11:37:09| sym:'''
+MSG 11:37:09| Split symbol; try to push collected token
+MSG 11:37:09| Push current token with data ""
+MSG 11:37:09| Try push token""
+MSG 11:37:09| Not pushed
+MSG 11:37:09| Try push token"'"
+MSG 11:37:09| ' token filled
+MSG 11:37:09| ' now cur_word:""-empty
+MSG 11:37:09| Token:"'" - pushed
+MSG 11:37:09| sym:'\n'
+MSG 11:37:09| ' Whitespace symbol; try to push collected token
+MSG 11:37:09| ' Try push token""
+MSG 11:37:09| ' Not pushed
+MSG 11:37:09| sym:'N'
+MSG 11:37:09| sym:'U'
+MSG 11:37:09| sym:'M'
+MSG 11:37:09| sym:'B'
+MSG 11:37:09| sym:'E'
+MSG 11:37:09| sym:'R'
+MSG 11:37:09| sym:' '
+MSG 11:37:09| ' Whitespace symbol; try to push collected token
+MSG 11:37:09| ' Try push token"NUMBER"
+MSG 11:37:09| ' ' token filled
+MSG 11:37:09| ' ' now cur_word:""-empty
+MSG 11:37:09| ' Token:"NUMBER" - pushed
+MSG 11:37:09| sym:'='
+MSG 11:37:09| Split symbol; try to push collected token
+MSG 11:37:09| Push current token with data ""
+MSG 11:37:09| Try push token""
+MSG 11:37:09| Not pushed
+MSG 11:37:09| Try push token"="
+MSG 11:37:09| ' token filled
+MSG 11:37:09| ' now cur_word:""-empty
+MSG 11:37:09| Token:"=" - pushed
+MSG 11:37:09| sym:' '
+MSG 11:37:09| ' Whitespace symbol; try to push collected token
+MSG 11:37:09| ' Try push token""
+MSG 11:37:09| ' Not pushed
+MSG 11:37:09| sym:'''
+MSG 11:37:09| Split symbol; try to push collected token
+MSG 11:37:09| Push current token with data ""
+MSG 11:37:09| Try push token""
+MSG 11:37:09| Not pushed
+MSG 11:37:09| Try push token"'"
+MSG 11:37:09| ' token filled
+MSG 11:37:09| ' now cur_word:""-empty
+MSG 11:37:09| Token:"'" - pushed
+MSG 11:37:09| sym:'1'
+MSG 11:37:09| ' Current token is digit value
+MSG 11:37:09| ' ' Reading number:
+MSG 11:37:09| ' ' ' (1)
+MSG 11:37:09| ' ' number done
+MSG 11:37:09| ' Try push token"1"
+MSG 11:37:09| ' ' token filled
+MSG 11:37:09| ' ' now cur_word:""-empty
+MSG 11:37:09| ' Token:"1" - pushed
+MSG 11:37:09| sym:'-'
+MSG 11:37:09| Split symbol; try to push collected token
+MSG 11:37:09| Push current token with data ""
+MSG 11:37:09| Try push token""
+MSG 11:37:09| Not pushed
+MSG 11:37:09| Try push token"-"
+MSG 11:37:09| ' token filled
+MSG 11:37:09| ' now cur_word:""-empty
+MSG 11:37:09| Token:"-" - pushed
+MSG 11:37:09| sym:'9'
+MSG 11:37:09| ' Current token is digit value
+MSG 11:37:09| ' ' Reading number:
+MSG 11:37:09| ' ' ' (9)
+MSG 11:37:09| ' ' number done
+MSG 11:37:09| ' Try push token"9"
+MSG 11:37:09| ' ' token filled
+MSG 11:37:09| ' ' now cur_word:""-empty
+MSG 11:37:09| ' Token:"9" - pushed
+MSG 11:37:09| sym:'''
+MSG 11:37:09| Split symbol; try to push collected token
+MSG 11:37:09| Push current token with data ""
+MSG 11:37:09| Try push token""
+MSG 11:37:09| Not pushed
+MSG 11:37:09| Try push token"'"
+MSG 11:37:09| ' token filled
+MSG 11:37:09| ' now cur_word:""-empty
+MSG 11:37:09| Token:"'" - pushed
+MSG 11:37:09| sym:'\n'
+MSG 11:37:09| ' Whitespace symbol; try to push collected token
+MSG 11:37:09| ' Try push token""
+MSG 11:37:09| ' Not pushed
+MSG 11:37:09| sym:'F'
+MSG 11:37:09| sym:'I'
+MSG 11:37:09| sym:'L'
+MSG 11:37:09| sym:'E'
+MSG 11:37:09| sym:'\n'
+MSG 11:37:09| ' Whitespace symbol; try to push collected token
+MSG 11:37:09| ' Try push token"FILE"
+MSG 11:37:09| ' ' token filled
+MSG 11:37:09| ' ' now cur_word:""-empty
+MSG 11:37:09| ' Token:"FILE" - pushed
+MSG 11:37:09| sym:':'
+MSG 11:37:09| Split symbol; try to push collected token
+MSG 11:37:09| Push current token with data ""
+MSG 11:37:09| Try push token""
+MSG 11:37:09| Not pushed
+MSG 11:37:09| Try push token":"
+MSG 11:37:09| ' token filled
+MSG 11:37:09| ' now cur_word:""-empty
+MSG 11:37:09| Token:":" - pushed
+MSG 11:37:09| sym:' '
+MSG 11:37:09| ' Whitespace symbol; try to push collected token
+MSG 11:37:09| ' Try push token""
+MSG 11:37:09| ' Not pushed
+MSG 11:37:09| sym:'f'
+MSG 11:37:09| sym:'u'
+MSG 11:37:09| sym:'n'
+MSG 11:37:09| sym:'c'
+MSG 11:37:09| sym:'t'
+MSG 11:37:09| sym:'i'
+MSG 11:37:09| sym:'o'
+MSG 11:37:09| sym:'n'
+MSG 11:37:09| sym:'\n'
+MSG 11:37:09| ' Whitespace symbol; try to push collected token
+MSG 11:37:09| ' Try push token"function"
+MSG 11:37:09| ' ' token filled
+MSG 11:37:09| ' ' now cur_word:""-empty
+MSG 11:37:09| ' Token:"function" - pushed
+MSG 11:37:09| sym:'|'
+MSG 11:37:09| Split symbol; try to push collected token
+MSG 11:37:09| Push current token with data ""
+MSG 11:37:09| Try push token""
+MSG 11:37:09| Not pushed
+MSG 11:37:09| Try push token"|"
+MSG 11:37:09| ' token filled
+MSG 11:37:09| ' now cur_word:""-empty
+MSG 11:37:09| Token:"|" - pushed
+MSG 11:37:09| sym:' '
+MSG 11:37:09| ' Whitespace symbol; try to push collected token
+MSG 11:37:09| ' Try push token""
+MSG 11:37:09| ' Not pushed
+MSG 11:37:09| sym:'c'
+MSG 11:37:09| sym:'l'
+MSG 11:37:09| sym:'a'
+MSG 11:37:09| sym:'s'
+MSG 11:37:09| sym:'s'
+MSG 11:37:09| sym:'\n'
+MSG 11:37:09| ' Whitespace symbol; try to push collected token
+MSG 11:37:09| ' Try push token"class"
+MSG 11:37:09| ' ' token filled
+MSG 11:37:09| ' ' now cur_word:""-empty
+MSG 11:37:09| ' Token:"class" - pushed
+MSG 11:37:09| sym:';'
+MSG 11:37:09| Split symbol; try to push collected token
+MSG 11:37:09| Push current token with data ""
+MSG 11:37:09| Try push token""
+MSG 11:37:09| Not pushed
+MSG 11:37:09| Try push token";"
+MSG 11:37:09| ' token filled
+MSG 11:37:09| ' now cur_word:""-empty
+MSG 11:37:09| Token:";" - pushed
+MSG 11:37:09| sym:'\n'
+MSG 11:37:09| ' Whitespace symbol; try to push collected token
+MSG 11:37:09| ' Try push token""
+MSG 11:37:09| ' Not pushed
+MSG 11:37:09| sym:'f'
+MSG 11:37:09| sym:'u'
+MSG 11:37:09| sym:'n'
+MSG 11:37:09| sym:'c'
+MSG 11:37:09| sym:'t'
+MSG 11:37:09| sym:'i'
+MSG 11:37:09| sym:'o'
+MSG 11:37:09| sym:'n'
+MSG 11:37:09| sym:'\n'
+MSG 11:37:09| ' Whitespace symbol; try to push collected token
+MSG 11:37:09| ' Try push token"function"
+MSG 11:37:09| ' ' token filled
+MSG 11:37:09| ' ' now cur_word:""-empty
+MSG 11:37:09| ' Token:"function" - pushed
+MSG 11:37:09| sym:':'
+MSG 11:37:09| Split symbol; try to push collected token
+MSG 11:37:09| Push current token with data ""
+MSG 11:37:09| Try push token""
+MSG 11:37:09| Not pushed
+MSG 11:37:09| Try push token":"
+MSG 11:37:09| ' token filled
+MSG 11:37:09| ' now cur_word:""-empty
+MSG 11:37:09| Token:":" - pushed
+MSG 11:37:09| sym:' '
+MSG 11:37:09| ' Whitespace symbol; try to push collected token
+MSG 11:37:09| ' Try push token""
+MSG 11:37:09| ' Not pushed
+MSG 11:37:09| sym:'s'
+MSG 11:37:09| sym:'t'
+MSG 11:37:09| sym:'a'
+MSG 11:37:09| sym:'t'
+MSG 11:37:09| sym:'e'
+MSG 11:37:09| sym:'m'
+MSG 11:37:09| sym:'e'
+MSG 11:37:09| sym:'n'
+MSG 11:37:09| sym:'t'
+MSG 11:37:09| sym:'\n'
+MSG 11:37:09| ' Whitespace symbol; try to push collected token
+MSG 11:37:09| ' Try push token"statement"
+MSG 11:37:09| ' ' token filled
+MSG 11:37:09| ' ' now cur_word:""-empty
+MSG 11:37:09| ' Token:"statement" - pushed
+MSG 11:37:09| sym:'|'
+MSG 11:37:09| Split symbol; try to push collected token
+MSG 11:37:09| Push current token with data ""
+MSG 11:37:09| Try push token""
+MSG 11:37:09| Not pushed
+MSG 11:37:09| Try push token"|"
+MSG 11:37:09| ' token filled
+MSG 11:37:09| ' now cur_word:""-empty
+MSG 11:37:09| Token:"|" - pushed
+MSG 11:37:09| sym:' '
+MSG 11:37:09| ' Whitespace symbol; try to push collected token
+MSG 11:37:09| ' Try push token""
+MSG 11:37:09| ' Not pushed
+MSG 11:37:09| sym:'e'
+MSG 11:37:09| sym:'x'
+MSG 11:37:09| sym:'p'
+MSG 11:37:09| sym:'r'
+MSG 11:37:09| sym:'e'
+MSG 11:37:09| sym:'s'
+MSG 11:37:09| sym:'s'
+MSG 11:37:09| sym:'i'
+MSG 11:37:09| sym:'o'
+MSG 11:37:09| sym:'n'
+MSG 11:37:09| sym:'\n'
+MSG 11:37:09| ' Whitespace symbol; try to push collected token
+MSG 11:37:09| ' Try push token"expression"
+MSG 11:37:09| ' ' token filled
+MSG 11:37:09| ' ' now cur_word:""-empty
+MSG 11:37:09| ' Token:"expression" - pushed
+MSG 11:37:09| sym:'|'
+MSG 11:37:09| Split symbol; try to push collected token
+MSG 11:37:09| Push current token with data ""
+MSG 11:37:09| Try push token""
+MSG 11:37:09| Not pushed
+MSG 11:37:09| Try push token"|"
+MSG 11:37:09| ' token filled
+MSG 11:37:09| ' now cur_word:""-empty
+MSG 11:37:09| Token:"|" - pushed
+MSG 11:37:09| sym:' '
+MSG 11:37:09| ' Whitespace symbol; try to push collected token
+MSG 11:37:09| ' Try push token""
+MSG 11:37:09| ' Not pushed
+MSG 11:37:09| sym:'i'
+MSG 11:37:09| sym:'d'
+MSG 11:37:09| sym:'e'
+MSG 11:37:09| sym:'n'
+MSG 11:37:09| sym:'t'
+MSG 11:37:09| sym:'i'
+MSG 11:37:09| sym:'f'
+MSG 11:37:09| sym:'i'
+MSG 11:37:09| sym:'e'
+MSG 11:37:09| sym:'r'
+MSG 11:37:09| sym:'\n'
+MSG 11:37:09| ' Whitespace symbol; try to push collected token
+MSG 11:37:09| ' Try push token"identifier"
+MSG 11:37:09| ' ' token filled
+MSG 11:37:09| ' ' now cur_word:""-empty
+MSG 11:37:09| ' Token:"identifier" - pushed
+MSG 11:37:09| sym:'|'
+MSG 11:37:09| Split symbol; try to push collected token
+MSG 11:37:09| Push current token with data ""
+MSG 11:37:09| Try push token""
+MSG 11:37:09| Not pushed
+MSG 11:37:09| Try push token"|"
+MSG 11:37:09| ' token filled
+MSG 11:37:09| ' now cur_word:""-empty
+MSG 11:37:09| Token:"|" - pushed
+MSG 11:37:09| sym:' '
+MSG 11:37:09| ' Whitespace symbol; try to push collected token
+MSG 11:37:09| ' Try push token""
+MSG 11:37:09| ' Not pushed
+MSG 11:37:09| sym:'s'
+MSG 11:37:09| sym:'t'
+MSG 11:37:09| sym:'r'
+MSG 11:37:09| sym:'u'
+MSG 11:37:09| sym:'c'
+MSG 11:37:09| sym:'t'
+MSG 11:37:09| sym:'\n'
+MSG 11:37:09| ' Whitespace symbol; try to push collected token
+MSG 11:37:09| ' Try push token"struct"
+MSG 11:37:09| ' ' token filled
+MSG 11:37:09| ' ' now cur_word:""-empty
+MSG 11:37:09| ' Token:"struct" - pushed
+MSG 11:37:09| sym:';'
+MSG 11:37:09| Split symbol; try to push collected token
+MSG 11:37:09| Push current token with data ""
+MSG 11:37:09| Try push token""
+MSG 11:37:09| Not pushed
+MSG 11:37:09| Try push token";"
+MSG 11:37:09| ' token filled
+MSG 11:37:09| ' now cur_word:""-empty
+MSG 11:37:09| Token:";" - pushed
+MSG 11:37:09| sym:'\n'
+MSG 11:37:09| ' Whitespace symbol; try to push collected token
+MSG 11:37:09| ' Try push token""
+MSG 11:37:09| ' Not pushed
+MSG 11:37:09| Try push token""
+MSG 11:37:09| Not pushed
+MSG 11:37:09| Try push token"EOF"
+MSG 11:37:09| ' token filled
+MSG 11:37:09| ' now cur_word:""-empty
+MSG 11:37:09| Token:"EOF" - pushed
+--------------------------------------------
+MSG 11:37:09| Output of tokenizer:
+MSG 11:37:09| t(0)|NAME -- NAME
+MSG 11:37:09| t(1)|= -- EQ
+MSG 11:37:09| t(2)|" -- DOUBLE QUOTE
+MSG 11:37:09| t(3)|A -- NAME
+MSG 11:37:09| t(4)|- -- MINUS
+MSG 11:37:09| t(5)|Z1 -- NAME
+MSG 11:37:09| t(6)|- -- MINUS
+MSG 11:37:09| t(7)|9 -- NUMBER
+MSG 11:37:09| t(8)|" -- DOUBLE QUOTE
+MSG 11:37:09| t(9)|number -- NAME
+MSG 11:37:09| t(10)|= -- EQ
+MSG 11:37:09| t(11)|' -- SINGLE QUOTE
+MSG 11:37:09| t(12)|985136 -- NUMBER
+MSG 11:37:09| t(13)|' -- SINGLE QUOTE
+MSG 11:37:09| t(14)|NUMBER -- NAME
+MSG 11:37:09| t(15)|= -- EQ
+MSG 11:37:09| t(16)|' -- SINGLE QUOTE
+MSG 11:37:09| t(17)|1 -- NUMBER
+MSG 11:37:09| t(18)|- -- MINUS
+MSG 11:37:09| t(19)|9 -- NUMBER
+MSG 11:37:09| t(20)|' -- SINGLE QUOTE
+MSG 11:37:09| t(21)|FILE -- NAME
+MSG 11:37:09| t(22)|: -- COLON
+MSG 11:37:09| t(23)|function -- NAME
+MSG 11:37:09| t(24)|| -- PIPE
+MSG 11:37:09| t(25)|class -- CLASS
+MSG 11:37:09| t(26)|; -- SEMICOLON
+MSG 11:37:09| t(27)|function -- NAME
+MSG 11:37:09| t(28)|: -- COLON
+MSG 11:37:09| t(29)|statement -- NAME
+MSG 11:37:09| t(30)|| -- PIPE
+MSG 11:37:09| t(31)|expression -- NAME
+MSG 11:37:09| t(32)|| -- PIPE
+MSG 11:37:09| t(33)|identifier -- NAME
+MSG 11:37:09| t(34)|| -- PIPE
+MSG 11:37:09| t(35)|struct -- NAME
+MSG 11:37:09| t(36)|; -- SEMICOLON
+MSG 11:37:09| t(37)|EOF -- EOF

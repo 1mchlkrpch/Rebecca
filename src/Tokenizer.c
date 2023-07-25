@@ -19,7 +19,7 @@ char *GetSourceText(const char *name)
 {
   assert(name != NULL && "nullptr param");
   
-  __TabIncr();
+  __tab_incr();
 
   FILE *f = fopen(name, "r");
   assert(f != NULL && "Open file error");
@@ -40,7 +40,7 @@ char *GetSourceText(const char *name)
   
   fclose(f);
 
-  __TabDecr();
+  __tab_decr();
 
   return source_text;
 }
@@ -256,7 +256,7 @@ void TryPushToken(
   assert(sequence_size != NULL && "nullptr param");
 
   __msg(D_TOKENIZER, M, "Try push token\"%s\"\n", cur_word);
-  __TabIncr();
+  __tab_incr();
   if (*cur_token_len > 0) {
     uint64_t idx = IdentifyToken(cur_word);
 
@@ -274,10 +274,10 @@ void TryPushToken(
     memset(cur_word, '\0', kTokenMaxLen);
     __msg(D_TOKENIZER, M, "now cur_word:\"%s\"-empty\n", cur_word);
     
-    __TabDecr();
+    __tab_decr();
     __msg(D_TOKENIZER, M, "Token:\"%s\" - pushed\n", token.txt);
   } else {
-    __TabDecr();
+    __tab_decr();
     __msg(D_TOKENIZER, M, "Not pushed\n", cur_word);
   }
 }
@@ -326,22 +326,23 @@ uint64_t ReadNumber(char **cursor, char *cur_word, uint64_t *cur_token_len)
   assert(cur_word      != NULL && "nullptr param");
   assert(cur_token_len != NULL && "nullptr param");
 
-  __TabIncr();
+  __tab_incr();
   __msg(D_TOKENIZER, M, "Reading number:\n");
-  __TabIncr();
+  __tab_incr();
 
+  __msg(D_TOKENIZER, M, "(");
   while (IsDigit(**cursor) && **cursor != EOF) {
-    __msg(D_TOKENIZER, M, "%c", **cursor);
-
+    __msg(D_TOKENIZER, ' ', "%c", **cursor);
     cur_word[*cur_token_len] = **cursor;
     ++(*cur_token_len);
     ++(*cursor);
   }
 
-  DebugPrint(D_TOKENIZER, "\n");
-  __TabDecr();
+  __msg(D_TOKENIZER, ' ', ")\n");
+
+  __tab_decr();
   __msg(D_TOKENIZER, M, "number done\n");
-  __TabDecr();
+  __tab_decr();
 
   return atoi(cur_word);
 }
@@ -435,15 +436,15 @@ Token *Tokenizer(const char *name, uint64_t *n_tokens)
       several-strings commentary: /'star'...'star'/
     And then skip commentary in 'SkipCommentary function'.*/
     if (CheckIfItsCommentary(cursor) && cur_token_len == 0) {
-      __TabIncr();
+      __tab_incr();
       __msg(D_TOKENIZER, M, "Skip commentary\n");
       SkipCommentary(&cursor);
-      __TabDecr();
+      __tab_decr();
       continue;
     }
 
     if (IsDigit(*cursor) && cur_token_len == 0) {
-      __TabIncr();
+      __tab_incr();
       __msg(D_TOKENIZER, M, "Current token is digit value\n");
 
       int num = ReadNumber(&cursor, cur_word, &cur_token_len);
@@ -452,7 +453,7 @@ Token *Tokenizer(const char *name, uint64_t *n_tokens)
       sequence[sequence_size - 1].type = TOKEN_NUMBER;
       sequence[sequence_size - 1].value.val = num;
 
-      __TabDecr();
+      __tab_decr();
       continue;
     }
 
@@ -460,17 +461,17 @@ Token *Tokenizer(const char *name, uint64_t *n_tokens)
     -skip all white symbols
     -push current collected token if it has non-zero size.*/
     if (IsWhiteSpace(*cursor)) {
-      __TabIncr();
+      __tab_incr();
       __msg(D_TOKENIZER, M, "Whitespace symbol; try to push collected token\n");
       while (IsWhiteSpace(*cursor) && *cursor != EOF) {
         ++cursor;
       }
 
       TryPushToken(&cur_token_len, cur_word, sequence, &sequence_size);
-      __TabDecr();
+      __tab_decr();
       continue;
     }
-    
+
     /* If we have common splitter:
     -push current collected token (if it has non-zero size)
     -collect next token (it will be splitter with size 1 or 2)
@@ -508,7 +509,6 @@ Token *Tokenizer(const char *name, uint64_t *n_tokens)
     ++cur_token_len;
     ++cursor;
   }
-
   /* Push the last token in sequence if
   the file doesn't end with whitespace symbol.*/
   TryPushToken(&cur_token_len, cur_word, sequence, &sequence_size);
@@ -536,7 +536,6 @@ void PreParserAnalisys(Token *sequence, uint64_t n_tokens)
   assert(sequence != NULL && "Null param");
 
   if (n_tokens == 0) {
-    printf("Empty file!\n");
     return;
   }
 

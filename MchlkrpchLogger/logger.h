@@ -7,6 +7,7 @@
 #define YELLOW_FMT "\033[0;33m"
 #define    RED_FMT "\033[0;31m"
 #define  WHITE_FMT "\033[0;37m"
+#define   BLUE_FMT "\033[0;34m"
 
 #define W 'W'
 #define E 'E'
@@ -32,16 +33,19 @@ void SetTabSize(uint64_t n_spaces);
 
 void SetLogfile(FILE *f);
 
-void __TabIncr();
+void __tab_incr();
 
-void __TabDecr();
+void __tab_decr();
 
 void WriteStatusConsole(const char style);
 
 void WriteStatusFile(const char style);
 
-void DebugPrint(const char style, const char *fmt, ...);
+void DebugPrint(const char style, char *fmt, ...);
+
+#define __spt(x)                                                                                                                \
+  DebugPrint(' ',   ((x & chosen_group) != 0x0) ? "--------------------------------------------\n" : NULL);
 
 #define __msg(x, msg_style, fmt, ...)                                                                \
-  DebugPrint(msg_style, ((x & chosen_group) != 0x0) ? logger_ptr->indent : NULL, ##__VA_ARGS__);      \
+  DebugPrint(msg_style, ((x & chosen_group) != 0x0 && msg_style != ' ') ? logger_ptr->indent : NULL, ##__VA_ARGS__);      \
   DebugPrint(' ',       ((x & chosen_group) != 0x0) ? fmt                : NULL, ##__VA_ARGS__);
