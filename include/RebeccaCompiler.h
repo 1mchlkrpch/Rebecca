@@ -217,6 +217,7 @@ typedef struct
 typedef struct
 {
   uint64_t n_parsed;
+  uint64_t cur_token_idx;
 } Context;
 
 // Check src/Tokenizer.c
@@ -228,7 +229,7 @@ Token *Tokenizer(const char *name, uint64_t *n_tokens);
 
 // AST part ----------------------------------------------------------------------------------
 #define NODE_FMT                                                                            \
-  "\tn%lu [shape=%s label=<\n"                                                               \
+  "\tn%lu [shape=%s color=%s label=<\n"                                                               \
     "\t\t<table border=\"0\">\n"                                                              \
       "\t\t\t<tr><td colspan=\"1\" bgcolor=\"slategray2\">%s</td><td>%lu</td></tr>\n"          \
       "\t\t\t<tr><td colspan=\"2\" bgcolor=\"slategray1\">%s</td></tr>\n"                       \
@@ -246,6 +247,7 @@ struct Node
   Token *token;
   uint64_t id;
   struct Node *parent;
+  bool rule_name;
 };
 
 typedef struct Node Node;
@@ -328,3 +330,4 @@ typedef struct
 } NameTable;
 
 #pragma GCC diagnostic pop
+

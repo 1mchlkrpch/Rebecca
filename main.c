@@ -4,14 +4,14 @@
 #include <MchlkrpchLogger/logger.h>
 
 int main() {
-  SetLogfile(fopen("../logfile.txt", "w"));
+  // SetLogfile(fopen("../logfile.txt", "w"));
   SetTabSize(2);
 
   __msg(D_TOKENIZER, M, "Start of tokenizer work\n");
   uint64_t n_tokens = 0;
 
   // TODO: Add analysis of tokens.
-  Token *sequence = Tokenizer("../include/SimpleRules.rbc", &n_tokens);
+  Token *sequence = Tokenizer("../include/AdditiveExps.rbc", &n_tokens);
   
   __spt(D_TOKENIZER);
   __msg(D_TOKENIZER_OUTPUT, M, "Output of tokenizer:\n");

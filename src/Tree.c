@@ -13,7 +13,7 @@ Node *NodeCtor()
   Node *n = (Node *)calloc(1, sizeof(Node));
   __asrt(n != NULL, "Null calloc allocation");
 
-  n->token = (Node *)calloc(1, sizeof(Token));
+  n->token = (Token *)calloc(1, sizeof(Token));
   __asrt(n->token != NULL, "Null calloc allocation");
 
   return n;
@@ -119,6 +119,9 @@ const char *CellBordersFormat(TokenType t)
 	}
 }
 
+const char *CheckIfRuleName(bool is_rule_name)
+{ return (is_rule_name == false)? "black" : "red"; }
+
 /**
  * @brief Fills .dot file 'f' with data of particular node.
  * Works recursively.
@@ -135,6 +138,7 @@ void PrintNode(FILE *f, Node *n)
 	fprintf(f, NODE_FMT,
 		n->id,
 		CellBordersFormat(n->token->type),
+		CheckIfRuleName(n->rule_name),
 		TranslateTokenType(n->token->type),
 		n->id, n->token->txt);
 
@@ -235,5 +239,10 @@ Node *CreateNode(Tree *t, Token *token)
 
 	return new_node;
 }
+
+// Node *FindNode(Tree *t, )
+// {
+
+// }
 
 #pragma GCC diagnostic pop
