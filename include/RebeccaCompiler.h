@@ -201,6 +201,16 @@ static const char *kCommentarySymbols = "/";
  * @}
  */
 
+// Types of node for parser.
+typedef enum
+{
+  NOT_SPECIAL,
+   VAR_NAME,
+  RULE_NAME,
+  RULE_NAME_REFERENCE,
+   VAR_NAME_REFERENCE,
+} PrsrNdType;
+
 typedef struct
 {
   // ---------------- This part fill the tokenizer
@@ -210,8 +220,7 @@ typedef struct
   char *txt;
   // Static value (if exists).
   Value *value;
-  // ---------------- This part fill the parser
-  Scope scope;
+  PrsrNdType parser_type;
 } Token;
 
 typedef struct
@@ -228,29 +237,34 @@ Token *Tokenizer(const char *name, uint64_t *n_tokens);
  */
 
 // AST part ----------------------------------------------------------------------------------
+// Format of node to print it in graphviz.
 #define NODE_FMT                                                                            \
-  "\tn%lu [shape=%s color=%s label=<\n"                                                               \
+  "\tn%lu [shape=%s color=%s label=<\n"                                                      \
     "\t\t<table border=\"0\">\n"                                                              \
-      "\t\t\t<tr><td colspan=\"1\" bgcolor=\"slategray2\">%s</td><td>%lu</td></tr>\n"          \
+      "\t\t\t<tr><td colspan=\"1\" bgcolor=\"slategray2\">%s</td><td>%lu|%u</td></tr>\n"      \
       "\t\t\t<tr><td colspan=\"2\" bgcolor=\"slategray1\">%s</td></tr>\n"                       \
     "\t\t</table>\n"                                                                             \
   "\t>]\n"
+
 /**
  * @brief Node of abstract syntax tree
  * structure for ast representation.
  */
-struct Node
+typedef struct Node
 {
   // Children of particular node.
-  Array *children;
+  Array       *children;
   // Token of current cell in AST.
-  Token *token;
-  uint64_t id;
+  Token       *token;
+  // Numbered-id for each node.
+  uint64_t     id;
+  // Parent node for current one.
   struct Node *parent;
-  bool rule_name;
-};
+  bool         rule_name;
+  // Type of node in parser generating.
+} Node;
 
-typedef struct Node Node;
+// typedef struct Node Node;
 
 /**
  * @brief abstract syntax tree

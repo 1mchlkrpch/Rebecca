@@ -119,8 +119,17 @@ const char *CellBordersFormat(TokenType t)
 	}
 }
 
-const char *CheckIfRuleName(bool is_rule_name)
-{ return (is_rule_name == false)? "black" : "red"; }
+const char *CheckIfRuleName(PrsrNdType type)
+{
+	// return (is_rule_name == false)? "black" : "red";
+	switch (type) {
+		case            VAR_NAME: { return "yellow"; }
+		case           RULE_NAME: { return "cyan"; }
+		case RULE_NAME_REFERENCE: { return "red"; }
+		case  VAR_NAME_REFERENCE: { return "green"; }
+		default: {return "black"; }
+	}
+}
 
 /**
  * @brief Fills .dot file 'f' with data of particular node.
@@ -138,9 +147,9 @@ void PrintNode(FILE *f, Node *n)
 	fprintf(f, NODE_FMT,
 		n->id,
 		CellBordersFormat(n->token->type),
-		CheckIfRuleName(n->rule_name),
+		CheckIfRuleName(n->token->parser_type),
 		TranslateTokenType(n->token->type),
-		n->id, n->token->txt);
+		n->id, n->token->parser_type, n->token->txt);
 
 	fprintf(f, "\n");
 

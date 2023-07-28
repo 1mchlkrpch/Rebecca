@@ -4,7 +4,9 @@
 #include <include/RebeccaCompiler.h>
 #include <MchlkrpchLogger/logger.h>
 
-void ReadTheRest(Tree *t, Token *sequence, uint64_t *cur_token_idx)
+// Reading part ----------------------------------------------------------------------------
+
+void ReadTheRestTokensInLine(Tree *t, Token *sequence, uint64_t *cur_token_idx)
 {
 	__asrt(t             != NULL, "Null param");
 	__asrt(sequence      != NULL, "Null param");
@@ -141,7 +143,7 @@ void ReadGrammarRule(Tree *t, Token *sequence, uint64_t *cur_token_idx)
 		"Continue to parse lines of grammar rule\n");
 	__tab_incr();
 	// Start to parse the rest of ther rule.
-	ReadTheRest(t,sequence, cur_token_idx);
+	ReadTheRestTokensInLine(t,sequence, cur_token_idx);
 	// Stop parse lines.
 	__tab_decr();
 
@@ -173,7 +175,7 @@ void ReadDefinition(Tree *t, Token *sequence, uint64_t *cur_token_idx)
 	InsertParent(t, equal_node);
 	++(*cur_token_idx);
 
-	ReadTheRest(t, sequence, cur_token_idx);
+	ReadTheRestTokensInLine(t, sequence, cur_token_idx);
 }
 
 /**
@@ -248,6 +250,7 @@ Tree *GenerateParserAst(Token *sequence, uint64_t n_tokens)
 					// Grammar rule.
 				case TOKEN_COLON: {
 					t->current->rule_name = true;
+					t->current->token->parser_type = RULE_NAME;
 					__msg(D_PARSER_GENERATING, C,
 						"Current:\"%s\" is rule_name\n",
 						t->current->token->txt);
@@ -266,6 +269,7 @@ Tree *GenerateParserAst(Token *sequence, uint64_t n_tokens)
 				}
 					// Text definition.
 				case TOKEN_EQ: {
+					t->current->token->parser_type = VAR_NAME;
 					ReadDefinition(t, sequence, &cur_token_idx);
 					Parent(t);
 					break;
@@ -283,6 +287,19 @@ Tree *GenerateParserAst(Token *sequence, uint64_t n_tokens)
 		// Stop parse grammar rules.
 	__tab_decr();
 	return t;
+}
+
+int64_t ExistInTable(NameTable *table, Token *token)
+{
+	for (int64_t cur_el = 0; cur_el < (int64_t)table->size; ++cur_el) {
+		if (strcmp(table->names[cur_el].txt, token->txt) == 0) {
+			__msg(D_NAMETABLE, M,
+				"Already exists\n");
+			return cur_el;
+		}
+	}
+
+	return -1;
 }
 
 void AddName(NameTable *table, Token *token)
@@ -316,9 +333,57 @@ void SearchNamesInBrance(Node *n, NameTable *table, Node **start_node)
 	__msg(D_NAMETABLE, M,
 		"Check node(%s)\n", n->token->txt);
 
+	if (n->children == NULL) {
+		int64_t idx = ExistInTable(table, n->token);
+		__msg(D_NAMETABLE, C,
+			"Found in table(%s) maybe reference\n", n->token->txt);
+		if (idx != -1) {
+			if (table->names[idx].parser_type == RULE_NAME) {
+				__msg(D_NAMETABLE, M,
+				"It's RULE REF\n");
+				n->token->parser_type = RULE_NAME_REFERENCE;	
+			}
+
+			if (table->names[idx].parser_type == VAR_NAME) {
+				__msg(D_NAMETABLE, M,
+				"It's NAME REF\n");
+				n->token->parser_type = VAR_NAME_REFERENCE;	
+			}
+		} else {
+			if (n->token->value == NULL && n->token->type == TOKEN_NAME) {
+				n->token->parser_type = VAR_NAME;
+				__msg(D_NAMETABLE, M,
+					"it's variable\n");
+			}
+		}
+
+	} else {
+		if (GetChild(n, 0)->token->type == TOKEN_COLON) {
+			n->token->parser_type = RULE_NAME;
+		}
+
+		int64_t idx = ExistInTable(table, n->token);
+		__msg(D_NAMETABLE, C,
+			"Found in table(%s) maybe reference\n", n->token->txt);
+		if (idx != -1) {
+			if (table->names[idx].parser_type == RULE_NAME) {
+				__msg(D_NAMETABLE, M,
+				"It's RULE REF\n");
+				n->token->parser_type = RULE_NAME_REFERENCE;	
+			}
+
+			if (table->names[idx].parser_type == VAR_NAME) {
+				__msg(D_NAMETABLE, M,
+				"It's NAME REF\n");
+				n->token->parser_type = VAR_NAME_REFERENCE;	
+			}
+		}
+	}
+
 	if (n->token->value == NULL && n->token->type == TOKEN_NAME) {
 		__msg(D_PARSER_GENERATING, M,
 			"It is name\n");
+
 		if (strcmp(n->token->txt, "start") == 0) {
 			__msg(D_NAMETABLE, C,
 					"Start node was found!\n");
@@ -375,125 +440,15 @@ NameTable *ScanForNames(Tree *t, char *txt)
 	return table;
 }
 
-
-
-
-
-
-
-// Context TryToken(Tree *t, Token *sequence, TokenType expected_type, Context ctx, uint64_t n_tokens)
-// {
-// 	if (sequence[ctx.cur_token_idx].type == expected_type) {
-// 		Node *new_node = NodeCtor(sequence[ctx.cur_token_idx]);
-// 		AddChild(t, new_node);
-
-// 		++ctx.n_parsed;
-// 		++ctx.cur_token_idx;
-// 	}
-
-// 	return ctx;
-// }
-
-// Context Try_additive_expression_1(Tree *t, Token *sequence, Context ctx, uint64_t n_tokens)
-// {
-// 	Context try_ctx = ctx;
-
-// 	Tree additive_expression_1_tree = {0};
-// 	AddChild(&additive_expression_1_tree, sequence + n_tokens - 1);
-
-// 	Context new_ctx = {0};
-
-// 	new_ctx = TryToken(&additive_expression_1_tree, sequence, TOKEN_NAME, try_ctx, n_tokens);
-// 	if (memcmp(&new_ctx, &try_ctx, sizeof(Context)) != 0) {
-// 		return ctx;
-// 	}
-// 	try_ctx = new_ctx;
-// 	Parent(&additive_expression_1_tree);
-
-// 	new_ctx = TryToken(&additive_expression_1_tree, sequence, TOKEN_PLUS, try_ctx);
-// 	if (memcmp(&new_ctx, &try_ctx, sizeof(Context)) != 0) {
-// 		return ctx;
-// 	}
-// 	try_ctx = new_ctx;
-// 	Parent(&additive_expression_1_tree);
-
-// 	new_ctx = Try_additive_expression(&additive_expression_1_tree, sequence, TOKEN_PLUS, try_ctx);
-// 	if (memcmp(&new_ctx, &try_ctx, sizeof(Context)) != 0) {
-// 		return ctx;
-// 	}
-// 	try_ctx = new_ctx;
-// 	Parent(&additive_expression_1_tree);
-
-// 	return try_ctx;
-// }
-
-// Context Try_additive_expression_2(Tree *t, Token *sequence, Context ctx, uint64_t n_tokens)
-// {
-// 	Context try_ctx = ctx;
-
-// 	Tree additive_expression_2_tree = {0};
-// 	AddChild(&additive_expression_1_tree, sequence[n_tokens - 1]);
-
-// 	Context new_ctx = TryToken(&additive_expression_2_tree, sequence, TOKEN_NAME, try_ctx);
-// 	if (memcmp(&new_ctx, &try_ctx, sizeof(Context)) != 0) {
-// 		return ctx;
-// 	}
-// 	try_ctx = new_ctx;
-
-// 	AppendTree(t, additive_expression_2_tree);
-
-// 	return try_ctx;
-// }
-
-// Context Try_additive_expression(Tree *t, Token *sequence, Context ctx, uint64_t n_tokens)
-// {
-// 	Context try_ctx = ctx;
-// 	Tree additive_expression_tree = {0};
-// 	AddChild(&additive_expression_1_tree, sequence[n_tokens - 1]);
-
-// 	Context new_ctx = {0};
-
-// 	new_ctx = Try_additive_expression_1(&additive_expression_tree, sequence, try_ctx);
-// 	if (memcmp(&new_ctx, &try_ctx, sizeof(Context)) != 0) {
-// 	new_ctx = Try_additive_expression_2(&additive_expression_tree, sequence, try_ctx);
-// 	if (memcmp(&new_ctx, &try_ctx, sizeof(Context)) != 0) {
-// 	return ctx;
-// 	}
-// 	}
-
-// 	AppendTree(t, additive_expression_tree);
-
-// 	return new_ctx;
-// }
+// Generating part -------------------------------------------------------------------------
 
 TokenType PeekNextToken(Token *sequence, uint64_t idx)
 { return sequence[idx].type; }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void GenerateCommand(FILE *f, Node *n)
+void WritePrefixOfParserFunction(FILE *f, const char *name_of_rule)
 {
-	__asrt(f != NULL, "Null parametr\n");
-	__asrt(n != NULL, "Null parametr\n");
-
-	__asrt(n->children != NULL, "Null parametr\n");
-
-	char *name_of_rule = n->token->txt;
-
-	char tabs[kTokenMaxLen] = "";
-	int64_t n_tabs = 0;
+	__asrt(f            != NULL, "Null parametr\n");
+	__asrt(name_of_rule != NULL, "Null parametr\n");
 
 	fprintf(f, "Context try_%s(Tree *t, Token *sequence, Context ctx, uint64_t n_tokens)\n{\n"
 		"\tContext try_ctx = ctx;\n"
@@ -502,8 +457,119 @@ void GenerateCommand(FILE *f, Node *n)
 	fprintf(f,
 		"\tAddChild(&%s_tree, sequence[n_tokens - 1]);\n"
 		"\tContext new_ctx = {0};\n\n", name_of_rule);
+}
+
+void WriteReferenceToOtherRules(FILE *f, char *tabs, uint64_t cur_child, uint64_t *n_tabs, char *name_of_rule)
+{
+	tabs[(*n_tabs)++] = '\t';
+
+	fprintf(f,
+		"%snew_ctx = Try_%s_%lu(&%s_tree, sequence, try_ctx);\n",
+		tabs, name_of_rule, cur_child + 1, name_of_rule);
+
+	fprintf(f,
+		"%sif (memcmp(&new_ctx, &try_ctx, sizeof(Context)) == 0) {\n",
+		tabs);
+}
+
+void WriteChain(FILE *f, Node *chain, char *tabs, uint64_t cur_child, char *name_of_rule)
+{
+	__msg(D_FILE_PRINT, M,
+		"Current node in line:%s\n", chain->token->txt);
+
+	if (chain->token->parser_type == NOT_SPECIAL) {
+		fprintf(f,
+			"%snew_ctx = TryToken(&%s_%lu_tree, sequence, %s, try_ctx, n_tokens);\n",
+			tabs, name_of_rule, cur_child + 1, TranslateTokenType(chain->token->type));
+	} else if (chain->token->parser_type == RULE_NAME_REFERENCE) {
+		fprintf(f,
+			"%snew_ctx = Try_%s(&%s_%lu_tree, sequence, try_ctx, n_tokens);\n",
+			tabs, name_of_rule, name_of_rule, cur_child + 1);
+	} else if (chain->token->parser_type == VAR_NAME_REFERENCE) {
+		fprintf(f,
+			"%snew_ctx = TryToken(&%s_%lu_tree, sequence, TOKEN_NAME, try_ctx, n_tokens);\n",
+			tabs, name_of_rule, cur_child + 1);
+	}
+
+	fprintf(f,
+		"%sif (memcmp(&new_ctx, &try_ctx, sizeof(Context)) != 0) {\n"
+		"%s\treturn ctx;\n"
+		"%s}\n"
+		"%stry_ctx = new_ctx;\n",
+		tabs, tabs, tabs, tabs);
+
+	fprintf(f,
+		"%sParent(&%s_%lu_tree);\n\n",
+		tabs, name_of_rule, cur_child + 1);
+}
+
+void GenerateCommand(FILE *f, Node *n)
+{
+	__asrt(f != NULL, "Null parametr\n");
+	__asrt(n != NULL, "Null parametr\n");
+
+	__asrt(n->children != NULL, "Null parametr\n");
+
+	/* Name of current name
+	Of rule to use it as part of names of variables
+	or names of parser functions.*/
+	char *name_of_rule = n->token->txt;
+
+	/* To generate more beautiful code
+	Function use tabs and '\n'-symbols*/
+	char tabs[kTokenMaxLen] = "";
+	uint64_t n_tabs = 0;
 
 	Node *fork = GetChild(n, 0);
+
+	for (uint64_t cur_child = 0; cur_child < fork->children->size; ++cur_child) {
+		// Firstly we will write all the options of this rule to the parser file.
+		fprintf(f,
+			"Context Try_%s_%ld(Tree *t, Token *sequence, Context ctx, uint64_t n_tokens)\n{\n",
+			name_of_rule, cur_child + 1);
+
+		tabs[n_tabs++] = '\t';
+
+		fprintf(f,
+			"%sContext try_ctx = ctx;\n"
+			"%sTree %s_%ld_tree = {0};\n",
+			tabs, tabs, name_of_rule, cur_child + 1);
+
+		fprintf(f,
+			"%sAddChild(&%s_%lu_tree, sequence + n_tokens - 1);\n"
+			"%sContext new_ctx = {0};\n\n",
+			tabs, name_of_rule, n_tabs, tabs);
+
+		Node *chain = GetChild(fork, cur_child);
+		__tab_incr();
+		while (chain->children != NULL) {
+			WriteChain(f, chain, tabs, cur_child, name_of_rule);
+			chain = GetChild(chain, 0);
+		}
+		/* Write last chain in sequence in particular
+		line in rule.*/
+		WriteChain(f, chain, tabs, cur_child, name_of_rule);
+		fprintf(f,
+			"\tAppendTree(t, %s_%lu_tree);\n",
+			name_of_rule, cur_child + 1);
+
+		__tab_decr();
+		__msg(D_FILE_PRINT, M,
+					"end of line\n");
+
+		--n_tabs;
+		tabs[n_tabs] = '\0';
+
+		fprintf(f, "\treturn try_ctx;\n");
+		fprintf(f, "}\n\n");
+	}
+
+	/* Secondly print prefix of parser
+	function that contains local context - if that function
+	can be applied to the current place in sequence of token
+	this context will commit it and contain local progress
+	in parsing sequence.*/
+	WritePrefixOfParserFunction(f, name_of_rule);
 
 	__msg(D_PARSER_GENERATING, M,
 		"Not tabs:\"%s\"(%lu)\n",
@@ -514,19 +580,14 @@ void GenerateCommand(FILE *f, Node *n)
 		fork->children->size);
 
 	for (uint64_t cur_child = 0; cur_child < fork->children->size; ++cur_child) {
-		tabs[n_tabs++] = '\t';
-
-		fprintf(f,
-			"%snew_ctx = Try_%s_%lu(&%s_tree, sequence, try_ctx);\n",
-			tabs, name_of_rule, cur_child + 1, name_of_rule);
-
-		fprintf(f,
-			"%sif (memcmp(&new_ctx, &try_ctx, sizeof(Context)) == 0) {\n",
-			tabs);
+		WriteReferenceToOtherRules(f, tabs, cur_child, &n_tabs, name_of_rule);
 	}
 
+	/* If all rules can't be applied to the sequence that was wrong rule
+	to parse current place in token sequence so we return original contest.*/
 	fprintf(f, "%s\treturn ctx;\n", tabs);
 
+	// Write all close-braces for all ifs.
 	for (uint64_t cur_child = 0; cur_child < fork->children->size; ++cur_child) {
 		fprintf(f,
 			"%s}\n",
@@ -536,6 +597,8 @@ void GenerateCommand(FILE *f, Node *n)
 		tabs[n_tabs] = '\0';
 	}
 
+	/* If one rule-option can be applied to the token sequence
+	we can add it's tree that was build by this option to the parent tree.*/
 	fprintf(f,
 		"\n\tAppendTree(t, %s_tree);\n"
 		"\treturn new_ctx;\n", name_of_rule);
@@ -551,28 +614,56 @@ void GenerateCommands(FILE *f, Node *n, char *curcmd)
 	__asrt(curcmd != NULL, "Null parametr\n");
 
 	if (n->rule_name) {
-		__msg(D_PARSER_GENERATING, M,
+		// Check if it's rule root node.
+		__msg(D_FILE_PRINT, M,
 			"Found rule-node:\"%s\"\n",
 			n->token->txt);
+		/* If that's rule name we will
+		generate function text and print it
+		to the parser file.*/
 		__tab_incr();
 		GenerateCommand(f, n);
 		__tab_decr();
 	} else {
 		if (n->children != NULL) {
+			/*If that node is not a rule-root node, maybe it
+			contains rule-node in it's children so we will check
+			nodes one by one.*/
 			for (uint64_t cur_child = 0; cur_child < n->children->size; ++cur_child) {
-				__msg(D_PARSER_GENERATING, M,
+				__msg(D_FILE_PRINT, M,
 					"This node NOT rule:\"%s\"\n",
 					n->token->txt);
-				__msg(D_PARSER_GENERATING, M,
+				__msg(D_FILE_PRINT, M,
 					"Start to check childs nodes\n");
 				__tab_incr();
 				GenerateCommands(f, GetChild(n, cur_child), curcmd);
 				__tab_decr();
-				__msg(D_PARSER_GENERATING, M,
+				__msg(D_FILE_PRINT, M,
 					"End of parsing children\n");
 			}
 		}
 	}
+}
+
+void WriteObviousCommands(FILE *f)
+{
+	fprintf(f,
+		"#pragma once\n\n"
+		"#include <stdlib.h>\n"
+		"#include <stdio.h>\n"
+		"#include <include/RebeccaCompiler.h>\n\n");
+
+	fprintf(f,
+		"Context TryToken(Tree *t, Token *sequence, TokenType expected_type, Context ctx, uint64_t n_tokens)\n"
+		"{\n"
+		"\tif (sequence[ctx.cur_token_idx].type == expected_type) {\n"
+		"\t\tNode *new_node = NodeCtor(sequence[ctx.cur_token_idx]);\n"
+		"\t\tAddChild(t, new_node);\n\n"
+		"\t\t++ctx.n_parsed;\n"
+		"\t\t++ctx.cur_token_idx;\n"
+		"\t}\n\n"
+		"\treturn ctx;\n"
+		"}\n\n");
 }
 
 void GenerateParserFile(Token *sequence, uint64_t n_tokens)
@@ -580,8 +671,6 @@ void GenerateParserFile(Token *sequence, uint64_t n_tokens)
 	__asrt(sequence != NULL, "Null parametr\n");
 
 	Tree *t = GenerateParserAst(sequence, n_tokens);
-		// Generate picture of created tree.
-	DebugTree(t);
 	__msg(D_PARSER_GENERATING, M,
 		"Picture of tree was created!\n");
 
@@ -595,6 +684,8 @@ void GenerateParserFile(Token *sequence, uint64_t n_tokens)
 		It's necessary to extract all the variables from the tree
 		to identify which tokens rules are refer to.*/
 	NameTable *table = ScanForNames(t, rule_to_write);
+		// Generate picture of created tree.
+	DebugTree(t);
 
 	__msg(D_NAMETABLE, M,
 		"Returned:%s\n", rule_to_write);
@@ -603,6 +694,12 @@ void GenerateParserFile(Token *sequence, uint64_t n_tokens)
 		__msg(D_NAMETABLE, M,
 			"name[%d]:%s\n", cur_el, table->names[cur_el].txt);
 	}
+
+	__spt(D_PARSER_GENERATING);
+
+
+	__msg(D_FILE_PRINT, M,
+		"Start of generatin file\n");
 		/* After extracting all names
 		Print all rules with followed structure:
 		if we have to parse primary_opr we
@@ -611,11 +708,8 @@ void GenerateParserFile(Token *sequence, uint64_t n_tokens)
 		If we didn't extract needed token we start descent
 		according to the following rule in the hierarchy rule*/
 	FILE *f = fopen("../src/Parser_GEN_.h", "w");
-	fprintf(f,
-		"#pragma once\n\n"
-		"#include <stdlib.h>\n"
-		"#include <stdio.h>\n"
-		"#include <include/RebeccaCompiler.h>\n\n");
+	// Adds to file pragma, includes, parse one token function.
+	WriteObviousCommands(f);
 
 	__tab_incr();
 	GenerateCommands(f, t->root, rule_to_write);

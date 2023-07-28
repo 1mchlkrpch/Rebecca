@@ -2,161 +2,161 @@ digraph G{
 	graph [ dpi = 50 ];
 	n0 [shape=none color=black label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">EOF</td><td>0</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_EOF</td><td>0|0</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">EOF</td></tr>
 		</table>
 	>]
 
 	n2 [shape=none color=black label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">EQ</td><td>2</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_EQ</td><td>2|0</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">=</td></tr>
 		</table>
 	>]
 
-	n1 [shape=rectangle color=black label=<
+	n1 [shape=rectangle color=yellow label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">NAME</td><td>1</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>1|1</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">identifier</td></tr>
 		</table>
 	>]
 
 	n3 [shape=rectangle color=black label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">NAME</td><td>3</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>3|0</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">TOKEN_NAME</td></tr>
 		</table>
 	>]
 
 	n5 [shape=none color=black label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">EQ</td><td>5</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_EQ</td><td>5|0</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">=</td></tr>
 		</table>
 	>]
 
-	n4 [shape=rectangle color=black label=<
+	n4 [shape=rectangle color=yellow label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">NAME</td><td>4</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>4|1</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">start</td></tr>
 		</table>
 	>]
 
 	n6 [shape=rectangle color=black label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">NAME</td><td>6</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>6|0</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">translation_unit</td></tr>
 		</table>
 	>]
 
-	n7 [shape=rectangle color=red label=<
+	n7 [shape=rectangle color=cyan label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">NAME</td><td>7</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>7|2</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">additive_expression</td></tr>
 		</table>
 	>]
 
 	n8 [shape=none color=black label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">COLON</td><td>8</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_COLON</td><td>8|0</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">:</td></tr>
 		</table>
 	>]
 
-	n9 [shape=rectangle color=black label=<
+	n9 [shape=rectangle color=green label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">NAME</td><td>9</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>9|4</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">identifier</td></tr>
 		</table>
 	>]
 
 	n10 [shape=diamond color=black label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">PLUS</td><td>10</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_PLUS</td><td>10|0</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">+</td></tr>
 		</table>
 	>]
 
-	n11 [shape=rectangle color=black label=<
+	n11 [shape=rectangle color=red label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">NAME</td><td>11</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>11|3</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">additive_expression</td></tr>
 		</table>
 	>]
 
-	n12 [shape=rectangle color=black label=<
+	n12 [shape=rectangle color=green label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">NAME</td><td>12</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>12|4</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">identifier</td></tr>
 		</table>
 	>]
 
 	n13 [shape=diamond color=black label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">MINUS</td><td>13</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_MINUS</td><td>13|0</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">-</td></tr>
 		</table>
 	>]
 
-	n14 [shape=rectangle color=black label=<
+	n14 [shape=rectangle color=red label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">NAME</td><td>14</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>14|3</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">additive_expression</td></tr>
 		</table>
 	>]
 
-	n15 [shape=rectangle color=black label=<
+	n15 [shape=rectangle color=green label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">NAME</td><td>15</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>15|4</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">identifier</td></tr>
 		</table>
 	>]
 
-	n16 [shape=rectangle color=red label=<
+	n16 [shape=rectangle color=cyan label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">NAME</td><td>16</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>16|2</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">translation_unit</td></tr>
 		</table>
 	>]
 
 	n17 [shape=none color=black label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">COLON</td><td>17</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_COLON</td><td>17|0</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">:</td></tr>
 		</table>
 	>]
 
-	n18 [shape=rectangle color=black label=<
+	n18 [shape=rectangle color=red label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">NAME</td><td>18</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>18|3</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">additive_expression</td></tr>
 		</table>
 	>]
 
 	n19 [shape=diamond color=black label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">SEMICOLON</td><td>19</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_SEMICOLON</td><td>19|0</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">;</td></tr>
 		</table>
 	>]
 
-	n20 [shape=rectangle color=black label=<
+	n20 [shape=rectangle color=red label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">NAME</td><td>20</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>20|3</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">translation_unit</td></tr>
 		</table>
 	>]
 
-	n21 [shape=rectangle color=black label=<
+	n21 [shape=rectangle color=red label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">NAME</td><td>21</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>21|3</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">additive_expression</td></tr>
 		</table>
 	>]
 
 	n22 [shape=diamond color=black label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">SEMICOLON</td><td>22</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_SEMICOLON</td><td>22|0</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">;</td></tr>
 		</table>
 	>]
