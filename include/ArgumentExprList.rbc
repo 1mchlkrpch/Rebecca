@@ -1,0 +1,14 @@
+// Token names type.
+identifier = "TOKEN_NAME";
+// First rule that we should try to parse
+start = "translation_unit";
+
+argument_expression_list
+	: identifier ',' argument_expression_list
+	| identifier
+	;
+
+translation_unit
+	: argument_expression_list ';' translation_unit
+	| argument_expression_list ';'
+	;

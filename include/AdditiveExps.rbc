@@ -8,10 +8,16 @@ identifier = "TOKEN_NAME";
 // First rule that we should try to parse
 start = "translation_unit";
 
-additive_expression
-	: identifier '+' additive_expression
-	| identifier '-' additive_expression
+multiplicative_expression
+	: identifier '*' multiplicative_expression
+	| identifier '/' multiplicative_expression
 	| identifier
+	;
+
+additive_expression
+	: multiplicative_expression '+' additive_expression
+	| multiplicative_expression '-' additive_expression
+	| multiplicative_expression
 	;
 
 /* Ever time parser try to apply rule it checks how many tokens

@@ -12,7 +12,7 @@ int main() {
 
   // TODO: Add analysis of tokens.
   uint64_t n_tokens = 0;
-  Token *sequence = Tokenizer("../include/AdditiveExps.rbc", &n_tokens);
+  Token *sequence = Tokenizer("../include/if.rbc", &n_tokens);
   
   __spt(D_TOKENIZER);
   __msg(D_TOKENIZER_OUTPUT, M, "Output of tokenizer:\n");
@@ -26,15 +26,17 @@ int main() {
   }
 
   __spt(D_TOKENIZER_OUTPUT);
-  GenerateParserFile(sequence, n_tokens);
+  Tree *parser_tree = GenerateParserFile(sequence, n_tokens);
   // End of parser-generator's work work.
   __msg(D_PARSER_GENERATING, M,
     "End of generating parser's file\n");
 
+  DebugTree(parser_tree);
+
 
 
   uint64_t n_tokens2 = 0;
-  Token *sequence2 = Tokenizer("../examples/example1.rbc", &n_tokens2);
+  Token *sequence2 = Tokenizer("../examples/if.rbc", &n_tokens2);
 
   __spt(D_PARSER_GENERATING);
   __msg(D_PARSE_EXPR, M,
@@ -51,6 +53,12 @@ int main() {
   Tree t = {0};
   Context ctx = {0};
   AddChild(&t, CreateNode(&t, sequence2 + n_tokens2 - 1));
+
+  __msg(D_PARSE_EXPR, M,
+    "Start of executing parser!\n", n_tokens2);
+
+  __msg(D_PARSE_EXPR, M,
+    "Tokens:(%d)\n", n_tokens2);
 
   Try_translation_unit(&t, sequence2, ctx, n_tokens2);
   printf("Whole the tree!\n");

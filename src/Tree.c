@@ -41,7 +41,7 @@ Node *AddChild(Tree *t, Node *new_child)
 			t->current->children = ArrayCtor(sizeof(Node*));
 		}
 
-		printf("add on place(%ld)\n", t->current->children->size + 1);
+		// printf("add on place(%ld)\n", t->current->children->size + 1);
 
 		ArrayAdd(t->current->children, new_child);
 		GetChild(t->current, t->current->children->size - 1)->parent = (struct Node *)t->current;
@@ -112,7 +112,7 @@ const char *CellBordersFormat(TokenType t)
 		case TOKEN_SLASH:
 		case TOKEN_STAR:
 		case TOKEN_EOF:
-		case TOKEN_EQ: { return "none"; }
+		case TOKEN_EQ:   { return "none"; }
 		case TOKEN_NAME: { return "rectangle"; }
 		default: {
 			return 	"diamond";
@@ -232,7 +232,7 @@ void AppendTree(Tree *first, Tree *second)
 	Node *second_cur = second->current;
 
 	Node **children = (Node **)calloc(second_cur->children->size, sizeof(Node *));
-	printf("created array(%zu)-sz\n", second_cur->children->size);
+	// printf("created array(%zu)-sz\n", second_cur->children->size);
 
 	for (size_t cur_child = 0; cur_child < second_cur->children->size; ++cur_child) {
 		Node *child = GetChild(second_cur, cur_child);
@@ -241,12 +241,12 @@ void AppendTree(Tree *first, Tree *second)
 
 	for (size_t cur_child = 0; cur_child < second_cur->children->size; ++cur_child) {
 		if (first->current->children == NULL) {
-			printf("f->cur(%s) hasn't children\n", first->current->token->txt);
+			// printf("f->cur(%s) hasn't children\n", first->current->token->txt);
 			// printf("children size:(%ld)\n", first->current->children->size);
 		}
 		AddChild(first, GetChild(second_cur, cur_child));
 		Parent(first);
-		printf("sz of children now:(%zu)\n", first->current->children->size);
+		// printf("sz of children now:(%zu)\n", first->current->children->size);
 
 		// if (first->current->children->size == 2) {
 		// 	printf("p(%s)->c1(%s),c2(%s)\n",
@@ -302,10 +302,5 @@ Node *CreateNode(Tree *t, Token *token)
 
 	return new_node;
 }
-
-// Node *FindNode(Tree *t, )
-// {
-
-// }
 
 #pragma GCC diagnostic pop

@@ -481,11 +481,6 @@ void WriteChain(FILE *c_file, Node *chain, char *tabs, uint64_t cur_child, char 
 	__msg(D_FILE_PRINT, M,
 		"Current node in line:%s\n", chain->token->txt);
 
-	// fprintf(c_file,
-	// 	"%sAddChild(&%s_%lu_tree, CreateNode(&%s_%lu_tree,  sequence + new_ctx.cur_token_idx));\n",
-	// 	tabs, name_of_rule, cur_child + 1,
-	// 	name_of_rule, cur_child + 1);
-
 	fprintf(c_file,
 		"%s__tab_incr();\n"
 		"%s__msg(D_PARSER_WORK, M, \"new chain in option\\n\");\n"
@@ -514,14 +509,11 @@ void WriteChain(FILE *c_file, Node *chain, char *tabs, uint64_t cur_child, char 
 	fprintf(c_file,
 		"%sif (memcmp(&new_ctx, &try_ctx, sizeof(Context)) == 0) {\n"
 		"%s\t__msg(D_PARSER_WORK, M, \"NOT NEEDED OPTION: Try_%s_%lu\\n\");\n"
+		"%s\t__tab_decr();\n"
 		"%s\treturn ctx;\n"
 		"%s}\n"
 		"%stry_ctx = new_ctx;\n",
-		tabs, tabs, name_of_rule, cur_child + 1, tabs, tabs, tabs);
-
-	// fprintf(c_file,
-	// 	"%sParent(&%s_%lu_tree);\n",
-	// 	tabs, name_of_rule, cur_child + 1);
+		tabs, tabs, name_of_rule, cur_child + 1, tabs, tabs, tabs, tabs);
 
 	fprintf(c_file,
 		"%s__msg(D_PARSER_WORK, M, \"END chain in option\\n\");\n"
@@ -628,6 +620,7 @@ void GenerateCommand(FILE *header_file, FILE *c_file, Node *n)
 
 	/* If all rules can't be applied to the sequence that was wrong rule
 	to parse current place in token sequence so we return original contest.*/
+	fprintf(c_file, "%s\t__tab_decr();\n", tabs);
 	fprintf(c_file, "%s\treturn ctx;\n", tabs);
 
 	// Write all close-braces for all ifs.
@@ -717,7 +710,7 @@ void WriteObviousCommands(FILE *header_file, FILE *c_file)
 		"}\n\n");
 }
 
-void GenerateParserFile(Token *sequence, uint64_t n_tokens)
+Tree *GenerateParserFile(Token *sequence, uint64_t n_tokens)
 {
 	__asrt(sequence != NULL, "Null parametr\n");
 
@@ -781,4 +774,6 @@ void GenerateParserFile(Token *sequence, uint64_t n_tokens)
 
 	fclose(header_file);
 	fclose(c_file);
+
+	return t;
 }

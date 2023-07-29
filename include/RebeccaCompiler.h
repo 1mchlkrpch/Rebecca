@@ -294,7 +294,7 @@ typedef struct
 // YACC-simmilar tiny ast-builder.
 Tree *GenerateParserAst(Token *sequence, uint64_t n_tokens);
 // Translate YACC-similar file to parser file.
-void GenerateParserFile(Token *sequence, uint64_t n_tokens);
+Tree *GenerateParserFile(Token *sequence, uint64_t n_tokens);
 
 Node *AddChild(Tree *t, Node *n);
 
