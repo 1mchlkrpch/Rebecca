@@ -1,186 +1,170 @@
 digraph G{
 	graph [ dpi = 50 ];
-	n0 [shape=none color=black label=<
+	n94418167558208 [shape=none color=black label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">TOKEN_EOF</td><td>0|0</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_EOF</td><td>94418167558208|0</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">EOF</td></tr>
 		</table>
 	>]
 
-	n2 [shape=none color=black label=<
+	n94418167558576 [shape=none color=black label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">TOKEN_EQ</td><td>2|0</td></tr>
-			<tr><td colspan="2" bgcolor="slategray1">=</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_EOF</td><td>94418167558576|0</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">EOF</td></tr>
 		</table>
 	>]
 
-	n1 [shape=rectangle color=yellow label=<
+	n94418167559312 [shape=none color=black label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>1|1</td></tr>
-			<tr><td colspan="2" bgcolor="slategray1">identifier</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_EOF</td><td>94418167559312|0</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">EOF</td></tr>
 		</table>
 	>]
 
-	n3 [shape=rectangle color=black label=<
+	n94418167560416 [shape=rectangle color=black label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>3|0</td></tr>
-			<tr><td colspan="2" bgcolor="slategray1">TOKEN_NAME</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>94418167560416|0</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">b</td></tr>
 		</table>
 	>]
 
-	n5 [shape=none color=black label=<
+	n94418167561312 [shape=diamond color=black label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">TOKEN_EQ</td><td>5|0</td></tr>
-			<tr><td colspan="2" bgcolor="slategray1">=</td></tr>
-		</table>
-	>]
-
-	n4 [shape=rectangle color=yellow label=<
-		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>4|1</td></tr>
-			<tr><td colspan="2" bgcolor="slategray1">start</td></tr>
-		</table>
-	>]
-
-	n6 [shape=rectangle color=black label=<
-		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>6|0</td></tr>
-			<tr><td colspan="2" bgcolor="slategray1">translation_unit</td></tr>
-		</table>
-	>]
-
-	n7 [shape=rectangle color=cyan label=<
-		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>7|2</td></tr>
-			<tr><td colspan="2" bgcolor="slategray1">additive_expression</td></tr>
-		</table>
-	>]
-
-	n8 [shape=none color=black label=<
-		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">TOKEN_COLON</td><td>8|0</td></tr>
-			<tr><td colspan="2" bgcolor="slategray1">:</td></tr>
-		</table>
-	>]
-
-	n9 [shape=rectangle color=green label=<
-		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>9|4</td></tr>
-			<tr><td colspan="2" bgcolor="slategray1">identifier</td></tr>
-		</table>
-	>]
-
-	n10 [shape=diamond color=black label=<
-		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">TOKEN_PLUS</td><td>10|0</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_PLUS</td><td>94418167561312|0</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">+</td></tr>
 		</table>
 	>]
 
-	n11 [shape=rectangle color=red label=<
+	n94418167561792 [shape=none color=black label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>11|3</td></tr>
-			<tr><td colspan="2" bgcolor="slategray1">additive_expression</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_EOF</td><td>94418167561792|0</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">EOF</td></tr>
 		</table>
 	>]
 
-	n12 [shape=rectangle color=green label=<
+	n94418167562896 [shape=rectangle color=black label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>12|4</td></tr>
-			<tr><td colspan="2" bgcolor="slategray1">identifier</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>94418167562896|0</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">a</td></tr>
 		</table>
 	>]
 
-	n13 [shape=diamond color=black label=<
+	n94418167563824 [shape=diamond color=black label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">TOKEN_MINUS</td><td>13|0</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_PLUS</td><td>94418167563824|0</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">+</td></tr>
+		</table>
+	>]
+
+	n94418167564304 [shape=none color=black label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_EOF</td><td>94418167564304|0</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">EOF</td></tr>
+		</table>
+	>]
+
+	n94418167567072 [shape=rectangle color=black label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>94418167567072|0</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">c</td></tr>
+		</table>
+	>]
+
+	n94418167568000 [shape=diamond color=black label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_MINUS</td><td>94418167568000|0</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">-</td></tr>
 		</table>
 	>]
 
-	n14 [shape=rectangle color=red label=<
+	n94418167568480 [shape=none color=black label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>14|3</td></tr>
-			<tr><td colspan="2" bgcolor="slategray1">additive_expression</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_EOF</td><td>94418167568480|0</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">EOF</td></tr>
 		</table>
 	>]
 
-	n15 [shape=rectangle color=green label=<
+	n94418167572912 [shape=rectangle color=black label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>15|4</td></tr>
-			<tr><td colspan="2" bgcolor="slategray1">identifier</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>94418167572912|0</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">d</td></tr>
 		</table>
 	>]
 
-	n16 [shape=rectangle color=cyan label=<
+	n94418167576480 [shape=diamond color=black label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>16|2</td></tr>
-			<tr><td colspan="2" bgcolor="slategray1">translation_unit</td></tr>
-		</table>
-	>]
-
-	n17 [shape=none color=black label=<
-		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">TOKEN_COLON</td><td>17|0</td></tr>
-			<tr><td colspan="2" bgcolor="slategray1">:</td></tr>
-		</table>
-	>]
-
-	n18 [shape=rectangle color=red label=<
-		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>18|3</td></tr>
-			<tr><td colspan="2" bgcolor="slategray1">additive_expression</td></tr>
-		</table>
-	>]
-
-	n19 [shape=diamond color=black label=<
-		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">TOKEN_SEMICOLON</td><td>19|0</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_SEMICOLON</td><td>94418167576480|0</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">;</td></tr>
 		</table>
 	>]
 
-	n20 [shape=rectangle color=red label=<
+	n94418167576960 [shape=none color=black label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>20|3</td></tr>
-			<tr><td colspan="2" bgcolor="slategray1">translation_unit</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_EOF</td><td>94418167576960|0</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">EOF</td></tr>
 		</table>
 	>]
 
-	n21 [shape=rectangle color=red label=<
+	n94418167595664 [shape=none color=black label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>21|3</td></tr>
-			<tr><td colspan="2" bgcolor="slategray1">additive_expression</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_EOF</td><td>94418167595664|0</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">EOF</td></tr>
 		</table>
 	>]
 
-	n22 [shape=diamond color=black label=<
+	n94418167598432 [shape=rectangle color=black label=<
 		<table border="0">
-			<tr><td colspan="1" bgcolor="slategray2">TOKEN_SEMICOLON</td><td>22|0</td></tr>
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>94418167598432|0</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">a</td></tr>
+		</table>
+	>]
+
+	n94418167599360 [shape=diamond color=black label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_MINUS</td><td>94418167599360|0</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">-</td></tr>
+		</table>
+	>]
+
+	n94418167599840 [shape=none color=black label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_EOF</td><td>94418167599840|0</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">EOF</td></tr>
+		</table>
+	>]
+
+	n94418167604272 [shape=rectangle color=black label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_NAME</td><td>94418167604272|0</td></tr>
+			<tr><td colspan="2" bgcolor="slategray1">b</td></tr>
+		</table>
+	>]
+
+	n94418167606528 [shape=diamond color=black label=<
+		<table border="0">
+			<tr><td colspan="1" bgcolor="slategray2">TOKEN_SEMICOLON</td><td>94418167606528|0</td></tr>
 			<tr><td colspan="2" bgcolor="slategray1">;</td></tr>
 		</table>
 	>]
 
-	n0 -> n2
-	n0 -> n5
-	n0 -> n7
-	n0 -> n16
-	n2 -> n1
-	n2 -> n3
-	n5 -> n4
-	n5 -> n6
-	n7 -> n8
-	n8 -> n9
-	n8 -> n12
-	n8 -> n15
-	n9 -> n10
-	n10 -> n11
-	n12 -> n13
-	n13 -> n14
-	n16 -> n17
-	n17 -> n18
-	n17 -> n20
-	n18 -> n19
-	n20 -> n21
-	n21 -> n22
+	n94418167558208 -> n94418167558576
+	n94418167558576 -> n94418167559312
+	n94418167558576 -> n94418167576480
+	n94418167558576 -> n94418167576960
+	n94418167559312 -> n94418167560416
+	n94418167559312 -> n94418167561312
+	n94418167559312 -> n94418167561792
+	n94418167561792 -> n94418167562896
+	n94418167561792 -> n94418167563824
+	n94418167561792 -> n94418167564304
+	n94418167564304 -> n94418167567072
+	n94418167564304 -> n94418167568000
+	n94418167564304 -> n94418167568480
+	n94418167568480 -> n94418167572912
+	n94418167576960 -> n94418167595664
+	n94418167576960 -> n94418167606528
+	n94418167595664 -> n94418167598432
+	n94418167595664 -> n94418167599360
+	n94418167595664 -> n94418167599840
+	n94418167599840 -> n94418167604272
 }

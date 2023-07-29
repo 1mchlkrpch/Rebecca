@@ -19,8 +19,8 @@ were parsed via particular rule.
 If 'n_parsed'-tokens is positive number that means that rule will
 successfuly applied to sequence of tokens.*/
 translation_unit
-	: additive_expression ';'
-	| translation_unit additive_expression ';'
+	: additive_expression ';' translation_unit
+	| additive_expression ';'
 	;
 
 

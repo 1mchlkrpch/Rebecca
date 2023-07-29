@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 #include <include/RebeccaCompiler.h>
-#include <src/Parser_GEN_.h>
+// #include <src/Parser_GEN_.h>
 #include <MchlkrpchLogger/logger.h>
 
 int main() {
@@ -9,9 +9,9 @@ int main() {
   SetTabSize(2);
 
   __msg(D_TOKENIZER, M, "Start of tokenizer work\n");
-  uint64_t n_tokens = 0;
 
   // TODO: Add analysis of tokens.
+  uint64_t n_tokens = 0;
   Token *sequence = Tokenizer("../include/AdditiveExps.rbc", &n_tokens);
   
   __spt(D_TOKENIZER);
@@ -31,22 +31,34 @@ int main() {
   __msg(D_PARSER_GENERATING, M,
     "End of generating parser's file\n");
 
-  Token *sequence2 = Tokenizer("../examples/example1.rbc", &n_tokens);
+
+
+  uint64_t n_tokens2 = 0;
+  Token *sequence2 = Tokenizer("../examples/example1.rbc", &n_tokens2);
+
   __spt(D_PARSER_GENERATING);
   __msg(D_PARSE_EXPR, M,
-    "Tokens:\n");
+    "Tokens:(%d)\n", n_tokens2);
 
-  for (uint64_t cur_token = 0; cur_token < n_tokens; ++cur_token) {
-    __msg(D_TOKENIZER_OUTPUT, M,
+  for (uint64_t cur_token = 0; cur_token < n_tokens2; ++cur_token) {
+    __msg(D_PARSE_EXPR, M,
       "t(%zu)|%s -- %s\n",
       cur_token,
       sequence2[cur_token].txt,
       TranslateTokenType(sequence2[cur_token].type));
   }
 
-  Tree t = {};
-  Context ctx;
-  Try_translation_unit(&t, sequence2, ctx, n_tokens);
+  Tree t = {0};
+  Context ctx = {0};
+  AddChild(&t, CreateNode(&t, sequence2 + n_tokens2 - 1));
+
+  Try_translation_unit(&t, sequence2, ctx, n_tokens2);
+  printf("Whole the tree!\n");
+  DebugTree(&t);
+
+  printf("cur in seq:(%d)\n", ctx.cur_token_idx);
+
+
 
   // TODO: Add compilation flags.
   // TODO: Add analysis of syntax tree.

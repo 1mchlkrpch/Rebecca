@@ -33,7 +33,7 @@ Node *AddChild(Tree *t, Node *new_child)
 	__asrt(new_child             != NULL, "Null param");
 	__asrt(new_child->token->txt != NULL, "Null param");
 
-	if (t->root == NULL) {
+	if (t->current == NULL) {
 		t->root    = new_child;
 		t->current = t->root;
 	} else {
@@ -41,9 +41,10 @@ Node *AddChild(Tree *t, Node *new_child)
 			t->current->children = ArrayCtor(sizeof(Node*));
 		}
 
+		printf("add on place(%ld)\n", t->current->children->size + 1);
+
 		ArrayAdd(t->current->children, new_child);
 		GetChild(t->current, t->current->children->size - 1)->parent = (struct Node *)t->current;
-
 		t->current = new_child;
 	}
 
@@ -71,9 +72,9 @@ void InsertParent(Tree *t, Node *n)
 
 	t->current = n;
 	AddChild(t, old_current);
-	Parent(t);
 
 	old_current->parent = (struct Node *)n;
+	Parent(t);
 
 	if (old_current == t->root) {
 		t->root = n;
@@ -230,19 +231,52 @@ void AppendTree(Tree *first, Tree *second)
 {
 	Node *second_cur = second->current;
 
-	Node **children = (Node **)calloc(second->current->children->size, sizeof(Node *));
-	for (size_t cur_child = 0; cur_child < second->current->children->size; ++cur_child) {
-		Node *child = GetChild(second->current, cur_child);
+	Node **children = (Node **)calloc(second_cur->children->size, sizeof(Node *));
+	printf("created array(%zu)-sz\n", second_cur->children->size);
+
+	for (size_t cur_child = 0; cur_child < second_cur->children->size; ++cur_child) {
+		Node *child = GetChild(second_cur, cur_child);
 		memcpy(children, &child, sizeof(Node*));
 	}
 
-	for (size_t cur_child = 0; cur_child < second->current->children->size; ++cur_child) {
-		AddChild(first, GetChild(second->current, cur_child));
-		children[cur_child]->parent = first->current;
+	for (size_t cur_child = 0; cur_child < second_cur->children->size; ++cur_child) {
+		if (first->current->children == NULL) {
+			printf("f->cur(%s) hasn't children\n", first->current->token->txt);
+			// printf("children size:(%ld)\n", first->current->children->size);
+		}
+		AddChild(first, GetChild(second_cur, cur_child));
+		Parent(first);
+		printf("sz of children now:(%zu)\n", first->current->children->size);
+
+		// if (first->current->children->size == 2) {
+		// 	printf("p(%s)->c1(%s),c2(%s)\n",
+		// 		first->current->token->txt,
+		// 		GetChild(first->current, 0)->token->txt,
+		// 		GetChild(first->current, 1)->token->txt);
+		// }
+
+		GetChild(first->current, cur_child)->parent = first->current;
 	}
 
-	free(second_cur);
+	// printf("dat:t->cur(%s)\n", first->current->token->txt);
+	// free(second_cur);
 	second->current =  first->current;
+	// printf("append?\n");
+}
+
+Node *CreateNodeByType(Tree *t, TokenType type)
+{
+	Node *new_node = NodeCtor();
+
+	FillEmptyStr(&new_node->token->txt, TranslateTokenType(type));
+	// printf("t str:(%s)\n", token->txt);
+	new_node->token->type = type;
+	// new_node->id = t->size;
+	new_node->id = new_node;
+
+	++t->size;
+
+	return new_node;
 }
 
 /**
@@ -260,8 +294,9 @@ Node *CreateNode(Tree *t, Token *token)
 	Node *new_node = NodeCtor();
 
 	FillEmptyStr(&new_node->token->txt, token->txt);
+	// printf("t str:(%s)\n", token->txt);
 	new_node->token->type = token->type;
-	new_node->id = t->size;
+	new_node->id = ((uint64_t)new_node);
 
 	++t->size;
 

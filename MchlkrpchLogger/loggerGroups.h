@@ -1,10 +1,10 @@
-#define D_ASSERTS           0x0000001
-#define D_TOKENIZER         0x0000010
-#define D_TOKENIZER_OUTPUT  0x0000100
-#define D_PARSER_GENERATING 0x0001000
-#define D_NAMETABLE         0x0010000
-#define D_FILE_PRINT        0x0100000
-// Off all debug prints.
-#define D_PARSE_EXPR        0x1000000
+#define D_ASSERTS           0x00000001
+#define D_TOKENIZER         0x00000010
+#define D_TOKENIZER_OUTPUT  0x00000100
+#define D_PARSER_GENERATING 0x00001000
+#define D_NAMETABLE         0x00010000
+#define D_FILE_PRINT        0x00100000
+#define D_PARSE_EXPR        0x01000000
+#define D_PARSER_WORK       0x10000000
 
-#define chosen_group (D_FILE_PRINT | D_PARSER_GENERATING | D_NAMETABLE | D_PARSE_EXPR)
+#define chosen_group (D_PARSER_WORK | D_FILE_PRINT | D_PARSER_GENERATING | D_NAMETABLE | D_PARSE_EXPR)

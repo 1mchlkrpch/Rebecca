@@ -63,11 +63,13 @@ void DebugPrint(const char style, char *fmt, ...);
 
 
 #define __asrt(expr, fmt, ...)                                                                                     \
-  ((expr) == true)?                                                                                                 \
-      DebugPrint(C,   ((D_ASSERTS & chosen_group) != 0x0)? logger_ptr->indent : NULL, ##__VA_ARGS__)                 \
-    : DebugPrint(E,   logger_ptr->indent, ##__VA_ARGS__);                                                       \
-  ((expr) == true)?                                                                                              \
-      DebugPrint(' ', ((D_ASSERTS & chosen_group) != 0x0)? #expr "- Currect\n" : NULL, ##__VA_ARGS__)             \
-    : DebugPrint(' ', #expr ", "fmt, ##__VA_ARGS__);                                                               \
-  ((expr) != true)?                                                                                                 \
-    exit(0) : (void)fmt ;
+  assert(expr && fmt);
+
+  // ((expr) == true)?                                                                                                 
+  //     DebugPrint(C,   ((D_ASSERTS & chosen_group) != 0x0)? logger_ptr->indent : NULL, ##__VA_ARGS__)                 
+  //   : DebugPrint(E,   logger_ptr->indent, ##__VA_ARGS__);                                                       
+  // ((expr) == true)?                                                                                              
+  //     DebugPrint(' ', ((D_ASSERTS & chosen_group) != 0x0)? #expr "- Currect\n" : NULL, ##__VA_ARGS__)             
+  //   : DebugPrint(' ', #expr ", "fmt, ##__VA_ARGS__);                                                               
+  // ((expr) != true)?                                                                                                 
+  //   exit(0) : (void)fmt ;
