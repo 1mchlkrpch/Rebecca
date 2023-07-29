@@ -104,6 +104,8 @@ typedef enum TokenType
                             // at the stem of lexing but it's definately
                             // or embeded or user's type.
   
+  TOKEN_EXPRESSION,
+
   TOKEN_EOF                 // end of file
 } TokenType;
 
@@ -241,7 +243,7 @@ Token *Tokenizer(const char *name, uint64_t *n_tokens);
 #define NODE_FMT                                                                            \
   "\tn%lu [shape=%s color=%s label=<\n"                                                      \
     "\t\t<table border=\"0\">\n"                                                              \
-      "\t\t\t<tr><td colspan=\"1\" bgcolor=\"slategray2\">%s</td><td>%lu|%u</td></tr>\n"      \
+      "\t\t\t<tr><td colspan=\"1\" bgcolor=\"slategray2\">%s</td><td>%lu|%u</td></tr>\n"       \
       "\t\t\t<tr><td colspan=\"2\" bgcolor=\"slategray1\">%s</td></tr>\n"                       \
     "\t\t</table>\n"                                                                             \
   "\t>]\n"
@@ -305,6 +307,8 @@ void DebugTree(Tree *t);
 void Parent(Tree *t);
 
 Node *NodeCtor();
+
+void AppendTree(Tree *first, Tree *second);
 
 void FillNodeWith(Token *token);
 

@@ -226,6 +226,25 @@ inline __attribute__((always_inline))
 Node *GetChild(Node *n, uint64_t idx)
 { return (*(Node **)((char *)n->children->data + idx * sizeof(Node*))); }
 
+void AppendTree(Tree *first, Tree *second)
+{
+	Node *second_cur = second->current;
+
+	Node **children = (Node **)calloc(second->current->children->size, sizeof(Node *));
+	for (size_t cur_child = 0; cur_child < second->current->children->size; ++cur_child) {
+		Node *child = GetChild(second->current, cur_child);
+		memcpy(children, &child, sizeof(Node*));
+	}
+
+	for (size_t cur_child = 0; cur_child < second->current->children->size; ++cur_child) {
+		AddChild(first, GetChild(second->current, cur_child));
+		children[cur_child]->parent = first->current;
+	}
+
+	free(second_cur);
+	second->current =  first->current;
+}
+
 /**
  * @brief Creates node with new unique index
  * and adds it to tree 't'.

@@ -445,67 +445,75 @@ NameTable *ScanForNames(Tree *t, char *txt)
 TokenType PeekNextToken(Token *sequence, uint64_t idx)
 { return sequence[idx].type; }
 
-void WritePrefixOfParserFunction(FILE *f, const char *name_of_rule)
+void WritePrefixOfParserFunction(FILE *header_file, FILE *c_file, const char *name_of_rule)
 {
-	__asrt(f            != NULL, "Null parametr\n");
+	__asrt(header_file            != NULL, "Null parametr\n");
 	__asrt(name_of_rule != NULL, "Null parametr\n");
 
-	fprintf(f, "Context try_%s(Tree *t, Token *sequence, Context ctx, uint64_t n_tokens)\n{\n"
+	fprintf(header_file,
+		"Context Try_%s(Tree *t, Token *sequence, Context ctx, uint64_t n_tokens);\n"
+		, name_of_rule, name_of_rule);
+
+	fprintf(c_file, "Context Try_%s(Tree *t, Token *sequence, Context ctx, uint64_t n_tokens)\n{\n"
 		"\tContext try_ctx = ctx;\n"
 		"\tTree %s_tree = {0};\n\n", name_of_rule, name_of_rule);
 
-	fprintf(f,
-		"\tAddChild(&%s_tree, sequence[n_tokens - 1]);\n"
+	fprintf(c_file,
+		"\tAddChild(&%s_tree, NodeCtor(sequence + n_tokens - 1));\n"
 		"\tContext new_ctx = {0};\n\n", name_of_rule);
 }
 
-void WriteReferenceToOtherRules(FILE *f, char *tabs, uint64_t cur_child, uint64_t *n_tabs, char *name_of_rule)
+void WriteReferenceToOtherRules(FILE *header_file, char *tabs, uint64_t cur_child, uint64_t *n_tabs, char *name_of_rule)
 {
 	tabs[(*n_tabs)++] = '\t';
 
-	fprintf(f,
-		"%snew_ctx = Try_%s_%lu(&%s_tree, sequence, try_ctx);\n",
+	fprintf(header_file,
+		"%snew_ctx = Try_%s_%lu(&%s_tree, sequence, try_ctx, n_tokens);\n",
 		tabs, name_of_rule, cur_child + 1, name_of_rule);
 
-	fprintf(f,
+	fprintf(header_file,
 		"%sif (memcmp(&new_ctx, &try_ctx, sizeof(Context)) == 0) {\n",
 		tabs);
 }
 
-void WriteChain(FILE *f, Node *chain, char *tabs, uint64_t cur_child, char *name_of_rule)
+void WriteChain(FILE *header_file, Node *chain, char *tabs, uint64_t cur_child, char *name_of_rule)
 {
 	__msg(D_FILE_PRINT, M,
 		"Current node in line:%s\n", chain->token->txt);
 
+	fprintf(header_file,
+		"%sAddChild(&%s_%lu_tree, NodeCtor(sequence + new_ctx.cur_token_idx));\n",
+		tabs, name_of_rule, cur_child + 1);
+
 	if (chain->token->parser_type == NOT_SPECIAL) {
-		fprintf(f,
+		fprintf(header_file,
 			"%snew_ctx = TryToken(&%s_%lu_tree, sequence, %s, try_ctx, n_tokens);\n",
 			tabs, name_of_rule, cur_child + 1, TranslateTokenType(chain->token->type));
 	} else if (chain->token->parser_type == RULE_NAME_REFERENCE) {
-		fprintf(f,
+		fprintf(header_file,
 			"%snew_ctx = Try_%s(&%s_%lu_tree, sequence, try_ctx, n_tokens);\n",
 			tabs, name_of_rule, name_of_rule, cur_child + 1);
 	} else if (chain->token->parser_type == VAR_NAME_REFERENCE) {
-		fprintf(f,
+		fprintf(header_file,
 			"%snew_ctx = TryToken(&%s_%lu_tree, sequence, TOKEN_NAME, try_ctx, n_tokens);\n",
 			tabs, name_of_rule, cur_child + 1);
 	}
 
-	fprintf(f,
+	fprintf(header_file,
 		"%sif (memcmp(&new_ctx, &try_ctx, sizeof(Context)) != 0) {\n"
 		"%s\treturn ctx;\n"
 		"%s}\n"
 		"%stry_ctx = new_ctx;\n",
 		tabs, tabs, tabs, tabs);
 
-	fprintf(f,
+	fprintf(header_file,
 		"%sParent(&%s_%lu_tree);\n\n",
 		tabs, name_of_rule, cur_child + 1);
 }
 
-void GenerateCommand(FILE *f, Node *n)
+void GenerateCommand(FILE *header_file, FILE *c_file, Node *n)
 {
-	__asrt(f != NULL, "Null parametr\n");
+	__asrt(header_file != NULL, "Null parametr\n");
 	__asrt(n != NULL, "Null parametr\n");
 
 	__asrt(n->children != NULL, "Null parametr\n");
@@ -523,34 +531,37 @@ void GenerateCommand(FILE *f, Node *n)
 	Node *fork = GetChild(n, 0);
 
 	for (uint64_t cur_child = 0; cur_child < fork->children->size; ++cur_child) {
+		fprintf(header_file,
+			"Context Try_%s_%ld(Tree *t, Token *sequence, Context ctx, uint64_t n_tokens);\n",
+			name_of_rule, cur_child + 1);
 		// Firstly we will write all the options of this rule to the parser file.
-		fprintf(f,
+		fprintf(c_file,
 			"Context Try_%s_%ld(Tree *t, Token *sequence, Context ctx, uint64_t n_tokens)\n{\n",
 			name_of_rule, cur_child + 1);
 
 		tabs[n_tabs++] = '\t';
 
-		fprintf(f,
+		fprintf(c_file,
 			"%sContext try_ctx = ctx;\n"
 			"%sTree %s_%ld_tree = {0};\n",
 			tabs, tabs, name_of_rule, cur_child + 1);
 
-		fprintf(f,
-			"%sAddChild(&%s_%lu_tree, sequence + n_tokens - 1);\n"
+		fprintf(c_file,
+			"%sAddChild(&%s_%lu_tree, NodeCtor(sequence + n_tokens - 1));\n"
 			"%sContext new_ctx = {0};\n\n",
-			tabs, name_of_rule, n_tabs, tabs);
+			tabs, name_of_rule, cur_child + 1, tabs);
 
 		Node *chain = GetChild(fork, cur_child);
 		__tab_incr();
 		while (chain->children != NULL) {
-			WriteChain(f, chain, tabs, cur_child, name_of_rule);
+			WriteChain(c_file, chain, tabs, cur_child, name_of_rule);
 			chain = GetChild(chain, 0);
 		}
 		/* Write last chain in sequence in particular
 		line in rule.*/
-		WriteChain(f, chain, tabs, cur_child, name_of_rule);
-		fprintf(f,
-			"\tAppendTree(t, %s_%lu_tree);\n",
+		WriteChain(c_file, chain, tabs, cur_child, name_of_rule);
+		fprintf(c_file,
+			"\tAppendTree(t, &%s_%lu_tree);\n",
 			name_of_rule, cur_child + 1);
 
 		__tab_decr();
@@ -560,8 +571,8 @@ void GenerateCommand(FILE *f, Node *n)
 		--n_tabs;
 		tabs[n_tabs] = '\0';
 
-		fprintf(f, "\treturn try_ctx;\n");
-		fprintf(f, "}\n\n");
+		fprintf(c_file, "\treturn try_ctx;\n");
+		fprintf(c_file, "}\n\n");
 	}
 
 	/* Secondly print prefix of parser
@@ -569,7 +580,7 @@ void GenerateCommand(FILE *f, Node *n)
 	can be applied to the current place in sequence of token
 	this context will commit it and contain local progress
 	in parsing sequence.*/
-	WritePrefixOfParserFunction(f, name_of_rule);
+	WritePrefixOfParserFunction(header_file, c_file, name_of_rule);
 
 	__msg(D_PARSER_GENERATING, M,
 		"Not tabs:\"%s\"(%lu)\n",
@@ -580,16 +591,16 @@ void GenerateCommand(FILE *f, Node *n)
 		fork->children->size);
 
 	for (uint64_t cur_child = 0; cur_child < fork->children->size; ++cur_child) {
-		WriteReferenceToOtherRules(f, tabs, cur_child, &n_tabs, name_of_rule);
+		WriteReferenceToOtherRules(c_file, tabs, cur_child, &n_tabs, name_of_rule);
 	}
 
 	/* If all rules can't be applied to the sequence that was wrong rule
 	to parse current place in token sequence so we return original contest.*/
-	fprintf(f, "%s\treturn ctx;\n", tabs);
+	fprintf(c_file, "%s\treturn ctx;\n", tabs);
 
 	// Write all close-braces for all ifs.
 	for (uint64_t cur_child = 0; cur_child < fork->children->size; ++cur_child) {
-		fprintf(f,
+		fprintf(c_file,
 			"%s}\n",
 			tabs);
 
@@ -599,17 +610,17 @@ void GenerateCommand(FILE *f, Node *n)
 
 	/* If one rule-option can be applied to the token sequence
 	we can add it's tree that was build by this option to the parent tree.*/
-	fprintf(f,
-		"\n\tAppendTree(t, %s_tree);\n"
+	fprintf(c_file,
+		"\n\tAppendTree(t, &%s_tree);\n"
 		"\treturn new_ctx;\n", name_of_rule);
 
-	fprintf(f, "}\n\n");
+	fprintf(c_file, "}\n\n");
 }
 
 
-void GenerateCommands(FILE *f, Node *n, char *curcmd)
+void GenerateCommands(FILE *header_file, FILE *c_file, Node *n, char *curcmd)
 {
-	__asrt(f      != NULL, "Null parametr\n");
+	__asrt(header_file      != NULL, "Null parametr\n");
 	__asrt(n      != NULL, "Null parametr\n");
 	__asrt(curcmd != NULL, "Null parametr\n");
 
@@ -622,7 +633,7 @@ void GenerateCommands(FILE *f, Node *n, char *curcmd)
 		generate function text and print it
 		to the parser file.*/
 		__tab_incr();
-		GenerateCommand(f, n);
+		GenerateCommand(header_file, c_file, n);
 		__tab_decr();
 	} else {
 		if (n->children != NULL) {
@@ -636,7 +647,7 @@ void GenerateCommands(FILE *f, Node *n, char *curcmd)
 				__msg(D_FILE_PRINT, M,
 					"Start to check childs nodes\n");
 				__tab_incr();
-				GenerateCommands(f, GetChild(n, cur_child), curcmd);
+				GenerateCommands(header_file, c_file, GetChild(n, cur_child), curcmd);
 				__tab_decr();
 				__msg(D_FILE_PRINT, M,
 					"End of parsing children\n");
@@ -645,23 +656,29 @@ void GenerateCommands(FILE *f, Node *n, char *curcmd)
 	}
 }
 
-void WriteObviousCommands(FILE *f)
+void WriteObviousCommands(FILE *header_file, FILE *c_file)
 {
-	fprintf(f,
+	fprintf(header_file,
 		"#pragma once\n\n"
 		"#include <stdlib.h>\n"
 		"#include <stdio.h>\n"
 		"#include <include/RebeccaCompiler.h>\n\n");
 
-	fprintf(f,
+	fprintf(header_file,
+		"Context TryToken(Tree *t, Token *sequence, TokenType expected_type, Context ctx, uint64_t n_tokens);\n");
+
+	fprintf(c_file,
 		"Context TryToken(Tree *t, Token *sequence, TokenType expected_type, Context ctx, uint64_t n_tokens)\n"
 		"{\n"
+		"\tTree try_token_tree = {0};\n"
 		"\tif (sequence[ctx.cur_token_idx].type == expected_type) {\n"
-		"\t\tNode *new_node = NodeCtor(sequence[ctx.cur_token_idx]);\n"
+		"\t\tNode *new_node = NodeCtor(sequence + ctx.cur_token_idx);\n"
 		"\t\tAddChild(t, new_node);\n\n"
 		"\t\t++ctx.n_parsed;\n"
 		"\t\t++ctx.cur_token_idx;\n"
 		"\t}\n\n"
+		"\tParent(&try_token_tree);\n"
+		"\tAppendTree(t, &try_token_tree);\n"
 		"\treturn ctx;\n"
 		"}\n\n");
 }
@@ -698,6 +715,13 @@ void GenerateParserFile(Token *sequence, uint64_t n_tokens)
 	__spt(D_PARSER_GENERATING);
 
 
+  // TryToken(&additive_expression_1_tree, sequence, TOKEN_PLUS, try_ctx, n_tokens);
+  // Try_additive_expression(&additive_expression_1_tree, sequence, try_ctx, n_tokens);
+
+  for (size_t cur_decl = 0; cur_decl < table->size; ++cur_decl) {
+    printf(":%d\n", table->names->parser_type);
+  }
+
 	__msg(D_FILE_PRINT, M,
 		"Start of generatin file\n");
 		/* After extracting all names
@@ -707,13 +731,20 @@ void GenerateParserFile(Token *sequence, uint64_t n_tokens)
 		if we get needed token we return to parent rule.
 		If we didn't extract needed token we start descent
 		according to the following rule in the hierarchy rule*/
-	FILE *f = fopen("../src/Parser_GEN_.h", "w");
+	FILE *header_file = fopen("../src/Parser_GEN_.h", "w");
+	FILE *c_file = fopen("../src/Parser_GEN_.c", "w");
+
+	fprintf(c_file,
+		"#pragma once\n"
+		"#include <src/Parser_GEN_.h>\n\n");
+
 	// Adds to file pragma, includes, parse one token function.
-	WriteObviousCommands(f);
+	WriteObviousCommands(header_file, c_file);
 
 	__tab_incr();
-	GenerateCommands(f, t->root, rule_to_write);
+	GenerateCommands(header_file, c_file, t->root, rule_to_write);
 	__tab_decr();
 
-	fclose(f);
+	fclose(header_file);
+	fclose(c_file);
 }

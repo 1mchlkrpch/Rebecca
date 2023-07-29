@@ -5,6 +5,6 @@
 #define D_NAMETABLE         0x0010000
 #define D_FILE_PRINT        0x0100000
 // Off all debug prints.
-#define NO_DEBUG            0x1000000
+#define D_PARSE_EXPR        0x1000000
 
-#define chosen_group (D_FILE_PRINT | D_PARSER_GENERATING | D_NAMETABLE)
+#define chosen_group (D_FILE_PRINT | D_PARSER_GENERATING | D_NAMETABLE | D_PARSE_EXPR)

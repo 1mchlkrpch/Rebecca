@@ -8,6 +8,22 @@ identifier = "TOKEN_NAME";
 // First rule that we should try to parse
 start = "translation_unit";
 
+additive_expression
+	: identifier '+' additive_expression
+	| identifier '-' additive_expression
+	| identifier
+	;
+
+/* Ever time parser try to apply rule it checks how many tokens
+were parsed via particular rule.
+If 'n_parsed'-tokens is positive number that means that rule will
+successfuly applied to sequence of tokens.*/
+translation_unit
+	: additive_expression ';'
+	| translation_unit additive_expression ';'
+	;
+
+
 /* How it works?
 1. Parser check if the expression in particular line can be applied
    to token sequence + current_token_idx.
@@ -34,17 +50,3 @@ start = "translation_unit";
 
    So if the parser realize that 'start'-rule parse only part of file
    it will also execute next line in rule 'translation_unit'.*/
-additive_expression
-	: identifier '+' additive_expression
-	| identifier '-' additive_expression
-	| identifier
-	;
-
-/* Ever time parser try to apply rule it checks how many tokens
-were parsed via particular rule.
-If 'n_parsed'-tokens is positive number that means that rule will
-successfuly applied to sequence of tokens.*/
-translation_unit
-	: additive_expression ';'
-	| translation_unit additive_expression ';'
-	;

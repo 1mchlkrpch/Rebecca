@@ -113,6 +113,7 @@ const char *TranslateTokenType(TokenType type)
     case TOKEN_UNDERLINE:           { return "TOKEN_UNDERLINE"; }
     case TOKEN_ABSTRACT_TYPE:       { return "TOKEN_ABSTRACT_TYPE"; }
     case TOKEN_EOF:                 { return "TOKEN_EOF"; }
+    case TOKEN_EXPRESSION:          { return "TOKEN_EXPRESSION"; }
     default: {
       return "UNKNOWN";
     }
