@@ -1,0 +1,26 @@
+%start       = "translation_unit"
+%white_space = " \\t\\n"
+%splitters   = "_+?&*<>=:;"
+
+
+%IF          = "if"
+
+%PLUS        = '+'
+%MINUS       = '-'
+%SEMICOLON   = ';'
+%GE_OP       = ">="
+%G_OP        = '>'
+%IDENTIFIER  = "[1-9A-Z]"
+%D_QUOTES    = "\""
+%S_QUOTES    = '\''
+
+additive_expression
+	: IDENTIFIER PLUS  IDENTIFIER
+	| IDENTIFIER MINUS IDENTIFIER
+	| IDENTIFIER
+	;
+
+translation_unit
+	: additive_expression SEMICOLON
+	| additive_expression SEMICOLON translation_unit
+	;

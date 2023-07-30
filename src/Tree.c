@@ -1,4 +1,4 @@
-#include <include/RebeccaCompiler.h>
+#include <include/RebeccaGenerator.h>
 #include <MchlkrpchLogger/logger.h>
 
 #pragma GCC diagnostic push
@@ -17,6 +17,16 @@ Node *NodeCtor()
   __asrt(n->token != NULL, "Null calloc allocation");
 
   return n;
+}
+
+Tree *TreeCtor(TokenType type)
+{
+	Tree *new_tree = (Tree *)calloc(1, sizeof(Tree));
+	__asrt(new_tree != NULL, "Null calloc allocation");
+
+	AddChild(new_tree, CreateNodeByType(new_tree, type));
+
+	return new_tree;
 }
 
 /**
@@ -40,8 +50,6 @@ Node *AddChild(Tree *t, Node *new_child)
 		if (t->current->children == NULL) {
 			t->current->children = ArrayCtor(sizeof(Node*));
 		}
-
-		// printf("add on place(%ld)\n", t->current->children->size + 1);
 
 		ArrayAdd(t->current->children, new_child);
 		GetChild(t->current, t->current->children->size - 1)->parent = (struct Node *)t->current;
@@ -109,8 +117,9 @@ const char *CellBordersFormat(TokenType t)
 {
 	switch (t) {
 		case TOKEN_COLON:
-		case TOKEN_SLASH:
-		case TOKEN_STAR:
+		case TOKEN_SEMICOLON:
+		case TOKEN_DOUBLE_QUOTE:
+		case TOKEN_SINGLE_QUOTE:
 		case TOKEN_EOF:
 		case TOKEN_EQ:   { return "none"; }
 		case TOKEN_NAME: { return "rectangle"; }
@@ -144,15 +153,22 @@ void PrintNode(FILE *f, Node *n)
 	assert(f != NULL && "Null param");
 	assert(n != NULL && "Null param");
 
-	// See NODE_FMT in RebeccaCompiler.h
-	fprintf(f, NODE_FMT,
+	if (strcmp(n->token->txt, TranslateTokenType(n->token->type)) == 0) {
+		fprintf(f, NODE_FMT,
 		n->id,
 		CellBordersFormat(n->token->type),
 		CheckIfRuleName(n->token->parser_type),
-		TranslateTokenType(n->token->type),
-		n->id, n->token->parser_type, n->token->txt);
-
-	fprintf(f, "\n");
+		n->token->txt,
+		"");
+	} else {
+		// See NODE_FMT in RebeccaCompiler.h
+		fprintf(f, NODE_FMT,
+			n->id,
+			CellBordersFormat(n->token->type),
+			CheckIfRuleName(n->token->parser_type),
+			n->token->txt,
+			TranslateTokenType(n->token->type));
+	}
 
 	if (n->children != NULL) {
 		for (size_t cur_child = 0; cur_child < n->children->size; ++cur_child) {
@@ -199,8 +215,9 @@ void DebugTree(Tree *t)
 	assert(f != NULL && "Reading file error");
 
 	fprintf(f, "digraph G{\n");
-	fprintf(f, "\tgraph [ dpi = 50 ];\n");
+	fprintf(f, "\tgraph [dpi=50];\n\n");
 	PrintNode(f, t->root);
+	fprintf(f, "\n");
 	ConnectNode(f, t->root);
 	fprintf(f, "}\n");
 	fclose(f);
@@ -272,7 +289,7 @@ Node *CreateNodeByType(Tree *t, TokenType type)
 	// printf("t str:(%s)\n", token->txt);
 	new_node->token->type = type;
 	// new_node->id = t->size;
-	new_node->id = new_node;
+	new_node->id = (uint64_t)new_node;
 
 	++t->size;
 

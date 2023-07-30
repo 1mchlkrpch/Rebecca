@@ -5,7 +5,7 @@
  * Also this file provides functions to check correctness of tokens in
  * source code.
  */
-#include <include/RebeccaCompiler.h>
+#include <include/RebeccaGenerator.h>
 #include <MchlkrpchLogger/logger.h>
 
 /**
@@ -55,65 +55,20 @@ char *GetSourceText(const char *name)
 const char *TranslateTokenType(TokenType type)
 {
   switch (type) {
-    case TOKEN_UNKNOWN:             { return "UNKNOWN"; }
-    case TOKEN_LEFT_PARENTHESIS:    { return "TOKEN_LEFT_PARENTHESIS"; }
-    case TOKEN_RIGHT_PARENTHESIS:   { return "TOKEN_RIGHT_PARENTHESIS"; }
-    case TOKEN_LEFT_BRACKET:        { return "TOKEN_LEFT_BRACKET"; }
-    case TOKEN_RIGHT_BRACKET:       { return "TOKEN_RIGHT_BRACKET"; }
-    case TOKEN_LEFT_BRACE:          { return "TOKEN_LEFT_BRACE"; }
-    case TOKEN_RIGHT_BRACE:         { return "TOKEN_RIGHT_BRACE"; }
     case TOKEN_COLON:               { return "TOKEN_COLON"; }
-    case TOKEN_SEMICOLON:           { return "TOKEN_SEMICOLON"; }
-    case TOKEN_DOT:                 { return "TOKEN_DOT"; }
-    case TOKEN_COMMA:               { return "TOKEN_COMMA"; }
-    case TOKEN_SINGLE_QUOTE:        { return "TOKEN_SINGLE QUOTE"; }
-    case TOKEN_DOUBLE_QUOTE:        { return "TOKEN_DOUBLE QUOTE"; }
-    case TOKEN_STAR:                { return "TOKEN_STAR"; }
-    case TOKEN_SLASH:               { return "TOKEN_SLASH"; }
-    case TOKEN_BACK_SLASH:          { return "TOKEN_BACK_SLASH"; }
-    case TOKEN_PERCENT:             { return "TOKEN_PERCENT"; }
-    case TOKEN_HASHTAG:             { return "TOKEN_HASHTAG"; }
-    case TOKEN_PLUS:                { return "TOKEN_PLUS"; }
-    case TOKEN_PLUSPLUS:            { return "TOKEN_PLUSPLUS"; }
-    case TOKEN_MINUS:               { return "TOKEN_MINUS"; }
-    case TOKEN_LL:                  { return "TOKEN_LL"; }
-    case TOKEN_GG:                  { return "TOKEN_GG"; }
-    case TOKEN_PIPE:                { return "TOKEN_PIPE"; }
-    case TOKEN_PIPEPIPE:            { return "TOKEN_PIPEPIPE"; }
-    case TOKEN_CARET:               { return "TOKEN_CARET"; }
-    case TOKEN_TILDE:               { return "TOKEN_TILDE"; }
-    case TOKEN_QUESTION:            { return "TOKEN_QUESTION"; }
-    case TOKEN_EXCLAMATION:         { return "TOKEN_EXCLAMATION"; }
+    case TOKEN_DOUBLE_QUOTE:        { return "TOKEN_DOUBLE_QUOTE"; }
     case TOKEN_EQ:                  { return "TOKEN_EQ"; }
-    case TOKEN_L:                   { return "TOKEN_L"; }
-    case TOKEN_G:                   { return "TOKEN_G"; }
-    case TOKEN_LEQ:                 { return "TOKEN_LEQ"; }
-    case TOKEN_GEQ:                 { return "TOKEN_GEQ"; }
-    case TOKEN_EQEQ:                { return "TOKEN_EQEQ"; }
-    case TOKEN_EXCLAMATION_EQ:      { return "TOKEN_EXCLAMATION_EQ"; }
-    case TOKEN_BREAK:               { return "TOKEN_BREAK"; }
-    case TOKEN_CONTINUE:            { return "TOKEN_CONTINUE"; }
-    case TOKEN_CLASS:               { return "TOKEN_CLASS"; }
-    case TOKEN_STRUCT:              { return "TOKEN_STRUCT"; }
-    case TOKEN_ELSE:                { return "TOKEN_ELSE"; }
-    case TOKEN_FALSE:               { return "TOKEN_FALSE"; }
-    case TOKEN_CYCLE:               { return "TOKEN_CYCLE"; }
-    case TOKEN_IF:                  { return "TOKEN_IF"; }
-    case TOKEN_LOAD:                { return "TOKEN_LOAD"; }
-    case TOKEN_NULL:                { return "TOKEN_NULL"; }
-    case TOKEN_RETURN:              { return "TOKEN_RETURN"; }
-    case TOKEN_STATIC:              { return "TOKEN_STATIC"; }
-    case TOKEN_THIS:                { return "TOKEN_THIS"; }
-    case TOKEN_TRUE:                { return "TOKEN_TRUE"; }
-    case TOKEN_PRIVATE:             { return "TOKEN_PRIVATE"; }
-    case TOKEN_PUBLIC:              { return "TOKEN_PUBLIC"; }
-    case TOKEN_NAME:                { return "TOKEN_NAME"; }
-    case TOKEN_NUMBER:              { return "TOKEN_NUMBER"; }
-    case TOKEN_COMP:                { return "TOKEN_COMP"; }
-    case TOKEN_UNDERLINE:           { return "TOKEN_UNDERLINE"; }
-    case TOKEN_ABSTRACT_TYPE:       { return "TOKEN_ABSTRACT_TYPE"; }
     case TOKEN_EOF:                 { return "TOKEN_EOF"; }
-    case TOKEN_EXPRESSION:          { return "TOKEN_EXPRESSION"; }
+    case TOKEN_HASHTAG:             { return "TOKEN_HASHTAG"; }
+    case TOKEN_LEFT_PARENTHESIS:    { return "TOKEN_LEFT_PARENTHESIS"; }
+    case TOKEN_NAME:                { return "TOKEN_NAME"; }
+    case TOKEN_PERCENT:             { return "TOKEN_PERCENT"; }
+    case TOKEN_PIPE:                { return "TOKEN_PIPE"; }
+    case TOKEN_RIGHT_PARENTHESIS:   { return "TOKEN_RIGHT_PARENTHESIS"; }
+    case TOKEN_SEMICOLON:           { return "TOKEN_SEMICOLON"; }
+    case TOKEN_SINGLE_QUOTE:        { return "TOKEN_SINGLE_QUOTE"; }
+    case PARSER_TREE:               { return "PARSER_TREE"; }
+    case TOKENIZER_TREE:            { return "TOKENIZER_TREE"; }
     default: {
       return "UNKNOWN";
     }
@@ -314,41 +269,6 @@ bool CanBeAppended(char *cur_word, char *cursor, uint64_t cur_token_len)
 }
 
 /**
- * @brief Reads the value of current number-token.
- * 
- * @param cursor          Pointer to pointer in source text.
- * @param cur_word        Current collected word.
- * @param cur_token_len   Pointer to current length of collected token.
- * @returns               Value of number.
- */
-uint64_t ReadNumber(char **cursor, char *cur_word, uint64_t *cur_token_len)
-{
-  assert(cursor        != NULL && "nullptr param");
-  assert(cur_word      != NULL && "nullptr param");
-  assert(cur_token_len != NULL && "nullptr param");
-
-  __tab_incr();
-  __msg(D_TOKENIZER, M, "Reading number:\n");
-  __tab_incr();
-
-  __msg(D_TOKENIZER, M, "(");
-  while (IsDigit(**cursor) && **cursor != EOF) {
-    __msg(D_TOKENIZER, ' ', "%c", **cursor);
-    cur_word[*cur_token_len] = **cursor;
-    ++(*cur_token_len);
-    ++(*cursor);
-  }
-
-  __msg(D_TOKENIZER, ' ', ")\n");
-
-  __tab_decr();
-  __msg(D_TOKENIZER, M, "number done\n");
-  __tab_decr();
-
-  return atoi(cur_word);
-}
-
-/**
  * @brief Checks if the current and next symbols are beginning of
  * the commentary block or commentary line.
  * 
@@ -386,6 +306,9 @@ void SkipCommentary(char **cursor)
 
   __msg(D_TOKENIZER, M, "Commentary ends\n");
 }
+
+bool IsQuotes(char *cursor)
+{ return *cursor == '\"' || *cursor == '\''; }
 
 /**
  * @brief Siple tokenizer O(n*k) where k is
@@ -444,27 +367,6 @@ Token *Tokenizer(const char *name, uint64_t *n_tokens)
       continue;
     }
 
-    if (IsDigit(*cursor) && cur_token_len == 0) {
-      __tab_incr();
-      __msg(D_TOKENIZER, M, "Current token is digit value\n");
-
-      int num = ReadNumber(&cursor, cur_word, &cur_token_len);
-      TryPushToken(&cur_token_len, cur_word, sequence, &sequence_size);
-
-      sequence[sequence_size - 1].type = TOKEN_NUMBER;
-
-      // Adding a value manually.
-      // TODO: fix later.
-      sequence[sequence_size - 1].value = (Value*)calloc(1, sizeof(Value));
-      __asrt(sequence[sequence_size - 1].value != NULL, "Null calloc allocation");
-      sequence[sequence_size - 1].value->obj = calloc(1, sizeof(int));
-      sequence[sequence_size - 1].value->type = OBJ_INT;
-      memcpy(&sequence[sequence_size - 1].value->obj, &num, sizeof(int));
-
-      __tab_decr();
-      continue;
-    }
-
     /* If we meet white space symbol
     -skip all white symbols
     -push current collected token if it has non-zero size.*/
@@ -489,6 +391,36 @@ Token *Tokenizer(const char *name, uint64_t *n_tokens)
       if (CheckIfItsCommentary(cursor)) {
         TryPushToken(&cur_token_len, cur_word, sequence, &sequence_size);
         continue;
+      }
+
+      if (IsQuotes(cursor)) {
+        cur_word[cur_token_len] = *cursor;
+        ++cur_token_len;
+        ++cursor;
+        TryPushToken(&cur_token_len, cur_word, sequence, &sequence_size);
+
+        bool is_prev_escape_sym = false;
+        while (!IsQuotes(cursor) && is_prev_escape_sym == false) {
+          if (*cursor == EOF) {
+            break;
+          }
+          
+          if (*cursor == '\\') {
+            is_prev_escape_sym = true;
+            cur_word[cur_token_len] = *cursor;
+            ++cur_token_len;
+            ++cursor;
+          }
+
+          // printf("cur quote-sym:%c\n", *cursor);
+          if (is_prev_escape_sym == true && *(cursor - 1) == '\\') {
+            is_prev_escape_sym = false;
+          }
+
+          cur_word[cur_token_len] = *cursor;
+          ++cur_token_len;
+          ++cursor;
+        }
       }
 
       __msg(D_TOKENIZER, M, "Push current token with data \"%s\"\n", cur_word);
@@ -531,25 +463,4 @@ Token *Tokenizer(const char *name, uint64_t *n_tokens)
   free(source_text);
 
   return sequence;
-}
-
-/**
- * @brief fast analisys targeted to identifier types of tokens.
- * 
- * @param sequence   Sequence of token to analize.
- * @param n_tokens   size of sequence(in tokens).
- */
-void PreParserAnalisys(Token *sequence, uint64_t n_tokens)
-{
-  assert(sequence != NULL && "Null param");
-
-  if (n_tokens == 0) {
-    return;
-  }
-
-  for (size_t cur_token = 0; cur_token < n_tokens - 1; ++cur_token) {
-    if (sequence[cur_token].type == TOKEN_NAME && sequence[cur_token + 1].type == TOKEN_NAME) {
-      sequence[cur_token].type = TOKEN_ABSTRACT_TYPE;
-    }
-  }
 }

@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#include <include/RebeccaCompiler.h>
+#include <include/RebeccaGenerator.h>
 #include <MchlkrpchLogger/logger.h>
 
 // Reading part ----------------------------------------------------------------------------
@@ -136,7 +136,7 @@ void ReadGrammarRule(Tree *t, Token *sequence, uint64_t *cur_token_idx)
 		file
 	  	: struct    -*
 	  	| funcion   -|
-			| variable  -*----lines
+		| variable  -*----lines
 	  	;
 	So we will parse tokens untill we meet ';'-token.*/
 	__msg(D_PARSER_GENERATING, M,
@@ -687,7 +687,7 @@ void WriteObviousCommands(FILE *header_file, FILE *c_file)
 		"#pragma once\n\n"
 		"#include <stdlib.h>\n"
 		"#include <stdio.h>\n"
-		"#include <include/RebeccaCompiler.h>\n\n");
+		"#include <include/RebeccaGenerator.h>\n\n");
 
 	fprintf(header_file,
 		"Context TryToken(Tree *t, Token *sequence, TokenType expected_type, Context ctx, uint64_t n_tokens);\n");

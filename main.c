@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include <include/RebeccaCompiler.h>
+#include <include/RebeccaGenerator.h>
 // #include <src/Parser_GEN_.h>
 #include <MchlkrpchLogger/logger.h>
 
@@ -12,7 +12,7 @@ int main() {
 
   // TODO: Add analysis of tokens.
   uint64_t n_tokens = 0;
-  Token *sequence = Tokenizer("../include/if.rbc", &n_tokens);
+  Token *sequence = Tokenizer("../include/new_format.rbc", &n_tokens);
   
   __spt(D_TOKENIZER);
   __msg(D_TOKENIZER_OUTPUT, M, "Output of tokenizer:\n");
@@ -26,45 +26,45 @@ int main() {
   }
 
   __spt(D_TOKENIZER_OUTPUT);
-  Tree *parser_tree = GenerateParserFile(sequence, n_tokens);
+  GenerateParserFile(sequence, n_tokens);
   // End of parser-generator's work work.
   __msg(D_PARSER_GENERATING, M,
     "End of generating parser's file\n");
 
-  DebugTree(parser_tree);
+  // DebugTree(parser_tree);
 
 
 
-  uint64_t n_tokens2 = 0;
-  Token *sequence2 = Tokenizer("../examples/if.rbc", &n_tokens2);
+  // uint64_t n_tokens2 = 0;
+  // Token *sequence2 = Tokenizer("../examples/if.rbc", &n_tokens2);
 
-  __spt(D_PARSER_GENERATING);
-  __msg(D_PARSE_EXPR, M,
-    "Tokens:(%d)\n", n_tokens2);
+  // __spt(D_PARSER_GENERATING);
+  // __msg(D_PARSE_EXPR, M,
+  //   "Tokens:(%d)\n", n_tokens2);
 
-  for (uint64_t cur_token = 0; cur_token < n_tokens2; ++cur_token) {
-    __msg(D_PARSE_EXPR, M,
-      "t(%zu)|%s -- %s\n",
-      cur_token,
-      sequence2[cur_token].txt,
-      TranslateTokenType(sequence2[cur_token].type));
-  }
+  // for (uint64_t cur_token = 0; cur_token < n_tokens2; ++cur_token) {
+  //   __msg(D_PARSE_EXPR, M,
+  //     "t(%zu)|%s -- %s\n",
+  //     cur_token,
+  //     sequence2[cur_token].txt,
+  //     TranslateTokenType(sequence2[cur_token].type));
+  // }
 
-  Tree t = {0};
-  Context ctx = {0};
-  AddChild(&t, CreateNode(&t, sequence2 + n_tokens2 - 1));
+  // Tree t = {0};
+  // Context ctx = {0};
+  // AddChild(&t, CreateNode(&t, sequence2 + n_tokens2 - 1));
 
-  __msg(D_PARSE_EXPR, M,
-    "Start of executing parser!\n", n_tokens2);
+  // __msg(D_PARSE_EXPR, M,
+  //   "Start of executing parser!\n", n_tokens2);
 
-  __msg(D_PARSE_EXPR, M,
-    "Tokens:(%d)\n", n_tokens2);
+  // __msg(D_PARSE_EXPR, M,
+  //   "Tokens:(%d)\n", n_tokens2);
 
-  Try_translation_unit(&t, sequence2, ctx, n_tokens2);
-  printf("Whole the tree!\n");
-  DebugTree(&t);
+  // Try_translation_unit(&t, sequence2, ctx, n_tokens2);
+  // printf("Whole the tree!\n");
+  // DebugTree(&t);
 
-  printf("cur in seq:(%d)\n", ctx.cur_token_idx);
+  // printf("cur in seq:(%d)\n", ctx.cur_token_idx);
 
 
 

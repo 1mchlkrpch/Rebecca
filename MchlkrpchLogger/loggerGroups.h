@@ -7,4 +7,4 @@
 #define D_PARSE_EXPR        0x01000000
 #define D_PARSER_WORK       0x10000000
 
-#define chosen_group (D_PARSER_WORK | D_FILE_PRINT | D_PARSER_GENERATING | D_NAMETABLE | D_PARSE_EXPR)
+#define chosen_group (D_TOKENIZER | D_TOKENIZER_OUTPUT | D_PARSE_EXPR)

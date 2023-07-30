@@ -1,5 +1,5 @@
 #include <include/Utilities.h>
-#include <include/RebeccaCompiler.h>
+#include <include/RebeccaGenerator.h>
 
 #include <stdio.h>
 

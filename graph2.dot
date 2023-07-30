@@ -1,0 +1,6 @@
+digraph G{
+	graph [ dpi = 50 ];
+	charset="UTF-8"
+
+	n1 [shape=rectangle label=">"]
+}
