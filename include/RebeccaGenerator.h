@@ -10,9 +10,6 @@
  */
 #pragma once
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-variable"
-
 #include <assert.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -207,12 +204,12 @@ typedef struct
 
 char *GetSourceText(const char *name);
 
-void GenerateParserAst(Tree *parser_tree, Tree *tokenizer_tree, Token *sequence, uint64_t n_tokens);
+void GenerateTrees(Tree *parser_tree, Tree *tokenizer_tree, Token *sequence, uint64_t n_tokens);
 // YACC-simmilar tiny ast-builder.
 // Tree *GenerateParserAst(Token *sequence, uint64_t n_tokens);
 // Translate YACC-similar file to parser file.
 // Tree *GenerateParserFile(Token *sequence, uint64_t n_tokens);
-void GenerateParserFile(Token *sequence, uint64_t n_tokens);
+void GenerateFiles(Token *sequence, uint64_t n_tokens);
 
 Node *AddChild(Tree *t, Node *n);
 
@@ -269,6 +266,3 @@ typedef struct
   size_t size;
   Node **names;
 } NameTable;
-
-#pragma GCC diagnostic pop
-

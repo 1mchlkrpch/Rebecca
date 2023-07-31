@@ -1,78 +1,24 @@
 digraph G{
 	graph [dpi=50];
 
-	n94500339126352 [shape="diamond" color="black" label="(TOKENIZER_TREE)\n"]
-	n94500339127552 [shape="none" color="black" label="(=)\nTOKEN_EQ"]
-	n94500339127136 [shape="rectangle" color="yellow" label="(start)\nTOKEN_NAME"]
-	n94500339128368 [shape="none" color="black" label="(TOKEN_DOUBLE_QUOTE)\n"]
-	n94500339128000 [shape="rectangle" color="green" label="(translation_unit)\nTOKEN_NAME"]
-	n94500339129184 [shape="none" color="black" label="(=)\nTOKEN_EQ"]
-	n94500339128816 [shape="rectangle" color="yellow" label="(white_space)\nTOKEN_NAME"]
-	n94500339130000 [shape="none" color="black" label="(TOKEN_DOUBLE_QUOTE)\n"]
-	n94500339129632 [shape="rectangle" color="green" label="( \t\n)\nTOKEN_NAME"]
-	n94500339130864 [shape="none" color="black" label="(=)\nTOKEN_EQ"]
-	n94500339130448 [shape="rectangle" color="yellow" label="(splitters)\nTOKEN_NAME"]
-	n94500339131680 [shape="none" color="black" label="(TOKEN_DOUBLE_QUOTE)\n"]
-	n94500339131312 [shape="rectangle" color="green" label="(+-;)\nTOKEN_NAME"]
-	n94500339132496 [shape="none" color="black" label="(=)\nTOKEN_EQ"]
-	n94500339132128 [shape="rectangle" color="yellow" label="(PLUS)\nTOKEN_NAME"]
-	n94500339133312 [shape="none" color="black" label="(TOKEN_SINGLE_QUOTE)\n"]
-	n94500339132944 [shape="rectangle" color="green" label="(+)\nTOKEN_NAME"]
-	n94500339134208 [shape="none" color="black" label="(=)\nTOKEN_EQ"]
-	n94500339133760 [shape="rectangle" color="yellow" label="(MINUS)\nTOKEN_NAME"]
-	n94500339135024 [shape="none" color="black" label="(TOKEN_SINGLE_QUOTE)\n"]
-	n94500339134656 [shape="rectangle" color="green" label="(-)\nTOKEN_NAME"]
-	n94500339135840 [shape="none" color="black" label="(=)\nTOKEN_EQ"]
-	n94500339135472 [shape="rectangle" color="yellow" label="(SEMICOLON)\nTOKEN_NAME"]
-	n94500339136656 [shape="none" color="black" label="(TOKEN_SINGLE_QUOTE)\n"]
-	n94500339136288 [shape="none" color="black" label="(;)\nTOKEN_SEMICOLON"]
-	n94500339137472 [shape="none" color="black" label="(=)\nTOKEN_EQ"]
-	n94500339137104 [shape="rectangle" color="yellow" label="(NUMBER_)\nTOKEN_NAME"]
-	n94500339138288 [shape="none" color="black" label="(TOKEN_DOUBLE_QUOTE)\n"]
-	n94500339137920 [shape="rectangle" color="green" label="([A-Z])\nTOKEN_NAME"]
-	n94500339139104 [shape="none" color="black" label="(=)\nTOKEN_EQ"]
-	n94500339138736 [shape="rectangle" color="yellow" label="(IDENTIFIER_)\nTOKEN_NAME"]
-	n94500339139920 [shape="none" color="black" label="(TOKEN_DOUBLE_QUOTE)\n"]
-	n94500339139552 [shape="rectangle" color="green" label="([1-9])\nTOKEN_NAME"]
-	n94500339140880 [shape="none" color="black" label="(=)\nTOKEN_EQ"]
-	n94500339140368 [shape="rectangle" color="yellow" label="(EOF_T)\nTOKEN_NAME"]
-	n94500339141696 [shape="none" color="black" label="(TOKEN_DOUBLE_QUOTE)\n"]
-	n94500339141328 [shape="none" color="black" label="(EOF)\nTOKEN_EOF"]
+	n94339702185104 [shape="diamond" color="black" label="(EOF)\nEOF_T"]
+	n94339702185456 [shape="diamond" color="black" label="(translation_unit)\n"]
+	n94339702212944 [shape="diamond" color="black" label="(additive_expression)\n"]
+	n94339702214704 [shape="diamond" color="black" label="(ya)\nNAME_"]
+	n94339702216256 [shape="diamond" color="black" label="(*)\nPLUS"]
+	n94339702216720 [shape="diamond" color="black" label="(additive_expression)\n"]
+	n94339702218480 [shape="diamond" color="black" label="(freelance)\nNAME_"]
+	n94339702220032 [shape="diamond" color="black" label="(*)\nPLUS"]
+	n94339702225216 [shape="diamond" color="black" label="(pizza)\nNAME_"]
+	n94339702228704 [shape="diamond" color="black" label="(;)\nSEMICOLON"]
 
-	n94500339126352 -> n94500339127552
-	n94500339126352 -> n94500339129184
-	n94500339126352 -> n94500339130864
-	n94500339126352 -> n94500339132496
-	n94500339126352 -> n94500339134208
-	n94500339126352 -> n94500339135840
-	n94500339126352 -> n94500339137472
-	n94500339126352 -> n94500339139104
-	n94500339126352 -> n94500339140880
-	n94500339127552 -> n94500339127136
-	n94500339127552 -> n94500339128368
-	n94500339128368 -> n94500339128000
-	n94500339129184 -> n94500339128816
-	n94500339129184 -> n94500339130000
-	n94500339130000 -> n94500339129632
-	n94500339130864 -> n94500339130448
-	n94500339130864 -> n94500339131680
-	n94500339131680 -> n94500339131312
-	n94500339132496 -> n94500339132128
-	n94500339132496 -> n94500339133312
-	n94500339133312 -> n94500339132944
-	n94500339134208 -> n94500339133760
-	n94500339134208 -> n94500339135024
-	n94500339135024 -> n94500339134656
-	n94500339135840 -> n94500339135472
-	n94500339135840 -> n94500339136656
-	n94500339136656 -> n94500339136288
-	n94500339137472 -> n94500339137104
-	n94500339137472 -> n94500339138288
-	n94500339138288 -> n94500339137920
-	n94500339139104 -> n94500339138736
-	n94500339139104 -> n94500339139920
-	n94500339139920 -> n94500339139552
-	n94500339140880 -> n94500339140368
-	n94500339140880 -> n94500339141696
-	n94500339141696 -> n94500339141328
+	n94339702185104 -> n94339702185456
+	n94339702185456 -> n94339702212944
+	n94339702185456 -> n94339702228704
+	n94339702212944 -> n94339702214704
+	n94339702212944 -> n94339702216256
+	n94339702212944 -> n94339702216720
+	n94339702216720 -> n94339702218480
+	n94339702216720 -> n94339702220032
+	n94339702216720 -> n94339702225216
 }

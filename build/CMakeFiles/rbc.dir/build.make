@@ -167,6 +167,34 @@ CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer_GEN.c.s: c
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer_GEN.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer_GEN.c -o CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer_GEN.c.s
 
+CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Parser_GEN.c.o: CMakeFiles/rbc.dir/flags.make
+CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Parser_GEN.c.o: /home/mchlkrpch/Documents/c++/Rebecca/src/Parser_GEN.c
+CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Parser_GEN.c.o: CMakeFiles/rbc.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mchlkrpch/Documents/c++/Rebecca/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Parser_GEN.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Parser_GEN.c.o -MF CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Parser_GEN.c.o.d -o CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Parser_GEN.c.o -c /home/mchlkrpch/Documents/c++/Rebecca/src/Parser_GEN.c
+
+CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Parser_GEN.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Parser_GEN.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/mchlkrpch/Documents/c++/Rebecca/src/Parser_GEN.c > CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Parser_GEN.c.i
+
+CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Parser_GEN.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Parser_GEN.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/mchlkrpch/Documents/c++/Rebecca/src/Parser_GEN.c -o CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Parser_GEN.c.s
+
+CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tree_GEN.c.o: CMakeFiles/rbc.dir/flags.make
+CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tree_GEN.c.o: /home/mchlkrpch/Documents/c++/Rebecca/src/Tree_GEN.c
+CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tree_GEN.c.o: CMakeFiles/rbc.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mchlkrpch/Documents/c++/Rebecca/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tree_GEN.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tree_GEN.c.o -MF CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tree_GEN.c.o.d -o CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tree_GEN.c.o -c /home/mchlkrpch/Documents/c++/Rebecca/src/Tree_GEN.c
+
+CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tree_GEN.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tree_GEN.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/mchlkrpch/Documents/c++/Rebecca/src/Tree_GEN.c > CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tree_GEN.c.i
+
+CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tree_GEN.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tree_GEN.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/mchlkrpch/Documents/c++/Rebecca/src/Tree_GEN.c -o CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tree_GEN.c.s
+
 # Object files for target rbc
 rbc_OBJECTS = \
 "CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/main.c.o" \
@@ -175,7 +203,9 @@ rbc_OBJECTS = \
 "CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Utilities.c.o" \
 "CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/ParserGenerator2.c.o" \
 "CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/logger.c.o" \
-"CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer_GEN.c.o"
+"CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer_GEN.c.o" \
+"CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Parser_GEN.c.o" \
+"CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tree_GEN.c.o"
 
 # External object files for target rbc
 rbc_EXTERNAL_OBJECTS =
@@ -187,9 +217,11 @@ rbc: CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Utilities.c.o
 rbc: CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/ParserGenerator2.c.o
 rbc: CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/MchlkrpchLogger/logger.c.o
 rbc: CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer_GEN.c.o
+rbc: CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Parser_GEN.c.o
+rbc: CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tree_GEN.c.o
 rbc: CMakeFiles/rbc.dir/build.make
 rbc: CMakeFiles/rbc.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mchlkrpch/Documents/c++/Rebecca/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking C executable rbc"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mchlkrpch/Documents/c++/Rebecca/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking C executable rbc"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/rbc.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

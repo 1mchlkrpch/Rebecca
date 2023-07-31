@@ -1,5 +1,7 @@
 #include <src/Tokenizer_GEN.h>
 
+#include <include/RebeccaGenerator.h>
+
 static inline __attribute__((always_inline))
 bool GEN_IsSplit(const char c)
 { return strchr(GEN_splitters, c) != NULL; }
@@ -48,7 +50,7 @@ GEN_Token GEN_FillToken(const char *txt)
 	GEN_Token token = {0};
 	token.txt = (char *)calloc(kTokenMaxLen, sizeof(char));
 	assert(token.txt != NULL && "Null calloc allocation");
-	token.type = TOKEN_NAME;
+	token.type = 0;
 	strcpy(token.txt, txt);
 	return token;
 }
@@ -68,7 +70,25 @@ void GEN_TryPushToken(
 		if (idx != kUndefinedStableWordIdx) {
 			token = GEN_ConstructToken(idx);
 		} else {
-			token = GEN_FillToken(cur_word);
+			bool is_regex = false;
+			regex_t regex;
+			for (size_t idx = 0; idx < sizeof(GEN_stable_regex_words) / sizeof(GEN_StableWord); ++idx) {
+				int reti = regcomp(&regex, GEN_stable_regex_words[idx].txt, REG_EXTENDED | REG_NOSUB);
+				if (reti == 0) {
+					int res = regexec(&regex, cur_word, 0, NULL, 0);
+					if (res == 0) {
+						printf("YES REGEX!(%s)\n", cur_word);
+						token.txt = (char *)calloc(kTokenMaxLen, sizeof(char));
+						assert(token.txt != NULL && "Null calloc allocation");
+						token.type = GEN_stable_regex_words[idx].type;
+						strcpy(token.txt, cur_word);
+						is_regex = true;
+					}
+				}
+			}
+			if (!is_regex) {
+				token = GEN_FillToken(cur_word);
+			}
 		}
 		GEN_PushToken(&token, sequence, sequence_size);
 		*cur_token_len = 0;
@@ -88,16 +108,24 @@ const char *GEN_TranslateTokenType(GEN_TokenType type)
 {
 	switch (type) {
 		case PLUS: { return "PLUS"; }
-		case MINUS: { return "MINUS"; }
 		case SEMICOLON: { return "SEMICOLON"; }
-		case NUMBER_: { return "NUMBER_"; }
-		case IDENTIFIER_: { return "IDENTIFIER_"; }
 		case EOF_T: { return "EOF_T"; }
+		case NUMBER_: { return "NUMBER_"; }
+		case NAME_: { return "NAME_"; }
+		case identifier: { return "identifier"; }
+		case identifier_1: { return "identifier_1"; }
+		case identifier_2: { return "identifier_2"; }
+		case additive_expression: { return "additive_expression"; }
+		case additive_expression_1: { return "additive_expression_1"; }
+		case additive_expression_2: { return "additive_expression_2"; }
+		case translation_unit: { return "translation_unit"; }
+		case translation_unit_1: { return "translation_unit_1"; }
+		case translation_unit_2: { return "translation_unit_2"; }
 		default: {
-			return "UNKNOWN";
+			return "default_token";
 		}
 	}
-	return "UNKNOWN";
+	return "default_token";
 }
 
 GEN_Token *GEN_Tokenizer(char *source_text, uint64_t *n_tokens)

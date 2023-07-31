@@ -8,21 +8,29 @@ entities for generating correct tokenizer.*/
 %splitters   = "+-;"
 
 // Entities of tokenizer.
-%PLUS        = '+'
-%MINUS       = '-'
-%SEMICOLON   = ';'
-%NUMBER_     = "[A-Z]"
-%IDENTIFIER_ = "[1-9]"
+%PLUS        = "*"
+%SEMICOLON   = ";"
 %EOF_T       = "EOF"
+
+%NUMBER_     = "[0-9]+"
+%NAME_       = "[a-z]+"
+
+identifier
+	: NAME_
+	| NUMBER_
+	;
+
+// name + another_one + ... ;
+	// name + another_one + ... ;
+	// name + another_one + ... ;
 
 // Rule part.
 additive_expression
-	: IDENTIFIER PLUS  IDENTIFIER
-	| IDENTIFIER MINUS IDENTIFIER
-	| IDENTIFIER
+	: identifier PLUS  additive_expression
+	| identifier
 	;
 
 translation_unit
-	: additive_expression SEMICOLON
-	| additive_expression SEMICOLON translation_unit
+	: additive_expression SEMICOLON translation_unit
+	| additive_expression SEMICOLON
 	;

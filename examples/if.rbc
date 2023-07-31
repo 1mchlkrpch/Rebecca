@@ -1,7 +1,0 @@
-if (a + c * d ^ b) {
-	a + b;
-};
-
-if (minecraft + game ^ d) {
-	wtf;
-};
