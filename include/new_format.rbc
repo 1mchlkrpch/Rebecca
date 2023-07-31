@@ -5,12 +5,19 @@ entities for generating correct tokenizer.*/
 // Whitespace symbols to skip it during tokenizing.
 %white_space = " \t\n"
 // split symbols.
-%splitters   = "+-;"
+%splitters   = "+-;(){}"
 
 // Entities of tokenizer.
-%PLUS        = "*"
+%PLUS        = "+"
 %SEMICOLON   = ";"
 %EOF_T       = "EOF"
+%G_TOKEN     = ">"
+%IF_TOKEN    = "if"
+%LEFT_P      = "("
+%RIGHT_P     = ")"
+
+%LEFT_B      = "{"
+%RIGHT_B     = "}"
 
 %NUMBER_     = "[0-9]+"
 %NAME_       = "[a-z]+"
@@ -21,11 +28,19 @@ identifier
 	;
 
 additive_expression
-	: identifier PLUS  additive_expression
+	: identifier PLUS additive_expression
 	| identifier
 	;
 
+comp_expression
+	: additive_expression G_TOKEN additive_expression
+	;
+
+if_statement
+	: IF_TOKEN LEFT_P comp_expression RIGHT_P LEFT_B RIGHT_B
+	;
+
 translation_unit
-	: additive_expression SEMICOLON translation_unit
-	| additive_expression SEMICOLON
+	: if_statement SEMICOLON translation_unit
+	| if_statement SEMICOLON
 	;
