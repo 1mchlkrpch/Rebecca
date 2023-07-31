@@ -20,11 +20,6 @@ identifier
 	| NUMBER_
 	;
 
-// name + another_one + ... ;
-	// name + another_one + ... ;
-	// name + another_one + ... ;
-
-// Rule part.
 additive_expression
 	: identifier PLUS  additive_expression
 	| identifier
