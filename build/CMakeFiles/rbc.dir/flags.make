@@ -4,7 +4,7 @@
 # compile C with /usr/bin/cc
 C_DEFINES = 
 
-C_INCLUDES = -I/home/mchlkrpch/Documents/c++/Rebecca/build/..
+C_INCLUDES = -I/home/mchlkrpch/Documents/c++/Rebecca/.
 
 C_FLAGS = -Wall -Wextra -Wpedantic -pedantic
 

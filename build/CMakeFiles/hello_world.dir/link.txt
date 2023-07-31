@@ -1,1 +1,0 @@
-/usr/bin/c++ -rdynamic CMakeFiles/hello_world.dir/home/mchlkrpch/Documents/c++/Rebecca/rbc.cpp.o -o hello_world 

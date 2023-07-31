@@ -1,4 +1,4 @@
-# Install script for directory: /home/mchlkrpch/Documents/c++/Rebecca/build
+# Install script for directory: /home/mchlkrpch/Documents/c++/Rebecca
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
