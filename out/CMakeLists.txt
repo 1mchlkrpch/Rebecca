@@ -1,10 +1,13 @@
 set(CMAKE_C_FLAGS "-Wall -Wextra -Wpedantic -pedantic")
 
-include_directories(./)
+include_directories(../ ./)
 
 set(SOURCES
-	main.c src/Tokenizer.c src/Tree.c
-	src/Utilities.c src/ParserGenerator.c MchlkrpchLogger/logger.c
+	main.c
+	../MchlkrpchLogger/logger.c
+	Tokenizer_GEN.c
+	Parser_GEN.c
+	Tree_GEN.c
 	)
 
 project(HelloWorld)

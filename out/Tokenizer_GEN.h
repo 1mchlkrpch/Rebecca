@@ -8,6 +8,9 @@
 #include <regex.h>
 #include <stdlib.h>
 
+static const uint64_t kMaxScopeDepth = 256;
+static const uint64_t kInitSequenceSize = 1024;
+
 typedef enum
 {
 	GEN_NOT_SPECIAL,
@@ -89,6 +92,7 @@ typedef struct
 	uint64_t element_size;
 	void *data;
 } GEN_Array;
+
 typedef struct GEN_Node
 {
 	// Children of particular GEN_node.

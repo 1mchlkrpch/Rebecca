@@ -1,3 +1,3 @@
 ## Rebecca
 
-tokenizer, parser, graphviz vizualization, IR representation, translation to binary.
+tokenizer, parser, graphviz vizualization.

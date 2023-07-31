@@ -1,6 +1,4 @@
-#include <src/Tokenizer_GEN.h>
-
-#include <include/RebeccaGenerator.h>
+#include <Tokenizer_GEN.h>
 
 static inline __attribute__((always_inline))
 bool GEN_IsSplit(const char c)

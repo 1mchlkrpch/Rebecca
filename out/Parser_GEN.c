@@ -1,6 +1,7 @@
-#include <MchlkrpchLogger/logger.h>
+#include <../MchlkrpchLogger/logger.h>
 
-#include <src/Tokenizer_GEN.h>
+#include <Tokenizer_GEN.h>
+
 GEN_Context GEN_TryToken(GEN_Tree *t, GEN_Token *sequence, GEN_TokenType expected_type, GEN_Context ctx, uint64_t n_tokens)
 {
 	__msg(D_PARSER_WORK, M, "TryToken start t(%s|idx:%lu)\n", sequence[ctx.cur_token_idx].txt, ctx.cur_token_idx);

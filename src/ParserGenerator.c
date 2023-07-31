@@ -545,7 +545,7 @@ void GenerateTokenizerFile(
 	__asrt(table          != NULL, "Null param");
 
 	// FILE *header_file = fopen("../src/Tokenizer_GEN.h", "w");
-	FILE *c_file      = fopen("../src/Tokenizer_GEN.c", "w");
+	FILE *c_file      = fopen("../out/Tokenizer_GEN.c", "w");
 
 	fprintf(header_file,
 		"#pragma once\n\n"
@@ -556,6 +556,10 @@ void GenerateTokenizerFile(
 		"#include <stdint.h>\n"
 		"#include <regex.h>\n"
 		"#include <stdlib.h>\n\n");
+
+	fprintf(header_file,
+		"static const uint64_t kMaxScopeDepth = 256;\n"
+		"static const uint64_t kInitSequenceSize = 1024;\n\n");
 	
 	fprintf(header_file,
 		"typedef enum\n"
@@ -589,8 +593,7 @@ void GenerateTokenizerFile(
 	// fclose(header_file);
 	// C-file:
 	fprintf(c_file,
-		"#include <src/Tokenizer_GEN.h>\n\n"
-		"#include <include/RebeccaGenerator.h>\n\n");
+		"#include <Tokenizer_GEN.h>\n\n");
 	GenerateSplittersCommands(c_file, tokenizer_tree, table);
 	GenerateCommonCommands(c_file, tokenizer_tree, table);
 
@@ -945,29 +948,25 @@ NameTable *ScanParserNames(Tree *parser_tree, NameTable *table)
 void GenerateParserFile(Tree *t, Token *s, uint64_t n_tokens, NameTable *table, FILE *header_file)
 {
 	// FILE *header_file = fopen("../src/Parser_GEN.h", "w");
-	FILE *c_file = fopen("../src/Parser_GEN.c", "w");
+	FILE *c_file = fopen("../out/Parser_GEN.c", "w");
 
 	fprintf(c_file,
-		"#include <MchlkrpchLogger/logger.h>\n\n"
-		"#include <src/Tokenizer_GEN.h>\n"
+		"#include <../MchlkrpchLogger/logger.h>\n\n"
+		"#include <Tokenizer_GEN.h>\n\n"
 		);
 
-
-	// Adds to file pragma, includes, parse one token function.
 	WriteObviousCommands(header_file, c_file, table);
-	// printf("?\n");
 
 	__tab_incr();
 	GenerateCommands(header_file, c_file, t->root);
 	__tab_decr();
 
-	// fclose(header_file);
 	fclose(c_file);
 }
 
 void GenerateTreeFile(FILE *header_file)
 {
-	FILE *c_file = fopen("../src/Tree_GEN.c", "w");
+	FILE *c_file = fopen("../out/Tree_GEN.c", "w");
 
 	fprintf(header_file,
 		"#pragma once\n\n"
@@ -980,7 +979,8 @@ void GenerateTreeFile(FILE *header_file)
 		"	uint64_t capacity;\n"
 		"	uint64_t element_size;\n"
 		"	void *data;\n"
-		"} GEN_Array;\n"
+		"} GEN_Array;\n\n"
+
 		"typedef struct GEN_Node\n"
 		"{\n"
 		"\t// Children of particular GEN_node.\n"
@@ -1027,7 +1027,7 @@ void GenerateTreeFile(FILE *header_file)
 		"void GEN_CompressTree(GEN_Tree *t, GEN_Node *n);\n\n");
 
 	fprintf(c_file,
-		"#include <src/Tokenizer_GEN.h>\n\n"
+		"#include <Tokenizer_GEN.h>\n\n"
 		"#include <MchlkrpchLogger/logger.h>\n\n");
 
 	fprintf(c_file,
@@ -1290,7 +1290,7 @@ void GenerateFiles(Token *s, uint64_t n_tokens)
 	NameTable *parser_table = ScanParserNames(parser_tree, table);
 	DebugTree(parser_tree);
 
-	FILE *header_file = fopen("../src/Tokenizer_GEN.h", "w");
+	FILE *header_file = fopen("../out/Tokenizer_GEN.h", "w");
 
 	/* After tree generation
 	generator should generate tokenizer file.

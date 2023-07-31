@@ -10,7 +10,8 @@ build:
 	$(shell cd build; cmake ..; cd ..)
 
 clean:
+	rm -f *_GEN.c
+	rm -f Tokenizer_GEN.h
 	rm -f graph.*
 	rm -f -r build/*
-	rm -f logfile.txt
 	rmdir build
