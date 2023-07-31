@@ -41,6 +41,7 @@ char *GetSourceText(const char *name)
   fclose(f);
 
   __tab_decr();
+  // printf("source:(%c)\n", source_text[0]);
 
   return source_text;
 }

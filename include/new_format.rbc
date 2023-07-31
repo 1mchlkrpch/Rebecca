@@ -1,19 +1,21 @@
+/* This is auxilary
+entities for generating correct tokenizer.*/
+// Function to start recursive descent.
 %start       = "translation_unit"
-%white_space = " \\t\\n"
-%splitters   = "_+?&*<>=:;"
+// Whitespace symbols to skip it during tokenizing.
+%white_space = " \t\n"
+// split symbols.
+%splitters   = "+-;"
 
-
-%IF          = "if"
-
+// Entities of tokenizer.
 %PLUS        = '+'
 %MINUS       = '-'
 %SEMICOLON   = ';'
-%GE_OP       = ">="
-%G_OP        = '>'
-%IDENTIFIER  = "[1-9A-Z]"
-%D_QUOTES    = "\""
-%S_QUOTES    = '\''
+%NUMBER_     = "[A-Z]"
+%IDENTIFIER_ = "[1-9]"
+%EOF_T       = "EOF"
 
+// Rule part.
 additive_expression
 	: IDENTIFIER PLUS  IDENTIFIER
 	| IDENTIFIER MINUS IDENTIFIER

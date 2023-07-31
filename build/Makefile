@@ -225,6 +225,30 @@ home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer.c.s
 .PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer.c.s
 
+home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer_GEN.o: home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer_GEN.c.o
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer_GEN.o
+
+# target to build an object file
+home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer_GEN.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer_GEN.c.o
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer_GEN.c.o
+
+home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer_GEN.i: home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer_GEN.c.i
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer_GEN.i
+
+# target to preprocess a source file
+home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer_GEN.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer_GEN.c.i
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer_GEN.c.i
+
+home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer_GEN.s: home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer_GEN.c.s
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer_GEN.s
+
+# target to generate assembly for a file
+home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer_GEN.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rbc.dir/build.make CMakeFiles/rbc.dir/home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer_GEN.c.s
+.PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer_GEN.c.s
+
 home/mchlkrpch/Documents/c++/Rebecca/src/Tree.o: home/mchlkrpch/Documents/c++/Rebecca/src/Tree.c.o
 .PHONY : home/mchlkrpch/Documents/c++/Rebecca/src/Tree.o
 
@@ -294,6 +318,9 @@ help:
 	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer.o"
 	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer.i"
 	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer.s"
+	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer_GEN.o"
+	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer_GEN.i"
+	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/Tokenizer_GEN.s"
 	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/Tree.o"
 	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/Tree.i"
 	@echo "... home/mchlkrpch/Documents/c++/Rebecca/src/Tree.s"

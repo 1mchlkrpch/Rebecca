@@ -1,102 +1,78 @@
 digraph G{
 	graph [dpi=50];
 
-	n94417501236336 [shape="diamond" color="black" label="(TOKENIZER_TREE)\n"]
-	n94417501237536 [shape="none" color="black" label="(=)\nTOKEN_EQ"]
-	n94417501237120 [shape="rectangle" color="black" label="(start)\nTOKEN_NAME"]
-	n94417501238352 [shape="none" color="black" label="(TOKEN_DOUBLE_QUOTE)\n"]
-	n94417501237984 [shape="rectangle" color="black" label="(translation_unit)\nTOKEN_NAME"]
-	n94417501239168 [shape="none" color="black" label="(=)\nTOKEN_EQ"]
-	n94417501238800 [shape="rectangle" color="black" label="(white_space)\nTOKEN_NAME"]
-	n94417501239984 [shape="none" color="black" label="(TOKEN_DOUBLE_QUOTE)\n"]
-	n94417501239616 [shape="rectangle" color="black" label="( \\t\\n)\nTOKEN_NAME"]
-	n94417501240848 [shape="none" color="black" label="(=)\nTOKEN_EQ"]
-	n94417501240432 [shape="rectangle" color="black" label="(splitters)\nTOKEN_NAME"]
-	n94417501241664 [shape="none" color="black" label="(TOKEN_DOUBLE_QUOTE)\n"]
-	n94417501241296 [shape="rectangle" color="black" label="(_+?&*<>=:;)\nTOKEN_NAME"]
-	n94417501242480 [shape="none" color="black" label="(=)\nTOKEN_EQ"]
-	n94417501242112 [shape="rectangle" color="black" label="(IF)\nTOKEN_NAME"]
-	n94417501243296 [shape="none" color="black" label="(TOKEN_DOUBLE_QUOTE)\n"]
-	n94417501242928 [shape="rectangle" color="black" label="(if)\nTOKEN_NAME"]
-	n94417501244192 [shape="none" color="black" label="(=)\nTOKEN_EQ"]
-	n94417501243744 [shape="rectangle" color="black" label="(PLUS)\nTOKEN_NAME"]
-	n94417501245008 [shape="none" color="black" label="(TOKEN_SINGLE_QUOTE)\n"]
-	n94417501244640 [shape="rectangle" color="black" label="(+)\nTOKEN_NAME"]
-	n94417501245824 [shape="none" color="black" label="(=)\nTOKEN_EQ"]
-	n94417501245456 [shape="rectangle" color="black" label="(MINUS)\nTOKEN_NAME"]
-	n94417501246640 [shape="none" color="black" label="(TOKEN_SINGLE_QUOTE)\n"]
-	n94417501246272 [shape="rectangle" color="black" label="(-)\nTOKEN_NAME"]
-	n94417501247456 [shape="none" color="black" label="(=)\nTOKEN_EQ"]
-	n94417501247088 [shape="rectangle" color="black" label="(SEMICOLON)\nTOKEN_NAME"]
-	n94417501248272 [shape="none" color="black" label="(TOKEN_SINGLE_QUOTE)\n"]
-	n94417501247904 [shape="none" color="black" label="(;)\nTOKEN_SEMICOLON"]
-	n94417501249088 [shape="none" color="black" label="(=)\nTOKEN_EQ"]
-	n94417501248720 [shape="rectangle" color="black" label="(GE_OP)\nTOKEN_NAME"]
-	n94417501249904 [shape="none" color="black" label="(TOKEN_DOUBLE_QUOTE)\n"]
-	n94417501249536 [shape="rectangle" color="black" label="(>=)\nTOKEN_NAME"]
-	n94417501250864 [shape="none" color="black" label="(=)\nTOKEN_EQ"]
-	n94417501250352 [shape="rectangle" color="black" label="(G_OP)\nTOKEN_NAME"]
-	n94417501251680 [shape="none" color="black" label="(TOKEN_SINGLE_QUOTE)\n"]
-	n94417501251312 [shape="rectangle" color="black" label="(>)\nTOKEN_NAME"]
-	n94417501252496 [shape="none" color="black" label="(=)\nTOKEN_EQ"]
-	n94417501252128 [shape="rectangle" color="black" label="(IDENTIFIER)\nTOKEN_NAME"]
-	n94417501253312 [shape="none" color="black" label="(TOKEN_DOUBLE_QUOTE)\n"]
-	n94417501252944 [shape="rectangle" color="black" label="([1-9A-Z])\nTOKEN_NAME"]
-	n94417501254128 [shape="none" color="black" label="(=)\nTOKEN_EQ"]
-	n94417501253760 [shape="rectangle" color="black" label="(D_QUOTES)\nTOKEN_NAME"]
-	n94417501254944 [shape="none" color="black" label="(TOKEN_DOUBLE_QUOTE)\n"]
-	n94417501254576 [shape="rectangle" color="black" label="(\")\nTOKEN_NAME"]
-	n94417501255760 [shape="none" color="black" label="(=)\nTOKEN_EQ"]
-	n94417501255392 [shape="rectangle" color="black" label="(S_QUOTES)\nTOKEN_NAME"]
-	n94417501256576 [shape="none" color="black" label="(TOKEN_SINGLE_QUOTE)\n"]
-	n94417501256208 [shape="rectangle" color="black" label="(\')\nTOKEN_NAME"]
+	n94500339126352 [shape="diamond" color="black" label="(TOKENIZER_TREE)\n"]
+	n94500339127552 [shape="none" color="black" label="(=)\nTOKEN_EQ"]
+	n94500339127136 [shape="rectangle" color="yellow" label="(start)\nTOKEN_NAME"]
+	n94500339128368 [shape="none" color="black" label="(TOKEN_DOUBLE_QUOTE)\n"]
+	n94500339128000 [shape="rectangle" color="green" label="(translation_unit)\nTOKEN_NAME"]
+	n94500339129184 [shape="none" color="black" label="(=)\nTOKEN_EQ"]
+	n94500339128816 [shape="rectangle" color="yellow" label="(white_space)\nTOKEN_NAME"]
+	n94500339130000 [shape="none" color="black" label="(TOKEN_DOUBLE_QUOTE)\n"]
+	n94500339129632 [shape="rectangle" color="green" label="( \t\n)\nTOKEN_NAME"]
+	n94500339130864 [shape="none" color="black" label="(=)\nTOKEN_EQ"]
+	n94500339130448 [shape="rectangle" color="yellow" label="(splitters)\nTOKEN_NAME"]
+	n94500339131680 [shape="none" color="black" label="(TOKEN_DOUBLE_QUOTE)\n"]
+	n94500339131312 [shape="rectangle" color="green" label="(+-;)\nTOKEN_NAME"]
+	n94500339132496 [shape="none" color="black" label="(=)\nTOKEN_EQ"]
+	n94500339132128 [shape="rectangle" color="yellow" label="(PLUS)\nTOKEN_NAME"]
+	n94500339133312 [shape="none" color="black" label="(TOKEN_SINGLE_QUOTE)\n"]
+	n94500339132944 [shape="rectangle" color="green" label="(+)\nTOKEN_NAME"]
+	n94500339134208 [shape="none" color="black" label="(=)\nTOKEN_EQ"]
+	n94500339133760 [shape="rectangle" color="yellow" label="(MINUS)\nTOKEN_NAME"]
+	n94500339135024 [shape="none" color="black" label="(TOKEN_SINGLE_QUOTE)\n"]
+	n94500339134656 [shape="rectangle" color="green" label="(-)\nTOKEN_NAME"]
+	n94500339135840 [shape="none" color="black" label="(=)\nTOKEN_EQ"]
+	n94500339135472 [shape="rectangle" color="yellow" label="(SEMICOLON)\nTOKEN_NAME"]
+	n94500339136656 [shape="none" color="black" label="(TOKEN_SINGLE_QUOTE)\n"]
+	n94500339136288 [shape="none" color="black" label="(;)\nTOKEN_SEMICOLON"]
+	n94500339137472 [shape="none" color="black" label="(=)\nTOKEN_EQ"]
+	n94500339137104 [shape="rectangle" color="yellow" label="(NUMBER_)\nTOKEN_NAME"]
+	n94500339138288 [shape="none" color="black" label="(TOKEN_DOUBLE_QUOTE)\n"]
+	n94500339137920 [shape="rectangle" color="green" label="([A-Z])\nTOKEN_NAME"]
+	n94500339139104 [shape="none" color="black" label="(=)\nTOKEN_EQ"]
+	n94500339138736 [shape="rectangle" color="yellow" label="(IDENTIFIER_)\nTOKEN_NAME"]
+	n94500339139920 [shape="none" color="black" label="(TOKEN_DOUBLE_QUOTE)\n"]
+	n94500339139552 [shape="rectangle" color="green" label="([1-9])\nTOKEN_NAME"]
+	n94500339140880 [shape="none" color="black" label="(=)\nTOKEN_EQ"]
+	n94500339140368 [shape="rectangle" color="yellow" label="(EOF_T)\nTOKEN_NAME"]
+	n94500339141696 [shape="none" color="black" label="(TOKEN_DOUBLE_QUOTE)\n"]
+	n94500339141328 [shape="none" color="black" label="(EOF)\nTOKEN_EOF"]
 
-	n94417501236336 -> n94417501237536
-	n94417501236336 -> n94417501239168
-	n94417501236336 -> n94417501240848
-	n94417501236336 -> n94417501242480
-	n94417501236336 -> n94417501244192
-	n94417501236336 -> n94417501245824
-	n94417501236336 -> n94417501247456
-	n94417501236336 -> n94417501249088
-	n94417501236336 -> n94417501250864
-	n94417501236336 -> n94417501252496
-	n94417501236336 -> n94417501254128
-	n94417501236336 -> n94417501255760
-	n94417501237536 -> n94417501237120
-	n94417501237536 -> n94417501238352
-	n94417501238352 -> n94417501237984
-	n94417501239168 -> n94417501238800
-	n94417501239168 -> n94417501239984
-	n94417501239984 -> n94417501239616
-	n94417501240848 -> n94417501240432
-	n94417501240848 -> n94417501241664
-	n94417501241664 -> n94417501241296
-	n94417501242480 -> n94417501242112
-	n94417501242480 -> n94417501243296
-	n94417501243296 -> n94417501242928
-	n94417501244192 -> n94417501243744
-	n94417501244192 -> n94417501245008
-	n94417501245008 -> n94417501244640
-	n94417501245824 -> n94417501245456
-	n94417501245824 -> n94417501246640
-	n94417501246640 -> n94417501246272
-	n94417501247456 -> n94417501247088
-	n94417501247456 -> n94417501248272
-	n94417501248272 -> n94417501247904
-	n94417501249088 -> n94417501248720
-	n94417501249088 -> n94417501249904
-	n94417501249904 -> n94417501249536
-	n94417501250864 -> n94417501250352
-	n94417501250864 -> n94417501251680
-	n94417501251680 -> n94417501251312
-	n94417501252496 -> n94417501252128
-	n94417501252496 -> n94417501253312
-	n94417501253312 -> n94417501252944
-	n94417501254128 -> n94417501253760
-	n94417501254128 -> n94417501254944
-	n94417501254944 -> n94417501254576
-	n94417501255760 -> n94417501255392
-	n94417501255760 -> n94417501256576
-	n94417501256576 -> n94417501256208
+	n94500339126352 -> n94500339127552
+	n94500339126352 -> n94500339129184
+	n94500339126352 -> n94500339130864
+	n94500339126352 -> n94500339132496
+	n94500339126352 -> n94500339134208
+	n94500339126352 -> n94500339135840
+	n94500339126352 -> n94500339137472
+	n94500339126352 -> n94500339139104
+	n94500339126352 -> n94500339140880
+	n94500339127552 -> n94500339127136
+	n94500339127552 -> n94500339128368
+	n94500339128368 -> n94500339128000
+	n94500339129184 -> n94500339128816
+	n94500339129184 -> n94500339130000
+	n94500339130000 -> n94500339129632
+	n94500339130864 -> n94500339130448
+	n94500339130864 -> n94500339131680
+	n94500339131680 -> n94500339131312
+	n94500339132496 -> n94500339132128
+	n94500339132496 -> n94500339133312
+	n94500339133312 -> n94500339132944
+	n94500339134208 -> n94500339133760
+	n94500339134208 -> n94500339135024
+	n94500339135024 -> n94500339134656
+	n94500339135840 -> n94500339135472
+	n94500339135840 -> n94500339136656
+	n94500339136656 -> n94500339136288
+	n94500339137472 -> n94500339137104
+	n94500339137472 -> n94500339138288
+	n94500339138288 -> n94500339137920
+	n94500339139104 -> n94500339138736
+	n94500339139104 -> n94500339139920
+	n94500339139920 -> n94500339139552
+	n94500339140880 -> n94500339140368
+	n94500339140880 -> n94500339141696
+	n94500339141696 -> n94500339141328
 }

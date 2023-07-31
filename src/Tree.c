@@ -141,6 +141,9 @@ const char *CheckIfRuleName(PrsrNdType type)
 	}
 }
 
+TokenType Ttype(Node *n)
+{ return n->token->type; }
+
 /**
  * @brief Fills .dot file 'f' with data of particular node.
  * Works recursively.
@@ -246,10 +249,8 @@ Node *GetChild(Node *n, uint64_t idx)
 
 void AppendTree(Tree *first, Tree *second)
 {
-	Node *second_cur = second->current;
-
-	Node **children = (Node **)calloc(second_cur->children->size, sizeof(Node *));
-	// printf("created array(%zu)-sz\n", second_cur->children->size);
+	Node  *second_cur = second->current;
+	Node **children   = (Node **)calloc(second_cur->children->size, sizeof(Node*));
 
 	for (size_t cur_child = 0; cur_child < second_cur->children->size; ++cur_child) {
 		Node *child = GetChild(second_cur, cur_child);
@@ -257,20 +258,8 @@ void AppendTree(Tree *first, Tree *second)
 	}
 
 	for (size_t cur_child = 0; cur_child < second_cur->children->size; ++cur_child) {
-		if (first->current->children == NULL) {
-			// printf("f->cur(%s) hasn't children\n", first->current->token->txt);
-			// printf("children size:(%ld)\n", first->current->children->size);
-		}
 		AddChild(first, GetChild(second_cur, cur_child));
 		Parent(first);
-		// printf("sz of children now:(%zu)\n", first->current->children->size);
-
-		// if (first->current->children->size == 2) {
-		// 	printf("p(%s)->c1(%s),c2(%s)\n",
-		// 		first->current->token->txt,
-		// 		GetChild(first->current, 0)->token->txt,
-		// 		GetChild(first->current, 1)->token->txt);
-		// }
 
 		GetChild(first->current, cur_child)->parent = first->current;
 	}

@@ -61,20 +61,6 @@ typedef enum TokenType
   PARSER_TREE
 } TokenType;
 
-// TOKEN_UNKNOWN
-// TOKEN_COLON
-// TOKEN_DOUBLE_QUOTE
-// TOKEN_EQ
-// TOKEN_EOF
-// TOKEN_HASHTAG
-// TOKEN_LEFT_PARENTHESIS
-// TOKEN_NAME
-// TOKEN_PERCENT
-// TOKEN_PIPE
-// TOKEN_RIGHT_PARENTHESIS
-// TOKEN_SEMICOLON
-// TOKEN_SINGLE_QUOTE 
-
 const char *TranslateTokenType(TokenType type);
 
 // Lexer part --------------------------------------------------------------------------------
@@ -140,21 +126,21 @@ static const char *kCommentarySymbols = "/";
 typedef enum
 {
   NOT_SPECIAL,
-   VAR_NAME,
-  RULE_NAME,
-  RULE_NAME_REFERENCE,
-   VAR_NAME_REFERENCE,
+     VAR_NAME,
+    RULE_NAME,
+    RULE_NAME_REFERENCE,
+     VAR_NAME_REFERENCE,
 } PrsrNdType;
 
 typedef struct
 {
   // ---------------- This part fill the tokenizer
   // Type of token.
-  TokenType type;
+  TokenType  type;
   // Text representation of token.
-  char *txt;
+  char      *txt;
   // Static value (if exists).
-  Value *value;
+  Value     *value;
   PrsrNdType parser_type;
 } Token;
 
@@ -190,7 +176,7 @@ typedef struct Node
   uint64_t     id;
   // Parent node for current one.
   struct Node *parent;
-  bool         rule_name;
+  // bool         rule_name;
   // Type of node in parser generating.
 } Node;
 
@@ -219,7 +205,9 @@ typedef struct
   const char *data;
 } Tree;
 
-Tree *GenerateParserAst(Tree *parser_tree, Tree *tokenizer_tree, Token *sequence, uint64_t n_tokens);
+char *GetSourceText(const char *name);
+
+void GenerateParserAst(Tree *parser_tree, Tree *tokenizer_tree, Token *sequence, uint64_t n_tokens);
 // YACC-simmilar tiny ast-builder.
 // Tree *GenerateParserAst(Token *sequence, uint64_t n_tokens);
 // Translate YACC-similar file to parser file.
@@ -227,6 +215,8 @@ Tree *GenerateParserAst(Tree *parser_tree, Tree *tokenizer_tree, Token *sequence
 void GenerateParserFile(Token *sequence, uint64_t n_tokens);
 
 Node *AddChild(Tree *t, Node *n);
+
+TokenType Ttype(Node *n);
 
 Node *GetChild(Node *n, uint64_t idx);
 
@@ -277,7 +267,7 @@ static const size_t kInitSizeNamesArray = 512;
 typedef struct
 {
   size_t size;
-  Token *names;
+  Node **names;
 } NameTable;
 
 #pragma GCC diagnostic pop

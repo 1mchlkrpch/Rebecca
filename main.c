@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #include <include/RebeccaGenerator.h>
+#include <src/Tokenizer_GEN.h>
 // #include <src/Parser_GEN_.h>
 #include <MchlkrpchLogger/logger.h>
 
@@ -31,24 +32,24 @@ int main() {
   __msg(D_PARSER_GENERATING, M,
     "End of generating parser's file\n");
 
-  // DebugTree(parser_tree);
 
+  uint64_t n_tokens2 = 0;
+  // printf("?\n");
+  char *source = GetSourceText("../examples/expr.rbc");
+  // printf("main char(%c)\n", *source);
+  GEN_Token *sequence2 = GEN_Tokenizer(source, &n_tokens2);
 
+  __spt(D_PARSER_GENERATING);
+  __msg(D_PARSE_EXPR, M,
+    "Tokens:(%d)\n", n_tokens2);
 
-  // uint64_t n_tokens2 = 0;
-  // Token *sequence2 = Tokenizer("../examples/if.rbc", &n_tokens2);
-
-  // __spt(D_PARSER_GENERATING);
-  // __msg(D_PARSE_EXPR, M,
-  //   "Tokens:(%d)\n", n_tokens2);
-
-  // for (uint64_t cur_token = 0; cur_token < n_tokens2; ++cur_token) {
-  //   __msg(D_PARSE_EXPR, M,
-  //     "t(%zu)|%s -- %s\n",
-  //     cur_token,
-  //     sequence2[cur_token].txt,
-  //     TranslateTokenType(sequence2[cur_token].type));
-  // }
+  for (uint64_t cur_token = 0; cur_token < n_tokens2; ++cur_token) {
+    __msg(D_PARSE_EXPR, M,
+      "t(%zu)|%s -- %s\n",
+      cur_token,
+      sequence2[cur_token].txt,
+      GEN_TranslateTokenType(sequence2[cur_token].type));
+  }
 
   // Tree t = {0};
   // Context ctx = {0};
