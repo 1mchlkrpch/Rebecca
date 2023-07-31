@@ -1,3 +1,4 @@
+build/
 # Prerequisites
 *.d
 
@@ -30,5 +31,3 @@
 *.exe
 *.out
 *.app
-
-build/
