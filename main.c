@@ -1,13 +1,10 @@
 #include <stdio.h>
 
 #include <include/RebeccaGenerator.h>
-// #include <out/Tokenizer_GEN.h>
 #include <MchlkrpchLogger/logger.h>
 
 int main() {
-	// SetLogfile(fopen("../logfile.txt", "w"));
 	SetTabSize(2);
-
 	__msg(D_TOKENIZER, M, "Start of tokenizer work\n");
 
 	// TODO: Add analysis of tokens.
@@ -24,6 +21,7 @@ int main() {
 			sequence[cur_token].txt,
 			TranslateTokenType(sequence[cur_token].type));
 	}
+	
 	__spt(D_TOKENIZER_OUTPUT);
 	GenerateFiles(sequence, n_tokens);
 	// End of parser-generator's work work.

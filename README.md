@@ -6,7 +6,7 @@ That is simple tool to generate parser for arbitrary grammar.
 
 - [MchlkrpchLogger](https://github.com/mchlkrpch/Rebecca/tree/main/MchlkrpchLogger) Simple logger to control execution of program.
 
-- [out](https://github.com/mchlkrpch/Rebecca/tree/main/out) Folder to try out generated parser:
+- [out](https://github.com/mchlkrpch/Rebecca/tree/main/out) Folder to try out generated files:
 	+ Tokenizer_GEN.h
 	+ Tokenizer_GEN.c
 	+ Parser_GEN.c
