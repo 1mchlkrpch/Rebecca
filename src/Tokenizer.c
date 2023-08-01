@@ -9,77 +9,52 @@
 #include <MchlkrpchLogger/logger.h>
 
 /**
- * @brief returns source text
- * which is come from FILE with name 'name'.
+ * @brief auxilary structure to create
+ * cosequent array of stable words for matching
+ * collected words from source code with stable words
+ * in this array.
  * 
- * @param     name Name of file to read.
- * @returns   source_text char* text of file.
+ * If tokenizer collect stabe word in 'cur_word'
+ * it will matched with 'txt' in 'stable_words'-particular
+ * word and tokenizer will push token with the 'txt' and 'type'
+ * to token sequence.
  */
-char *GetSourceText(const char *name)
+typedef struct StableWord
 {
-  assert(name != NULL && "nullptr param");
-  
-  __tab_incr();
+  // Text representation of token.
+  const char *txt;
+  // Length of token.
+  size_t      len;
+  // Token logic type.
+  TokenType   type;
+} StableWord;
 
-  FILE *f = fopen(name, "r");
-  assert(f != NULL && "Open file error");
+#define kEofTokenTxt "EOF"
+static const size_t kEofTokenLength = 3;
 
-  fseek(f, 0, SEEK_END);
-  /* Contains number of symbols wihtout EOF-symbol.
-  For example with file "abaEOF" n_symbols = 3.*/
-  size_t n_symbols = ftell(f);
-  __msg(D_TOKENIZER, M, "mush be allocated:%zu\n", n_symbols);
-  fseek(f, 0, SEEK_SET);
-
-  char *source_text = (char *)calloc(n_symbols + 1, sizeof(char));
-  fread(source_text, sizeof(char), n_symbols, f);
-
-  /* Set last character as 'EOF' symbol
-  to terminate tokenizer's work*/
-  source_text[n_symbols] = EOF;
-  
-  fclose(f);
-
-  __tab_decr();
-  // printf("source:(%c)\n", source_text[0]);
-
-  return source_text;
-}
-
-/**
- * @brief auxilary function to get
- * text representation of token by token type.
- * 
- * @param type     Type of incoming token.
- * @returns Text   name of token.
- */
-const char *TranslateTokenType(TokenType type)
+static const StableWord stable_words[] =
 {
-  switch (type) {
-    case TOKEN_COLON:               { return "TOKEN_COLON"; }
-    case TOKEN_DOUBLE_QUOTE:        { return "TOKEN_DOUBLE_QUOTE"; }
-    case TOKEN_EQ:                  { return "TOKEN_EQ"; }
-    case TOKEN_EOF:                 { return "TOKEN_EOF"; }
-    case TOKEN_HASHTAG:             { return "TOKEN_HASHTAG"; }
-    case TOKEN_LEFT_PARENTHESIS:    { return "TOKEN_LEFT_PARENTHESIS"; }
-    case TOKEN_NAME:                { return "TOKEN_NAME"; }
-    case TOKEN_PERCENT:             { return "TOKEN_PERCENT"; }
-    case TOKEN_PIPE:                { return "TOKEN_PIPE"; }
-    case TOKEN_RIGHT_PARENTHESIS:   { return "TOKEN_RIGHT_PARENTHESIS"; }
-    case TOKEN_SEMICOLON:           { return "TOKEN_SEMICOLON"; }
-    case TOKEN_SINGLE_QUOTE:        { return "TOKEN_SINGLE_QUOTE"; }
-    case PARSER_TREE:               { return "PARSER_TREE"; }
-    case TOKENIZER_TREE:            { return "TOKENIZER_TREE"; }
-    default: {
-      return "UNKNOWN";
-    }
-  }
+  {":",   1, TOKEN_COLON},
+  {"\"",  1, TOKEN_DOUBLE_QUOTE},
+  {"=",   1, TOKEN_EQ},
 
-  return "UNKNOWN";
-}
+  {kEofTokenTxt, kEofTokenLength, TOKEN_EOF},
 
+  {"%",   1, TOKEN_PERCENT},
+  {"|",   1, TOKEN_PIPE},
+  {";",   1, TOKEN_SEMICOLON},
+  {"\'",  1, TOKEN_SINGLE_QUOTE}
+};
 
-static const size_t kUndefinedStableWordIdx = sizeof(stable_words) / sizeof(StableWord) + 1;
+/// @return   Next symbol.
+static inline __attribute__((always_inline))
+char PeekNext(char const* const cursor)
+{ return *(cursor + 1); }
+
+/// @return   Previous symbol.
+static inline __attribute__((always_inline))
+char PeekPrev(const char* const cursor)
+{ return *(cursor - 1); }
 
 /**
  * @brief Checks if symbol 'c' in kSplitSymbols which
@@ -89,7 +64,7 @@ static const size_t kUndefinedStableWordIdx = sizeof(stable_words) / sizeof(Stab
  * @return    true if 'c' in 'kSplitSYmbols'.
  */
 static inline __attribute__((always_inline))
-bool IsSplit(const char c)
+bool SplitSym(const char c)
 { return strchr(kSplitSymbols, c) != NULL; }
 
 /**
@@ -100,38 +75,84 @@ bool IsSplit(const char c)
  * @return    true if 'c' in 'kWhiteSpace'.
  */
 static inline __attribute__((always_inline))
-bool IsWhiteSpace(const char c)
+bool WhitespaceSym(const char c)
 { return strchr(kWhiteSpace, c) != NULL; }
 
 /**
- * @brief Checks if symbol 'c' in kDigitSymbols which
- * contains all digit-symbols.
+ * @brief Checks if the symbol is the quote-symbol
  * 
  * @param c   Symbol to check.
- * @return    true if 'c' in 'kDigitSymbols'.
+ * @return    true if 'c' is quote symbol.
  */
 static inline __attribute__((always_inline))
-bool IsDigit(const char c)
-{ return strchr(kDigitSymbols, c) != NULL; }
+bool QuoteSym(const char c)
+{ return c == kSingleQuoteSym || c == kDoubleQuoteSym; }
+
+/**
+ * @brief Checks if the current and next symbols are beginning of
+ * the commentary block or commentary line.
+ * 
+ * @param cursor   Cursor in source code.
+ * @returns        true if the current and next symbols is the beginning. 
+ */
+static inline __attribute__((always_inline))
+bool CommentSyms(const char c, const char next)
+{
+  return
+    (c == kCommentFirstSym && next == kCommentSecondSym) ||
+    (c == kCommentFirstSym && next == kCommentFirstSym);
+}
+
+/**
+ * @brief Auxilary function to get
+ * text representation of token by token type.
+ * 
+ * @param type   Type of incoming token.
+ * @returns      Text name of token.
+ */
+const char *TranslateTokenType(TokenType type)
+{
+  switch (type) {
+    case TOKEN_COLON:             { return "TOKEN_COLON"; }
+    case TOKEN_DOUBLE_QUOTE:      { return "TOKEN_DOUBLE_QUOTE"; }
+    case TOKEN_EQ:                { return "TOKEN_EQ"; }
+    case TOKEN_EOF:               { return "TOKEN_EOF"; }
+    case TOKEN_NAME:              { return "TOKEN_NAME"; }
+    case TOKEN_PERCENT:           { return "TOKEN_PERCENT"; }
+    case TOKEN_PIPE:              { return "TOKEN_PIPE"; }
+    case TOKEN_SEMICOLON:         { return "TOKEN_SEMICOLON"; }
+    case TOKEN_SINGLE_QUOTE:      { return "TOKEN_SINGLE_QUOTE"; }
+    case PARSER_TREE:             { return "PARSER_TREE"; }
+    case TOKENIZER_TREE:          { return "TOKENIZER_TREE"; }
+
+    default: {
+      return "TOKEN_UNKNOWN";
+    }
+  }
+
+  return "TOKEN_UNKNOWN";
+}
+
+static const size_t kNotFoundIdx = sizeof(stable_words) / sizeof(StableWord) + 1;
 
 /**
  * @brief Checks if the cur_word is
- * stable word or just name or number.
+ * stable word.
  * 
  * @param cur_word   Word to check.
  * @returns          Token to push in sequence.
  */
-uint64_t IdentifyToken(char *cur_word)
+static uint64_t IdentifyType(char *word)
 {
-  assert(cur_word != NULL && "nullptr param");
+  assert(word != NULL && "nullptr param");
 
   for (size_t idx = 0; idx < sizeof(stable_words) / sizeof(StableWord); ++idx) {
-    if (strcmp(stable_words[idx].txt, cur_word) == 0) {
+    if (strcmp(stable_words[idx].txt, word) == 0) {
       return idx;
     }
   }
 
-  return kUndefinedStableWordIdx;
+  return kNotFoundIdx;
 }
 
 /**
@@ -141,13 +162,12 @@ uint64_t IdentifyToken(char *cur_word)
  * @param idx   Found index.
  * @returns     Build token.
  */
-Token ConstructToken(uint64_t idx)
+static Token CtorTokenByType(uint64_t idx)
 {
   Token token = {0};
   
   token.txt = (char *)calloc(kTokenMaxLen, sizeof(char));
   assert(token.txt != NULL && "Null calloc allocation");
-
 
   token.type = stable_words[idx].type;
   strcpy(token.txt, stable_words[idx].txt);
@@ -162,7 +182,7 @@ Token ConstructToken(uint64_t idx)
  * @param txt   token txt to fill.
  * @returns     Build token.
  */
-Token FillToken(const char *txt)
+static Token CtorToken(const char *txt)
 {
   assert(txt != NULL && "nullptr param");
 
@@ -185,7 +205,7 @@ Token FillToken(const char *txt)
  * @param sequence        Sequence to append.
  * @param sequence_size   Current size of sequence of tokens.
  */
-void PushToken(Token *token, Token *sequence, uint64_t *sequence_size)
+static void PushToken(Token *token, Token *sequence, uint64_t *sequence_size)
 {
   assert(token         != NULL && "nullptr param");
   assert(sequence      != NULL && "nullptr param");
@@ -199,85 +219,45 @@ void PushToken(Token *token, Token *sequence, uint64_t *sequence_size)
  * @brief Tries to build token from 'cur_word'
  * and add it to token 'sequence'
  * 
- * @param cur_token_len   Current size of 'cur_word'.
+ * @param word_sz   Current size of 'cur_word'.
  * @param cur_word        Current collected word.
  * @param sequence        Sequence to append.
  * @param sequence_size   Current size of sequence.
  */
-void TryPushToken(
-  uint64_t *cur_token_len, char *cur_word, Token *sequence, uint64_t *sequence_size)
+static void TryPush
+    (uint64_t *word_sz, char *cur_word, Token *sequence, uint64_t *sequence_size)
 {
-  assert(cur_token_len != NULL && "nullptr param");
+  assert(word_sz != NULL && "nullptr param");
   assert(cur_word      != NULL && "nullptr param");
   assert(sequence      != NULL && "nullptr param");
   assert(sequence_size != NULL && "nullptr param");
 
-  __msg(D_TOKENIZER, M, "Try push token\"%s\"\n", cur_word);
-  __tab_incr();
-  if (*cur_token_len > 0) {
-    uint64_t idx = IdentifyToken(cur_word);
+  msg(D_TOKENIZER, M, "Try push token\"%s\"\n", cur_word);
+  tab_incr();
+  if (*word_sz > 0) {
+    uint64_t idx = IdentifyType(cur_word);
 
     Token token = {0};
-    if (idx != kUndefinedStableWordIdx) {
-      token = ConstructToken(idx);
+    if (idx != kNotFoundIdx) {
+      token = CtorTokenByType(idx);
     } else {
-      token = FillToken(cur_word);
+      token = CtorToken(cur_word);
     }
-    __msg(D_TOKENIZER, M, "token filled\n");
+    msg(D_TOKENIZER, M, "token filled\n");
 
     PushToken(&token, sequence, sequence_size);
-    *cur_token_len = 0;
+    *word_sz = 0;
 
     memset(cur_word, '\0', kTokenMaxLen);
-    __msg(D_TOKENIZER, M, "now cur_word:\"%s\"-empty\n", cur_word);
+    msg(D_TOKENIZER, M, "now cur_word:\"%s\"-empty\n", cur_word);
     
-    __tab_decr();
-    __msg(D_TOKENIZER, M, "Token:\"%s\" - pushed\n", token.txt);
+    tab_decr();
+    msg(D_TOKENIZER, M, "Token:\"%s\" - pushed\n", token.txt);
   } else {
-    __tab_decr();
-    __msg(D_TOKENIZER, M, "Not pushed\n", cur_word);
+    tab_decr();
+    msg(D_TOKENIZER, M, "Not pushed\n", cur_word);
   }
 }
-
-/**
- * @brief Checks if the next symbol can be good
- * addition for 'cur_word' as
- *    cur_word + *(cursor + 1) -- is in stable words again.
- * Used after picking split symbol.
- * 
- * @param cur_word        Current collected word.
- * @param cursor Cursor   position in source text.
- * @param cur_token_len   Current length of collected word.
- * @returns               true if cur_word + *(cursor + 1) -- is in stable words again.
- */
-bool CanBeAppended(char *cur_word, char *cursor, uint64_t cur_token_len)
-{
-  assert(cur_word != NULL && "nullptr param");
-  assert(cursor   != NULL && "nullptr param");
-
-  char *copy = (char *)calloc(kTokenMaxLen, sizeof(char));
-  assert(copy != NULL && "Null calloc allocation");
-
-  strcpy(copy, cur_word);
-
-  copy[cur_token_len] = *cursor;
-
-  if (IdentifyToken(copy) == kUndefinedStableWordIdx) {
-    return false;
-  } else {
-    return true;
-  }
-}
-
-/**
- * @brief Checks if the current and next symbols are beginning of
- * the commentary block or commentary line.
- * 
- * @param cursor   Cursor in source code.
- * @returns        true if the current and next symbols is the beginning. 
- */
-bool CheckIfItsCommentary(char *cursor)
-{ return (*cursor == '/' && *(cursor + 1) == '*') || (*cursor == '/' && *(cursor + 1) == '/'); }
 
 /**
  * @brief Moves cursor untill the cursor
@@ -285,31 +265,62 @@ bool CheckIfItsCommentary(char *cursor)
  * 
  * @param cursor   Pointer to cursor in source text.
  */
-void SkipCommentary(char **cursor)
+static void SkipCommentary(char const **cursor)
 {
   ++(*cursor);
 
-  if (**cursor != EOF && **cursor == '*') {
-    __msg(D_TOKENIZER, M, "Waiting for long commentary-end symbol\n");
-    while (**cursor != '/' || *(*cursor - 1) != '*') {
+  if (**cursor != EOF && **cursor == kCommentSecondSym) {
+    msg(D_TOKENIZER, M,
+      "Waiting for long commentary-end symbol\n");
+
+    while (**cursor != kCommentFirstSym || PeekPrev(*cursor) != kCommentSecondSym) {
       ++(*cursor);
     }
 
     ++(*cursor);
-  } else if (**cursor != EOF && **cursor == '/') {
-    __msg(D_TOKENIZER, M, "Waiting for small commentary-end symbol\n");
-    while (**cursor != EOF && **cursor != '\n'){
+  } else if (**cursor != EOF && **cursor == kCommentFirstSym) {
+    msg(D_TOKENIZER, M, "Waiting for small commentary-end symbol\n");
+    while (**cursor != EOF && **cursor != kNewLineSym){
       ++(*cursor);
     }
 
     ++(*cursor);
   }
 
-  __msg(D_TOKENIZER, M, "Commentary ends\n");
+  msg(D_TOKENIZER, M, "Commentary ends\n");
 }
 
-bool IsQuotes(char *cursor)
-{ return *cursor == '\"' || *cursor == '\''; }
+static inline __attribute__((always_inline))
+void AppendWord(char *word, uint64_t *word_sz, char const **cursor)
+{
+  word[*word_sz] = **cursor;
+  //  Moves pointer and
+  // increase size of word.
+  ++(*word_sz);
+  ++(*cursor);
+}
+
+static void CollectQuotedData
+    (char const **cursor, char *word, uint64_t *word_sz, uint64_t *n_tokens, Token *sequence)
+{
+  bool is_prev_escape_sym = false;
+  // Check if previous character was escaped.
+  while ((!QuoteSym(**cursor) || is_prev_escape_sym == true) && **cursor != EOF) {
+    // Set next symbol escaped.
+    if (**cursor == kEscapeSym) {
+      is_prev_escape_sym = true;
+      AppendWord(word, word_sz, cursor);
+    }
+
+    if (is_prev_escape_sym == true && PeekPrev(*cursor) == kEscapeSym) {
+      is_prev_escape_sym = false;
+    }
+
+    AppendWord(word, word_sz, cursor);
+  }
+
+  TryPush(word_sz, word, sequence, n_tokens);
+}
 
 /**
  * @brief Siple tokenizer O(n*k) where k is
@@ -328,140 +339,91 @@ bool IsQuotes(char *cursor)
  * @param name   Name of file to tokenize.
  * @returns      sequence of Tokens.
  */
-Token *Tokenizer(const char *name, uint64_t *n_tokens)
+Token *Tokenizer(char const* const txt, uint64_t *n_tokens)
 {
-  assert(name     != NULL && "nullptr param");
+  assert(txt      != NULL && "nullptr param");
   assert(n_tokens != NULL && "nullptr param");
 
-  // Read the file with name 'name'.
-  __msg(D_TOKENIZER, M, "Read text\n");
-  char *source_text = GetSourceText(name);
-  assert(source_text != NULL && "Null source text");
-  __msg(D_TOKENIZER, M, "Source text successfully copied!\n");
-
-  // Prepare sequence.
-  Token *sequence = (Token *)calloc(kInitSequenceSize, sizeof(Token));
+  Token *sequence = (Token*)calloc(kInitSequenceSize, sizeof(Token));
   assert(sequence != NULL && "Null calloc allocation");
 
-  uint64_t sequence_size = 0;
+  uint64_t word_sz = 0;
+  char word[kTokenMaxLen] = "";
 
-  // Prepare current word buffer.
-  uint64_t cur_token_len = 0;
-  char cur_word[kTokenMaxLen] = "";
-  char *cursor = source_text;
+  //  Pointer to current symbol in source text (txt).
+  char const *cursor = txt;
 
-  // Read the symbols until we meet EOF symbol.
+  // Read the symbols until we meet EOF.
   while (*cursor != EOF) {
-    // Debug...
-    if (*cursor == '\n') { __msg(D_TOKENIZER, M, "sym:\'%s\'\n", "\\n"); }
-    else                 { __msg(D_TOKENIZER, M, "sym:\'%c\'\n", *cursor); }
-    /* Checks if current symbol
-    is the beginning of the commentary block of cosequent types:
-      one-string commentary: //...
-      several-strings commentary: /'star'...'star'/
-    And then skip commentary in 'SkipCommentary function'.*/
-    if (CheckIfItsCommentary(cursor) && cur_token_len == 0) {
-      __tab_incr();
-      __msg(D_TOKENIZER, M, "Skip commentary\n");
+    msg(D_TOKENIZER, M, "sym:(%c)\n", *cursor);
+    
+    //  Skip comment if it is.
+    // (word_sz) > 0 means that it can be divide-symbol.
+    if (CommentSyms(*cursor, PeekNext(cursor)) && word_sz == 0) {
       SkipCommentary(&cursor);
-      __tab_decr();
       continue;
     }
 
-    /* If we meet white space symbol
-    -skip all white symbols
-    -push current collected token if it has non-zero size.*/
-    if (IsWhiteSpace(*cursor)) {
-      __tab_incr();
-      __msg(D_TOKENIZER, M, "Whitespace symbol; try to push collected token\n");
-      while (IsWhiteSpace(*cursor) && *cursor != EOF) {
+    // If it's whitespace symbol
+    if (WhitespaceSym(*cursor)) {
+      // Skip All whitespace symbols.
+      while (WhitespaceSym(*cursor) && *cursor != EOF) {
         ++cursor;
       }
 
-      TryPushToken(&cur_token_len, cur_word, sequence, &sequence_size);
-      __tab_decr();
+      // Push collected word.
+      TryPush(&word_sz, word, sequence, n_tokens);
       continue;
     }
 
-    /* If we have common splitter:
-    -push current collected token (if it has non-zero size)
-    -collect next token (it will be splitter with size 1 or 2)
-    -push it to sequence.*/
-    if (IsSplit(*cursor)) {
-      __msg(D_TOKENIZER, M, "Split symbol; try to push collected token\n");
-      if (CheckIfItsCommentary(cursor)) {
-        TryPushToken(&cur_token_len, cur_word, sequence, &sequence_size);
+    // If it's split symbol
+    if (SplitSym(*cursor)) {
+      // Push collected word.
+      TryPush(&word_sz, word, sequence, n_tokens);
+
+      // It can be a comment symbol.
+      if (CommentSyms(*cursor, PeekNext(cursor))) {
         continue;
       }
 
-      if (IsQuotes(cursor)) {
-        cur_word[cur_token_len] = *cursor;
-        ++cur_token_len;
-        ++cursor;
-        TryPushToken(&cur_token_len, cur_word, sequence, &sequence_size);
+      // It can be a quote symbol.
+      if (QuoteSym(*cursor)) {
+        // Push Quote.
+        AppendWord(word, &word_sz, &cursor);
+        TryPush(&word_sz, word, sequence, n_tokens);
 
-        bool is_prev_escape_sym = false;
-        while (!IsQuotes(cursor) && is_prev_escape_sym == false) {
-          if (*cursor == EOF) {
-            break;
-          }
-          
-          if (*cursor == '\\') {
-            is_prev_escape_sym = true;
-            cur_word[cur_token_len] = *cursor;
-            ++cur_token_len;
-            ++cursor;
-          }
+        // Сollect string between quotes.
+        CollectQuotedData(&cursor, word, &word_sz, n_tokens, sequence);
 
-          // printf("cur quote-sym:%c\n", *cursor);
-          if (is_prev_escape_sym == true && *(cursor - 1) == '\\') {
-            is_prev_escape_sym = false;
-          }
-
-          cur_word[cur_token_len] = *cursor;
-          ++cur_token_len;
-          ++cursor;
-        }
+        // Push Quote.
+        AppendWord(word, &word_sz, &cursor);
+        TryPush(&word_sz, word, sequence, n_tokens);
+        continue;
       }
 
-      __msg(D_TOKENIZER, M, "Push current token with data \"%s\"\n", cur_word);
-      TryPushToken(&cur_token_len, cur_word, sequence, &sequence_size);
+      // Push collected word.
+      TryPush(&word_sz, word, sequence, n_tokens);
 
-      while (IsSplit(*cursor)  && *cursor != EOF) {
-        cur_word[cur_token_len] = *cursor;
-        ++cur_token_len;
-        ++cursor;
-
-        if (CanBeAppended(cur_word, cursor, cur_token_len)) {
-          continue;
-        } else {
-          break;
-        }
-      }
-
-      /* Try to push the biggest possible word
-      collected from split symbols.*/
-      TryPushToken(&cur_token_len, cur_word, sequence, &sequence_size);
+      // Push split.
+      AppendWord(word, &word_sz, &cursor);
+      TryPush(&word_sz, word, sequence, n_tokens);
       continue;
     }
 
     // Or we just append current word by new symbol.
-    cur_word[cur_token_len] = *cursor;
-    ++cur_token_len;
-    ++cursor;
+    AppendWord(word, &word_sz, &cursor);
   }
-  /* Push the last token in sequence if
-  the file doesn't end with whitespace symbol.*/
-  TryPushToken(&cur_token_len, cur_word, sequence, &sequence_size);
-  
-  // Push the final terminatie token TOKEN_EOF.
-  cur_token_len = kEofTokenLength;
-  strcpy(cur_word, kEofTokenTxt);
-  TryPushToken(&cur_token_len, cur_word, sequence, &sequence_size);
-  
-  *n_tokens = sequence_size;
 
-  free(source_text);
+  //  Push collected word.
+  // Which could be collected before EOF.
+  TryPush(&word_sz, word, sequence, n_tokens);
+  
+  // Push TOKEN_EOF.
+  word_sz = kEofTokenLength;
+  strcpy(word, kEofTokenTxt);
+  TryPush(&word_sz, word, sequence, n_tokens);
 
   return sequence;
 }
+
+#undef kEofTokenTxt

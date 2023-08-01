@@ -1,13 +1,3 @@
-/**
- * @file RebeccaCompiler.h
- * Main compiler logic of Rebecca-language.
- * 
- * Provides
- *   -main constants,
- *   -token identifiers,
- *   -token text representation,
- *   -all functions of each part of compilation (from frontend to binary translation)
- */
 #pragma once
 
 #include <assert.h>
@@ -18,41 +8,39 @@
 #include <stdbool.h>
 
 #include <include/Utilities.h>
-#include <include/Value.h>
 
-// Global constants --------------------------------------------------------------------------
-
+// Global entities --------------------------------------------------------------------------
 /// Maximal token length in characters.
 #define kTokenMaxLen 256
-
-/// Maximal local variables in scope restriction.
-static const uint64_t kMaxLocals     = 256;
-/// Maximal scope layers in program to restrict memory consuming.
-static const uint64_t kMaxScopeDepth = 256;
-/// Maximal scope layers in program.
+/// Initial size of sequence of token sequence.
 static const uint64_t kInitSequenceSize = 1024;
-
 /**
- * @brief Logically different token types.
- * 
- * @note For example '|' and '||' is one logical
- * token and they have different meanings.
+ * @brief Types of tokens
+ * in tokenizing/parsing of parser's AST parseing.
  */
 typedef enum TokenType
 {
+  /// Default type.
   TOKEN_UNKNOWN,
-  TOKEN_COLON,              // ':'
-  TOKEN_DOUBLE_QUOTE,       // '"'
-  TOKEN_EQ,                 // '='
-  TOKEN_EOF,                // end of file
-  TOKEN_HASHTAG,            // '#'
-  TOKEN_LEFT_PARENTHESIS,   // '('
-  TOKEN_NAME,               // any name of variavle/function/class/...
-  TOKEN_PERCENT,            // '%'
-  TOKEN_PIPE,               // '|'
-  TOKEN_RIGHT_PARENTHESIS,  // ')'
-  TOKEN_SEMICOLON,          // ';'
-  TOKEN_SINGLE_QUOTE,       // '''
+  // Rule start token: (:)
+  TOKEN_COLON,
+  // Variable string data: (")
+  TOKEN_DOUBLE_QUOTE,
+  // Variable equality symbol: (=)
+  TOKEN_EQ,
+  // EOF symbol in file: (EOF)
+  TOKEN_EOF,
+  // Variable's name: ([0-9a-zA-Z]+)
+  TOKEN_NAME,
+  // Variable declaration start token.
+  TOKEN_PERCENT,
+  // Rule or-option token: (|)
+  TOKEN_PIPE,
+  // Rule end token: (;)
+  TOKEN_SEMICOLON,
+  // Variable char data: (')
+  TOKEN_SINGLE_QUOTE,
+
   // Auxilary token types for tree representation:
   TOKENIZER_TREE,
   PARSER_TREE
@@ -61,63 +49,48 @@ typedef enum TokenType
 const char *TranslateTokenType(TokenType type);
 
 // Lexer part --------------------------------------------------------------------------------
-/**
- * @addtogroup Lexer
- * Simple Lexer realization.
- * @{
- */
 
-/**
- * @brief auxilary structure to create
- * cosequent array of stable words for matching
- * collected words from source code with stable words
- * in this array.
- * 
- * If tokenizer collect stabe word in 'cur_word'
- * it will matched with 'txt' in 'stable_words'-particular
- * word and tokenizer will push token with the 'txt' and 'type'
- * to token sequence.
- */
-typedef struct
-{
-  // Text representation of token.
-  const char *txt;
-  // Length of token.
-  size_t      len;
-  // Token logic type.
-  TokenType   type;
-} StableWord;
+static const char kSingleQuoteSym = '\'';
+static const char kDoubleQuoteSym = '\"';
 
-static const char  *kEofTokenTxt = "EOF";
-static const size_t kEofTokenLength = 3;
+static const char kNewLineSym = '\n';
+static const char kSpaceSym   =  ' ';
+static const char kTabSym     = '\t';
 
-static StableWord stable_words[] =
-{
-  {":",   1, TOKEN_COLON},
-  {"\"",  1, TOKEN_DOUBLE_QUOTE},
-  {"=",   1, TOKEN_EQ},
-  {"EOF", 3, TOKEN_EOF},
-  {"#",   1, TOKEN_HASHTAG},
-  {"(",   1, TOKEN_LEFT_PARENTHESIS},
-  {")",   1, TOKEN_NAME},
-  {"%",   1, TOKEN_PERCENT},
-  {"|",   1, TOKEN_PIPE},
-  {")",   1, TOKEN_RIGHT_PARENTHESIS},
-  {";",   1, TOKEN_SEMICOLON},
-  {"\'",  1, TOKEN_SINGLE_QUOTE}
-};
-
-// Split symbols to split words in source code.
-static const char *kSplitSymbols = "():;%|=\'\"";
-// Whitespace symbols in source code.
-static const char *kWhiteSpace   = " \n\t";
-// Digit symbols in source code.
-static const char *kDigitSymbols = "01234567890";
 // Commentary symbols in source code.
-static const char *kCommentarySymbols = "/";
-/**
- * @}
- */
+static const char kCommentFirstSym  = '/';
+static const char kCommentSecondSym = '*';
+
+static const char  kEscapeSym = '\\';
+
+// Whitespace symbols in source code.
+static const char kWhiteSpace[] =
+{
+  kSpaceSym,
+  kNewLineSym,
+  kTabSym,
+  '\0'
+};
+// Split symbols to split words in source code.
+static const char kSplitSymbols[] =
+{
+  '(',
+  ')',
+  ':',
+  ';',
+  
+  kSingleQuoteSym,
+  kDoubleQuoteSym,
+
+  kCommentFirstSym,
+  kCommentSecondSym,
+
+  '%',
+  '|',
+  '=',
+  '\\',
+  '\0'
+};
 
 // Types of node for parser.
 typedef enum
@@ -131,30 +104,22 @@ typedef enum
 
 typedef struct
 {
-  // ---------------- This part fill the tokenizer
   // Type of token.
   TokenType  type;
   // Text representation of token.
   char      *txt;
-  // Static value (if exists).
-  Value     *value;
   PrsrNdType parser_type;
 } Token;
+
+Token *Tokenizer(char const* const txt, uint64_t *n_tokens);
+
+// AST part ----------------------------------------------------------------------------------
 
 typedef struct
 {
   uint64_t n_parsed;
   uint64_t cur_token_idx;
 } Context;
-
-// Check src/Tokenizer.c
-Token *Tokenizer(const char *name, uint64_t *n_tokens);
-
-/**
- * @}
- */
-
-// AST part ----------------------------------------------------------------------------------
 // Format of node to print it in graphviz.
 #define NODE_FMT                                                                            \
   "\tn%lu [shape=\"%s\" color=\"%s\" label=\"(%s)\\n%s\"]\n"
@@ -246,7 +211,6 @@ typedef struct
   Token *sequence;
 } Parser;
 
-// Check src/Parser.c
 Parser *BuildAst(Token *sequence, uint64_t n_tokens);
 
 void InsertParent(Tree *t, Node *n);

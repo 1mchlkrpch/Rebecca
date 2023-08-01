@@ -20,19 +20,19 @@ void WorkOutToken(Tree *t, Token *s, uint64_t *idx)
 
 void GenerateTrees(Tree *parser_tree, Tree *tokenizer_tree, Token *s, uint64_t n_tokens)
 {
-	__asrt(s != NULL, "Null parametr\n");
+	assert(s != NULL && "Null parametr\n");
 
-	__msg(D_PARSER_GENERATING, M,
+	msg(D_PARSER_GENERATING, M,
 		"Start of generating parser's AST\n");
 
 	size_t token_idx = 0;
-	__msg(D_PARSER_GENERATING, M,
+	msg(D_PARSER_GENERATING, M,
 		"Start parsing\n");
 
-	__tab_incr();
+	tab_incr();
 	for (; token_idx < n_tokens; ++token_idx) {
 		if (s[token_idx].type == TOKEN_PERCENT) {
-			__msg(D_PARSER_GENERATING, M,
+			msg(D_PARSER_GENERATING, M,
 				"Current token in s:(%s)\n",
 				s[token_idx].txt);
 			/* Skip this token
@@ -64,7 +64,7 @@ void GenerateTrees(Tree *parser_tree, Tree *tokenizer_tree, Token *s, uint64_t n
 			Parent(tokenizer_tree);
 			continue;
 		}
-		__tab_decr();
+		tab_decr();
 
 		// Reading Grammar rule.
 		if (s[token_idx].type == TOKEN_NAME) {
@@ -105,8 +105,8 @@ int64_t SearchInTable(Node *n, NameTable *table)
 {
 	for (size_t cur_el = 0; cur_el < table->size; ++cur_el) {
 		if (strcmp(table->names[cur_el]->token->txt, n->token->txt) == 0) {
-			printf("Already exists\n");
-			__msg(D_NAMETABLE, M,
+			// printf("Already exists\n");
+			msg(D_NAMETABLE, M,
 				"Already exists\n");
 
 			return cur_el;
@@ -118,8 +118,8 @@ int64_t SearchInTable(Node *n, NameTable *table)
 
 bool AddName(NameTable *table, Node *n)
 {
-	__asrt(table != NULL, "Null parametr\n");
-	__asrt(n     != NULL, "Null parametr\n");
+	assert(table != NULL && "Null parametr\n");
+	assert(n     != NULL && "Null parametr\n");
 
 	// Try to find this n in nametable.
 	if (SearchInTable(n, table) != -1) {
@@ -128,20 +128,21 @@ bool AddName(NameTable *table, Node *n)
 	// Add new name in table.
 	// printf("?\n");
 	memcpy(table->names + table->size, &n, sizeof(Node*));
-	__msg(D_NAMETABLE, M,
+	msg(D_NAMETABLE, M,
 		"Name was inserted\n");
 
 	++table->size;
-	__msg(D_NAMETABLE, M,
-		"Current size:%ld\n", table->size);
+	msg(D_NAMETABLE, M,
+		"Current size:%ld\n",
+		table->size);
 
 	return true;
 }
 
 void SearchNamesInBrance(Node *n, NameTable *table)
 {
-	__asrt(n     != NULL, "Null parametr\n");
-	__asrt(table != NULL, "Null parametr\n");
+	assert(n     != NULL && "Null parametr\n");
+	assert(table != NULL && "Null parametr\n");
 
 	bool is_ref = false;
 	if (n->token->type == TOKEN_NAME) {
@@ -166,10 +167,10 @@ void SearchNamesInBrance(Node *n, NameTable *table)
 	if (n->children != NULL) {
 		for (size_t cur_child_idx = 0; cur_child_idx < n->children->size; ++cur_child_idx) {
 			Node *cur_child = GetChild(n, cur_child_idx);
-			__tab_incr();
+			tab_incr();
 			SearchNamesInBrance(cur_child, table);
-			__tab_decr();
-			__msg(D_NAMETABLE, M,
+			tab_decr();
+			msg(D_NAMETABLE, M,
 				"End this child\n");
 		}
 	}
@@ -177,17 +178,17 @@ void SearchNamesInBrance(Node *n, NameTable *table)
 
 NameTable *ScanTokenizerNames(Tree *t)
 {
-	__asrt(t != NULL, "Null parametr\n");
+	assert(t != NULL && "Null parametr\n");
 	// Allocate name table for searching familiar names
 	NameTable *table = (NameTable*)calloc(1, sizeof(NameTable));
-	__asrt(table != NULL, "Null calloc allocation\n");
+	assert(table != NULL && "Null calloc allocation\n");
 	// Allocate array of names.
 	table->names = (Node**)calloc(kInitSizeNamesArray, sizeof(Node*));
-	__asrt(table != NULL, "Null calloc allocation\n");
+	assert(table != NULL && "Null calloc allocation\n");
 
-	__tab_incr();
+	tab_incr();
 	SearchNamesInBrance(t->root, table);
-	__tab_decr();
+	tab_decr();
 
 	return table;
 }
@@ -230,7 +231,7 @@ void GenerateEnumOfTokens(
 			continue;
 		}
 
-		printf("generate tokens\n");
+		// printf("generate tokens\n");
 		Node *in_parser_tree = parser_table->names[cur_el];
 		fprintf(header_file, "\t%s,\n", in_parser_tree->token->txt);
 		for (size_t cur_child = 0; cur_child < GetChild(in_parser_tree, 0)->children->size; ++cur_child) {
@@ -541,8 +542,8 @@ void GenerateTranslationCommand(FILE *c_file, Tree *tokenizer_tree, NameTable *t
 void GenerateTokenizerFile(
 	Tree *tokenizer_tree, NameTable *table, FILE *header_file, NameTable *parser_table)
 {
-	__asrt(tokenizer_tree != NULL, "Null param");
-	__asrt(table          != NULL, "Null param");
+	assert(tokenizer_tree != NULL && "Null param");
+	assert(table          != NULL && "Null param");
 
 	// FILE *header_file = fopen("../src/Tokenizer_GEN.h", "w");
 	FILE *c_file      = fopen("../out/Tokenizer_GEN.c", "w");
@@ -607,8 +608,8 @@ void GenerateTokenizerFile(
 // Generation parser file. -------------------------------------------------------------
 void WritePrefixOfParserFunction(FILE *header_file, FILE *c_file, const char *name_of_rule)
 {
-	__asrt(header_file            != NULL, "Null parametr\n");
-	__asrt(name_of_rule != NULL, "Null parametr\n");
+	assert(header_file  != NULL && "Null parametr\n");
+	assert(name_of_rule != NULL && "Null parametr\n");
 
 	fprintf(header_file,
 		"GEN_Context Try_%s(GEN_Tree *t, GEN_Token *sequence, GEN_Context ctx, uint64_t n_tokens);\n"
@@ -644,7 +645,7 @@ void WriteObviousCommands(FILE *header_file, FILE *c_file, NameTable *table)
 	fprintf(c_file,
 		"GEN_Context GEN_TryToken(GEN_Tree *t, GEN_Token *sequence, GEN_TokenType expected_type, GEN_Context ctx, uint64_t n_tokens)\n"
 		"{\n"
-		"\t__msg(D_PARSER_WORK, M, \"TryToken start t(%%s|idx:%%lu)\\n\", sequence[ctx.cur_token_idx].txt, ctx.cur_token_idx);\n"
+		"\tmsg(D_PARSER_WORK, M, \"TryToken start t(%%s|idx:%%lu)\\n\", sequence[ctx.cur_token_idx].txt, ctx.cur_token_idx);\n"
 		"\tGEN_Tree try_token_tree = {0};\n"
 		"\tGEN_AddChild(&try_token_tree, GEN_CreateNode(&try_token_tree, sequence + n_tokens - 1));\n"
 		"\tif (sequence[ctx.cur_token_idx].type == expected_type) {\n"
@@ -654,7 +655,7 @@ void WriteObviousCommands(FILE *header_file, FILE *c_file, NameTable *table)
 		"\t} else { return ctx; }\n\n"
 		"\tGEN_Parent(&try_token_tree);\n"
 		"\tGEN_AppendTree(t, &try_token_tree);\n"
-		"\t__msg(D_PARSER_WORK, M, \"END of TryToken\\n\");\n"
+		"\tmsg(D_PARSER_WORK, M, \"END of TryToken\\n\");\n"
 		"\treturn ctx;\n"
 		"}\n\n");
 
@@ -666,7 +667,6 @@ void WriteObviousCommands(FILE *header_file, FILE *c_file, NameTable *table)
 				"\treturn t;\n"
 				"}\n\n",
 				GetChild(GetChild(table->names[cur_el]->parent, 1), 0)->token->txt);
-			printf("??(%s)\n", GetChild(GetChild(table->names[cur_el]->parent, 1), 0)->token->txt);
 			fprintf(header_file,
 				"GEN_Tree *ParseSequence(GEN_Tree *t, GEN_Token *s, GEN_Context ctx, int64_t n_tokens);\n");
 			break;
@@ -677,10 +677,9 @@ void WriteObviousCommands(FILE *header_file, FILE *c_file, NameTable *table)
 
 void GenerateCommand(FILE *header_file, FILE *c_file, Node *n)
 {
-	__asrt(header_file != NULL, "Null parametr\n");
-	__asrt(n != NULL, "Null parametr\n");
-
-	__asrt(n->children != NULL, "Null parametr\n");
+	assert(header_file != NULL && "Null parametr\n");
+	assert(n           != NULL && "Null parametr\n");
+	assert(n->children != NULL && "Null parametr\n");
 
 	/* Name of current name
 	Of rule to use it as part of names of variables
@@ -706,7 +705,7 @@ void GenerateCommand(FILE *header_file, FILE *c_file, Node *n)
 		tabs[n_tabs++] = '\t';
 
 		fprintf(c_file,
-			"%s__msg(D_PARSER_WORK, M, \"%s\\n\");\n",
+			"%smsg(D_PARSER_WORK, M, \"%s\\n\");\n",
 			tabs, name_of_rule);
 
 		fprintf(c_file,
@@ -723,7 +722,7 @@ void GenerateCommand(FILE *header_file, FILE *c_file, Node *n)
 			tabs);
 
 		Node *chain = GetChild(fork, cur_child);
-		__tab_incr();
+		tab_incr();
 		while (chain->children != NULL) {
 			WriteChain(c_file, chain, tabs, cur_child, name_of_rule);
 			chain = GetChild(chain, 0);
@@ -735,12 +734,12 @@ void GenerateCommand(FILE *header_file, FILE *c_file, Node *n)
 			"\tGEN_AppendTree(t, &%s_%lu_tree);\n",
 			name_of_rule, cur_child + 1);
 
-		__tab_decr();
-		__msg(D_FILE_PRINT, M,
+		tab_decr();
+		msg(D_FILE_PRINT, M,
 					"end of line\n");
 
 		fprintf(c_file,
-			"%s__msg(D_PARSER_WORK, M, \"EXACTLY Try_%s_%lu\\n\");\n",
+			"%smsg(D_PARSER_WORK, M, \"EXACTLY Try_%s_%lu\\n\");\n",
 			tabs, name_of_rule, cur_child + 1);
 
 		fprintf(c_file,
@@ -761,11 +760,11 @@ void GenerateCommand(FILE *header_file, FILE *c_file, Node *n)
 	in parsing sequence.*/
 	WritePrefixOfParserFunction(header_file, c_file, name_of_rule);
 
-	__msg(D_PARSER_GENERATING, M,
+	msg(D_PARSER_GENERATING, M,
 		"Not tabs:\"%s\"(%lu)\n",
 		tabs, n_tabs);
 
-	__msg(D_PARSER_GENERATING, M,
+	msg(D_PARSER_GENERATING, M,
 		"Current rule has (%lu) options\n",
 		fork->children->size);
 
@@ -775,7 +774,7 @@ void GenerateCommand(FILE *header_file, FILE *c_file, Node *n)
 
 	/* If all rules can't be applied to the sequence that was wrong rule
 	to parse current place in token sequence so we return original contest.*/
-	fprintf(c_file, "%s\t__tab_decr();\n", tabs);
+	fprintf(c_file, "%s\ttab_decr();\n", tabs);
 	fprintf(c_file, "%s\treturn ctx;\n", tabs);
 
 	// Write all close-braces for all ifs.
@@ -799,13 +798,13 @@ void GenerateCommand(FILE *header_file, FILE *c_file, Node *n)
 
 void WriteChain(FILE *c_file, Node *chain, char *tabs, uint64_t cur_child, char *name_of_rule)
 {
-	__msg(D_FILE_PRINT, M,
+	msg(D_FILE_PRINT, M,
 		"Current node in line:%s\n", chain->token->txt);
 
 	fprintf(c_file,
-		"%s__tab_incr();\n"
-		"%s__msg(D_PARSER_WORK, M, \"new chain in option\\n\");\n"
-		"%s__tab_incr();\n",
+		"%stab_incr();\n"
+		"%smsg(D_PARSER_WORK, M, \"new chain in option\\n\");\n"
+		"%stab_incr();\n",
 		tabs, tabs, tabs);
 
 	if (chain->token->parser_type == NOT_SPECIAL) {
@@ -824,55 +823,55 @@ void WriteChain(FILE *c_file, Node *chain, char *tabs, uint64_t cur_child, char 
 	}
 
 	fprintf(c_file,
-		"%s__tab_decr();\n",
+		"%stab_decr();\n",
 		tabs);
 
 	fprintf(c_file,
 		"%sif (memcmp(&new_ctx, &try_ctx, sizeof(GEN_Context)) == 0) {\n"
-		"%s\t__msg(D_PARSER_WORK, M, \"NOT NEEDED OPTION: Try_%s_%lu\\n\");\n"
-		"%s\t__tab_decr();\n"
+		"%s\tmsg(D_PARSER_WORK, M, \"NOT NEEDED OPTION: Try_%s_%lu\\n\");\n"
+		"%s\ttab_decr();\n"
 		"%s\treturn ctx;\n"
 		"%s}\n"
 		"%stry_ctx = new_ctx;\n",
 		tabs, tabs, name_of_rule, cur_child + 1, tabs, tabs, tabs, tabs);
 
 	fprintf(c_file,
-		"%s__msg(D_PARSER_WORK, M, \"END chain in option\\n\");\n"
-		"%s__tab_decr();\n\n",
+		"%smsg(D_PARSER_WORK, M, \"END chain in option\\n\");\n"
+		"%stab_decr();\n\n",
 		tabs, tabs);
 }
 
 void GenerateCommands(FILE *header_file, FILE *c_file, Node *n)
 {
-	__asrt(header_file != NULL, "Null parametr\n");
-	__asrt(n           != NULL, "Null parametr\n");
+	assert(header_file != NULL && "Null parametr\n");
+	assert(n           != NULL && "Null parametr\n");
 
 	if (n->token->parser_type == RULE_NAME) {
 		// Check if it's rule root node.
-		__msg(D_FILE_PRINT, M,
+		msg(D_FILE_PRINT, M,
 			"Found rule-node:\"%s\"\n",
 			n->token->txt);
 		/* If that's rule name we will
 		generate function text and print it
 		to the parser file.*/
-		__tab_incr();
+		tab_incr();
 		GenerateCommand(header_file, c_file, n);
-		__tab_decr();
+		tab_decr();
 	} else {
 		if (n->children != NULL) {
 			/*If that node is not a rule-root node, maybe it
 			contains rule-node in it's children so we will check
 			nodes one by one.*/
 			for (uint64_t cur_child = 0; cur_child < n->children->size; ++cur_child) {
-				__msg(D_FILE_PRINT, M,
+				msg(D_FILE_PRINT, M,
 					"This node NOT rule:\"%s\"\n",
 					n->token->txt);
-				__msg(D_FILE_PRINT, M,
+				msg(D_FILE_PRINT, M,
 					"Start to check childs nodes\n");
-				__tab_incr();
+				tab_incr();
 				GenerateCommands(header_file, c_file, GetChild(n, cur_child));
-				__tab_decr();
-				__msg(D_FILE_PRINT, M,
+				tab_decr();
+				msg(D_FILE_PRINT, M,
 					"End of parsing children\n");
 			}
 		}
@@ -882,8 +881,8 @@ void GenerateCommands(FILE *header_file, FILE *c_file, Node *n)
 //////////////////////////////////////////////////
 void SearchNamesInBranceParser(Node *n, NameTable *table, NameTable *parser_table)
 {
-	__asrt(n     != NULL, "Null parametr\n");
-	__asrt(table != NULL, "Null parametr\n");
+	assert(n     != NULL && "Null parametr\n");
+	assert(table != NULL && "Null parametr\n");
 
 	bool is_ref = false;
 	if (n->token->type == TOKEN_NAME) {
@@ -919,10 +918,10 @@ void SearchNamesInBranceParser(Node *n, NameTable *table, NameTable *parser_tabl
 	if (n->children != NULL) {
 		for (size_t cur_child_idx = 0; cur_child_idx < n->children->size; ++cur_child_idx) {
 			Node *cur_child = GetChild(n, cur_child_idx);
-			__tab_incr();
+			tab_incr();
 			SearchNamesInBranceParser(cur_child, table, parser_table);
-			__tab_decr();
-			__msg(D_NAMETABLE, M,
+			tab_decr();
+			msg(D_NAMETABLE, M,
 				"End this child\n");
 		}
 	}
@@ -930,17 +929,17 @@ void SearchNamesInBranceParser(Node *n, NameTable *table, NameTable *parser_tabl
 
 NameTable *ScanParserNames(Tree *parser_tree, NameTable *table)
 {
-	__asrt(parser_tree != NULL, "Null parametr\n");
+	assert(parser_tree != NULL && "Null parametr\n");
 	// Allocate name table for searching familiar names
 	NameTable *parser_table = (NameTable*)calloc(1, sizeof(NameTable));
-	__asrt(parser_table != NULL, "Null calloc allocation\n");
+	assert(parser_table != NULL && "Null calloc allocation\n");
 	// Allocate array of names.
 	parser_table->names = (Node**)calloc(kInitSizeNamesArray, sizeof(Node*));
-	__asrt(parser_table != NULL, "Null calloc allocation\n");
+	assert(parser_table != NULL && "Null calloc allocation\n");
 
-	__tab_incr();
+	tab_incr();
 	SearchNamesInBranceParser(parser_tree->root, table, parser_table);
-	__tab_decr();
+	tab_decr();
 
 	return parser_table;
 }
@@ -957,9 +956,9 @@ void GenerateParserFile(Tree *t, Token *s, uint64_t n_tokens, NameTable *table, 
 
 	WriteObviousCommands(header_file, c_file, table);
 
-	__tab_incr();
+	tab_incr();
 	GenerateCommands(header_file, c_file, t->root);
-	__tab_decr();
+	tab_decr();
 
 	fclose(c_file);
 }
@@ -1027,7 +1026,8 @@ void GenerateTreeFile(FILE *header_file)
 		"void GEN_CompressTree(GEN_Tree *t, GEN_Node *n);\n\n");
 
 	fprintf(c_file,
-		"#include <Tokenizer_GEN.h>\n\n"
+		"#include <Tokenizer_GEN.h>\n"
+		"#include <assert.h>\n"
 		"#include <MchlkrpchLogger/logger.h>\n\n");
 
 	fprintf(c_file,
@@ -1041,7 +1041,7 @@ void GenerateTreeFile(FILE *header_file)
 		"GEN_Tree *GEN_TreeCtor(GEN_TokenType type)\n"
 		"{\n"
 		"\tGEN_Tree *new_tree = (GEN_Tree *)calloc(1, sizeof(GEN_Tree));\n"
-		"\t__asrt(new_tree != NULL, \"Null calloc allocation\");\n"
+		"\tassert(new_tree != NULL && \"Null calloc allocation\");\n"
 		"\tGEN_AddChild(new_tree, GEN_CreateNodeByType(new_tree, type));\n"
 		"\treturn new_tree;\n"
 		"}\n\n"
@@ -1277,7 +1277,7 @@ void GenerateTreeFile(FILE *header_file)
 
 void GenerateFiles(Token *s, uint64_t n_tokens)
 {
-	__asrt(s != NULL, "Null param");
+	assert(s != NULL && "Null param");
 
 	Tree *tokenizer_tree = TreeCtor(TOKENIZER_TREE);
 	Tree *parser_tree    = TreeCtor(PARSER_TREE);

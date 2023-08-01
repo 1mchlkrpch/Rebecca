@@ -32,7 +32,7 @@ void SetLogfile(FILE *f)
 }
 
 /// @brief Increases 'logger_ptr->n_tabs'. 
-void __tab_incr()
+void tab_incr()
 {
   for (uint64_t cur_sym = logger_ptr->tab_size * logger_ptr->n_tabs;
     cur_sym < logger_ptr->tab_size * (logger_ptr->n_tabs + 1); ++cur_sym) {
@@ -43,7 +43,7 @@ void __tab_incr()
 }
 
 /// @brief Decreases 'logger_ptr->n_tabs'. 
-void __tab_decr()
+void tab_decr()
 {
   if (logger_ptr->n_tabs == 0) {
     return;

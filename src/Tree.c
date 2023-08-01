@@ -11,10 +11,10 @@
 Node *NodeCtor()
 {
   Node *n = (Node *)calloc(1, sizeof(Node));
-  __asrt(n != NULL, "Null calloc allocation");
+  assert(n != NULL && "Null calloc allocation");
 
   n->token = (Token *)calloc(1, sizeof(Token));
-  __asrt(n->token != NULL, "Null calloc allocation");
+  assert(n->token != NULL && "Null calloc allocation");
 
   return n;
 }
@@ -22,7 +22,7 @@ Node *NodeCtor()
 Tree *TreeCtor(TokenType type)
 {
 	Tree *new_tree = (Tree *)calloc(1, sizeof(Tree));
-	__asrt(new_tree != NULL, "Null calloc allocation");
+	assert(new_tree != NULL && "Null calloc allocation");
 
 	AddChild(new_tree, CreateNodeByType(new_tree, type));
 
@@ -39,9 +39,9 @@ Tree *TreeCtor(TokenType type)
  */
 Node *AddChild(Tree *t, Node *new_child)
 {
-	__asrt(t                     != NULL, "Null param");
-	__asrt(new_child             != NULL, "Null param");
-	__asrt(new_child->token->txt != NULL, "Null param");
+	assert(t                     != NULL && "Null param");
+	assert(new_child             != NULL && "Null param");
+	assert(new_child->token->txt != NULL && "Null param");
 
 	if (t->current == NULL) {
 		t->root    = new_child;
@@ -131,7 +131,6 @@ const char *CellBordersFormat(TokenType t)
 
 const char *CheckIfRuleName(PrsrNdType type)
 {
-	// return (is_rule_name == false)? "black" : "red";
 	switch (type) {
 		case            VAR_NAME: { return "yellow"; }
 		case           RULE_NAME: { return "cyan"; }
