@@ -89,22 +89,6 @@ void InsertParent(Tree *t, Node *n)
 	}
 }
 
-static Parser *ParserCtor(Token *sequence)
-{
-	assert(sequence != NULL && "Null param");
-
-	Parser *parser = (Parser *)calloc(1, sizeof(Parser));
-	assert(parser != NULL && "Null calloc allocation");
-
-	parser->sequence = sequence;
-	parser->current_token = parser->sequence;
-
-	parser->tree = (Tree *)calloc(1, sizeof(Tree));
-	assert(parser->tree != NULL && "Null calloc allocation");
-
-	return parser;
-}
-
 /**
  * @brief Get's better style of
  * graph of AST tree by give each node

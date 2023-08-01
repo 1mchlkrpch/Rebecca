@@ -1,0 +1,12 @@
+char var(int first, int second, char third) {
+	int variable = first + third;
+	b = c;
+
+	if (a + b == c) {
+		b = c;
+
+		if (a + b > c) {
+			b = c;	
+		};	
+	};
+}

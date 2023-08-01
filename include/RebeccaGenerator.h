@@ -93,16 +93,16 @@ static const char kSplitSymbols[] =
 };
 
 // Types of node for parser.
-typedef enum
+typedef enum PrsrNdType
 {
   NOT_SPECIAL,
-     VAR_NAME,
-    RULE_NAME,
-    RULE_NAME_REFERENCE,
-     VAR_NAME_REFERENCE,
+   VAR_NAME,
+  RULE_NAME,
+  RULE_NAME_REFERENCE,
+   VAR_NAME_REFERENCE,
 } PrsrNdType;
 
-typedef struct
+typedef struct Token
 {
   // Type of token.
   TokenType  type;
@@ -120,8 +120,9 @@ typedef struct
   uint64_t n_parsed;
   uint64_t cur_token_idx;
 } Context;
+
 // Format of node to print it in graphviz.
-#define NODE_FMT                                                                            \
+#define NODE_FMT                                             \
   "\tn%lu [shape=\"%s\" color=\"%s\" label=\"(%s)\\n%s\"]\n"
 
 /**
@@ -142,8 +143,6 @@ typedef struct Node
   // Type of node in parser generating.
 } Node;
 
-// typedef struct Node Node;
-
 /**
  * @brief abstract syntax tree
  * structure. The next repsesentation
@@ -161,6 +160,7 @@ typedef struct
 {
   // Root node of AST.
   Node       *root;
+  // Current node in tree.
   Node       *current;
   // Number of nodes in AST.
   size_t      size;
@@ -170,12 +170,10 @@ typedef struct
 char *GetSourceText(const char *name);
 
 void GenerateTrees(Tree *parser_tree, Tree *tokenizer_tree, Token *sequence, uint64_t n_tokens);
-// YACC-simmilar tiny ast-builder.
-// Tree *GenerateParserAst(Token *sequence, uint64_t n_tokens);
-// Translate YACC-similar file to parser file.
-// Tree *GenerateParserFile(Token *sequence, uint64_t n_tokens);
+
 void GenerateFiles(Token *sequence, uint64_t n_tokens);
 
+// Tree library -----------------------------------------------------------------------------
 Node *AddChild(Tree *t, Node *n);
 
 TokenType Ttype(Node *n);
@@ -189,29 +187,12 @@ void DebugTree(Tree *t);
 void Parent(Tree *t);
 
 Node *NodeCtor();
+
 Tree *TreeCtor();
 
 void AppendTree(Tree *first, Tree *second);
 
 void FillNodeWith(Token *token);
-
-/**
- * @brief parser machine.
- * Uses Token 'sequence' and build the AST.
- */
-typedef struct
-{
-  // Tokens from tokenizer.
-  Tree *tree;
-  // Current context on each token.
-  Context ctx;
-  // Index of current token to parse in sequence.
-  Token *current_token;
-  // Sequence to parse.
-  Token *sequence;
-} Parser;
-
-Parser *BuildAst(Token *sequence, uint64_t n_tokens);
 
 void InsertParent(Tree *t, Node *n);
 
@@ -225,7 +206,7 @@ void PreParserAnalisys(Token *sequence, uint64_t n_tokens);
 
 static const size_t kInitSizeNamesArray = 512;
 
-typedef struct
+typedef struct NameTable
 {
   size_t size;
   Node **names;

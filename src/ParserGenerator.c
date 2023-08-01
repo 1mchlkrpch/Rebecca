@@ -383,7 +383,6 @@ void GenerateCommonCommands(FILE *c_file, Tree *tokenizer_tree, NameTable *table
 		"\t\t\t\tif (reti == 0) {\n"
 		"\t\t\t\t\tint res = regexec(&regex, cur_word, 0, NULL, 0);\n"
 		"\t\t\t\t\tif (res == 0) {\n"
-		"\t\t\t\t\t\tprintf(\"YES REGEX!(%%s)\\n\", cur_word);\n"
 		"\t\t\t\t\t\ttoken.txt = (char *)calloc(kTokenMaxLen, sizeof(char));\n"
 		"\t\t\t\t\t\tassert(token.txt != NULL && \"Null calloc allocation\");\n"
 		"\t\t\t\t\t\ttoken.type = GEN_stable_regex_words[idx].type;\n"
@@ -899,20 +898,34 @@ void SearchNamesInBranceParser(Node *n, NameTable *table, NameTable *parser_tabl
 			is_ref = true;
 		}
 
-		if (SearchInTable(n, parser_table) != -1) {
-			n->token->parser_type = RULE_NAME_REFERENCE;
-			is_ref = true;
+		if (!is_ref) {
+			if (n->token->type == TOKEN_NAME &&
+					n->children != NULL &&
+					GetChild(n,0)->token->type == TOKEN_COLON) {
+				n->token->parser_type = RULE_NAME;
+			} else {
+				n->token->parser_type = RULE_NAME_REFERENCE;
+			}
 		}
 
-		if (!is_ref) {
-			AddName(parser_table, n) == true;
-			n->token->parser_type = RULE_NAME;
-			// if (AddName(parser_table, n) == true) {
-			// 	n->token->parser_type = VAR_NAME;
-			// } else {
-			// 	n->token->parser_type = VAR_NAME_REFERENCE;
-			// }
-		}
+		// if (SearchInTable(n, parser_table) != -1) {
+		// 	n->token->parser_type = RULE_NAME_REFERENCE;
+		// 	is_ref = true;
+		// }
+
+		// if (!is_ref) {
+		// 	AddName(parser_table, n);
+		// 	n->token->parser_type = RULE_NAME;
+		// 	// if (n->children != NULL && GetChild(n, 0)->token->type == TOKEN_SEMICOLON) {
+		// 	// } else {
+		// 	// 	n->token->parser_type = RULE_NAME_REFERENCE;
+		// 	// }
+		// 	// if (AddName(parser_table, n) == true) {
+		// 	// 	n->token->parser_type = VAR_NAME;
+		// 	// } else {
+		// 	// 	n->token->parser_type = VAR_NAME_REFERENCE;
+		// 	// }
+		// }
 	}
 
 	if (n->children != NULL) {
@@ -927,6 +940,22 @@ void SearchNamesInBranceParser(Node *n, NameTable *table, NameTable *parser_tabl
 	}
 }
 
+void FindAllRuleNames(Node *n, NameTable *parser_table)
+{
+	if (n->token->type == TOKEN_NAME &&
+			n->children != NULL &&
+			GetChild(n,0)->token->type == TOKEN_COLON) {
+		printf("added node:(%s)\n", n->token->txt);
+		AddName(parser_table, n);
+	}
+
+	if (n->children != NULL) {
+		for (size_t cur_child = 0; cur_child < n->children->size; ++cur_child) {
+			FindAllRuleNames(GetChild(n, cur_child), parser_table);
+		}
+	}
+}
+
 NameTable *ScanParserNames(Tree *parser_tree, NameTable *table)
 {
 	assert(parser_tree != NULL && "Null parametr\n");
@@ -936,6 +965,8 @@ NameTable *ScanParserNames(Tree *parser_tree, NameTable *table)
 	// Allocate array of names.
 	parser_table->names = (Node**)calloc(kInitSizeNamesArray, sizeof(Node*));
 	assert(parser_table != NULL && "Null calloc allocation\n");
+
+	FindAllRuleNames(parser_tree->root, parser_table);
 
 	tab_incr();
 	SearchNamesInBranceParser(parser_tree->root, table, parser_table);
@@ -1299,7 +1330,9 @@ void GenerateFiles(Token *s, uint64_t n_tokens)
 	GenerateTreeFile(header_file);
 
 	GenerateParserFile(parser_tree, s, n_tokens, table, header_file);
+	DebugTree(parser_tree);
+	// exit(0);
+
 
 	fclose(header_file);
-	// exit(0);
 }

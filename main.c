@@ -10,7 +10,7 @@ int main() {
       "Start of tokenizer work.\n");
 
   uint64_t n_tokens = 0;  
-  const char *program_to_read = "../include/new_format.rbc";
+  const char *program_to_read = "../include/function.rbc";
 
   char *source_text = GetSourceText(program_to_read);
   assert(source_text != NULL && "Null source text or wrong path to file!");

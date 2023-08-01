@@ -1,0 +1,87 @@
+%start       = "translation_unit"
+%white_space = " \t\n"
+%splitters   = "+-;(){},><="
+
+// Entities of tokenizer.
+%T_PLUS      = "+"
+%T_SEMICOLON = ";"
+%T_EOF       = "EOF"
+
+%T_IF = "if"
+
+%T_GREATER   = ">"
+%T_LOWER     = "<"
+%T_EQEQ      = "=="
+%T_EQ        = "="
+
+%T_COMMA     = ','
+%T_LEFT_PAR  = "("
+%T_RIGHT_PAR = ")"
+
+%T_LEFT_BRACE  = "{"
+%T_RIGHT_BRACE = "}"
+
+%T_NUMBER_ = "[0-9]+"
+%T_NAME_   = "[a-z]+"
+
+%T_TYPE_INT  = "int"
+%T_TYPE_CHAR = "char"
+
+each_type
+	: T_TYPE_INT
+	| T_TYPE_CHAR
+	;
+
+identifier
+	: T_NAME_
+	| T_NUMBER_
+	;
+
+additive_expression
+	: identifier T_PLUS additive_expression
+	| identifier
+	;
+
+comp_expression
+	: additive_expression T_GREATER additive_expression
+	| additive_expression T_LOWER   additive_expression
+	| additive_expression T_EQEQ    additive_expression
+	| additive_expression
+	;
+
+declaration
+	: each_type identifier
+	;
+
+equality_expression
+	: declaration T_EQ comp_expression
+	| identifier  T_EQ comp_expression
+	;
+
+if_statement
+	: T_IF T_LEFT_PAR comp_expression T_RIGHT_PAR T_LEFT_BRACE body T_RIGHT_BRACE
+	;
+
+body_entity
+	: if_statement
+	| equality_expression
+	;
+
+body
+	: body_entity T_SEMICOLON body
+	| body_entity T_SEMICOLON
+	;
+
+declaration_list
+	: declaration T_COMMA declaration_list
+	| declaration
+	;
+
+function
+	: declaration T_LEFT_PAR declaration_list T_RIGHT_PAR T_LEFT_BRACE body T_RIGHT_BRACE
+	;
+
+translation_unit
+	: function translation_unit
+	| function
+	;

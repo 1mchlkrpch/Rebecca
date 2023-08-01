@@ -12,6 +12,8 @@ entities for generating correct tokenizer.*/
 %SEMICOLON   = ";"
 %EOF_T       = "EOF"
 %G_TOKEN     = ">"
+%L_TOKEN     = "<"
+%EE_TOKEN     = "=="
 %IF_TOKEN    = "if"
 %LEFT_P      = "("
 %RIGHT_P     = ")"
@@ -34,10 +36,17 @@ additive_expression
 
 comp_expression
 	: additive_expression G_TOKEN additive_expression
+	| additive_expression L_TOKEN additive_expression
+	| additive_expression EE_TOKEN additive_expression
+	;
+
+statement
+	: comp_expression SEMICOLON statement
+	| comp_expression SEMICOLON
 	;
 
 if_statement
-	: IF_TOKEN LEFT_P comp_expression RIGHT_P LEFT_B RIGHT_B
+	: IF_TOKEN LEFT_P comp_expression RIGHT_P LEFT_B statement RIGHT_B
 	;
 
 translation_unit

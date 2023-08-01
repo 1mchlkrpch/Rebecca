@@ -33,7 +33,7 @@ char *GetSourceText(const char *name)
 
 int main() {
 	uint64_t n_tokens2 = 0;
-	char *source = GetSourceText("../../examples/expr.rbc");
+	char *source = GetSourceText("../../examples/function.rbc");
 	GEN_Token *sequence2 = GEN_Tokenizer(source, &n_tokens2);
 
 	for (uint64_t cur_token = 0; cur_token < n_tokens2; ++cur_token) {
