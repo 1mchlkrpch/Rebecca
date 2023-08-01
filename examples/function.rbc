@@ -1,3 +1,15 @@
+int GetChar(char c) {
+	int variable = first + third;
+
+	if (c == betta) {
+		if (c == gamma) {
+			if (c == zeta) {
+				c = c + c;
+			};
+		};
+	};
+}
+
 char var(int first, int second, char third) {
 	int variable = first + third;
 	b = c;
