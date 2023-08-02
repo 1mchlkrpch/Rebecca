@@ -12,15 +12,21 @@
  * @param s     sequence to get token
  * @param idx   Index of current token in 's'.
  */
-void WorkOutToken(Tree *t, Token *s, uint64_t *idx)
+static void WorkOutToken(Tree *t, Token *s, uint64_t *idx)
 {
+	assert(t   != NULL && "Null parametr\n");
+	assert(s   != NULL && "Null parametr\n");
+	assert(idx != NULL && "Null parametr\n");
+
 	AddChild(t, CreateNode(t, s + *idx));
 	++(*idx);
 }
 
-void GenerateTrees(Tree *parser_tree, Tree *tokenizer_tree, Token *s, uint64_t n_tokens)
+static void GenerateTrees(Tree *parser_tree, Tree *tokenizer_tree, Token *s, uint64_t n_tokens)
 {
-	assert(s != NULL && "Null parametr\n");
+	assert(parser_tree    != NULL && "Null parametr\n");
+	assert(tokenizer_tree != NULL && "Null parametr\n");
+	assert(s              != NULL && "Null parametr\n");
 
 	msg(D_PARSER_GENERATING, M,
 		"Start of generating parser's AST\n");
@@ -101,11 +107,13 @@ void GenerateTrees(Tree *parser_tree, Tree *tokenizer_tree, Token *s, uint64_t n
 	}
 }
 
-int64_t SearchInTable(Node *n, NameTable *table)
+static int64_t SearchInTable(Node *n, NameTable *table)
 {
+	assert(n     != NULL && "Null parametr\n");
+	assert(table != NULL && "Null parametr\n");
+
 	for (size_t cur_el = 0; cur_el < table->size; ++cur_el) {
 		if (strcmp(table->names[cur_el]->token->txt, n->token->txt) == 0) {
-			// printf("Already exists\n");
 			msg(D_NAMETABLE, M,
 				"Already exists\n");
 
@@ -116,17 +124,15 @@ int64_t SearchInTable(Node *n, NameTable *table)
 	return -1;
 }
 
-bool AddName(NameTable *table, Node *n)
+static bool AddName(NameTable *table, Node *n)
 {
 	assert(table != NULL && "Null parametr\n");
 	assert(n     != NULL && "Null parametr\n");
 
-	// Try to find this n in nametable.
 	if (SearchInTable(n, table) != -1) {
 		return false;
 	}
-	// Add new name in table.
-	// printf("?\n");
+
 	memcpy(table->names + table->size, &n, sizeof(Node*));
 	msg(D_NAMETABLE, M,
 		"Name was inserted\n");
@@ -139,7 +145,7 @@ bool AddName(NameTable *table, Node *n)
 	return true;
 }
 
-void SearchNamesInBrance(Node *n, NameTable *table)
+static void SearchNamesInBrance(Node *n, NameTable *table)
 {
 	assert(n     != NULL && "Null parametr\n");
 	assert(table != NULL && "Null parametr\n");
@@ -147,7 +153,7 @@ void SearchNamesInBrance(Node *n, NameTable *table)
 	bool is_ref = false;
 	if (n->token->type == TOKEN_NAME) {
 		if (n->parent != NULL && n->parent->parent != NULL &&
-				Ttype(GetChild(n->parent->parent, 0)) == TOKEN_NAME) {
+				GetType(GetChild(n->parent->parent, 0)) == TOKEN_NAME) {
 
 			if (SearchInTable(GetChild(n->parent->parent, 0), table) != -1) {
 				n->token->parser_type = VAR_NAME_REFERENCE;
@@ -167,16 +173,18 @@ void SearchNamesInBrance(Node *n, NameTable *table)
 	if (n->children != NULL) {
 		for (size_t cur_child_idx = 0; cur_child_idx < n->children->size; ++cur_child_idx) {
 			Node *cur_child = GetChild(n, cur_child_idx);
+
 			tab_incr();
 			SearchNamesInBrance(cur_child, table);
 			tab_decr();
+
 			msg(D_NAMETABLE, M,
 				"End this child\n");
 		}
 	}
 }
 
-NameTable *ScanTokenizerNames(Tree *t)
+static NameTable *ScanTokenizerNames(Tree *t)
 {
 	assert(t != NULL && "Null parametr\n");
 	// Allocate name table for searching familiar names
@@ -193,7 +201,7 @@ NameTable *ScanTokenizerNames(Tree *t)
 	return table;
 }
 
-void GenerateConstants(FILE *header_file, Tree *tokenizer_tree, NameTable *table)
+static void GenerateConstants(FILE *header_file, NameTable *table)
 {
 	for (size_t cur_el = 0; cur_el < table->size; ++cur_el) {
 		if (strcmp(table->names[cur_el]->token->txt, "splitters")   == 0 ||
@@ -208,8 +216,8 @@ void GenerateConstants(FILE *header_file, Tree *tokenizer_tree, NameTable *table
 	fprintf(header_file, "static const int64_t kUndefinedStableWordIdx = -1;\n\n");
 }
 
-void GenerateEnumOfTokens(
-	FILE *header_file, Tree *tokenizer_tree, NameTable *table, NameTable *parser_table)
+void GenerateEnumOfTokens
+	(FILE *header_file, NameTable *table, NameTable *parser_table)
 {
 	fprintf(header_file,
 		"typedef enum {\n");
@@ -245,15 +253,15 @@ void GenerateEnumOfTokens(
 	fprintf(header_file,
 		"typedef struct\n"
 		"{\n"
-		"  // Type of token.\n"
-		"  GEN_TokenType  type;\n"
-		"  // Text representation of token.\n"
-		"  char      *txt;\n"
-		"  GEN_PrsrNdType parser_type;\n"
+		"\t// Type of token.\n"
+		"\tGEN_TokenType  type;\n"
+		"\t// Text representation of token.\n"
+		"\tchar      *txt;\n"
+		"\tGEN_PrsrNdType parser_type;\n"
 		"} GEN_Token;\n\n");
 }
 
-void GenerateArrayOfKeywords(FILE *header_file, Tree *tokenizer_tree, NameTable *table)
+void GenerateArrayOfKeywords(FILE *header_file, NameTable *table)
 {
 	fprintf(header_file,
 		"typedef struct {\n"
@@ -270,8 +278,8 @@ void GenerateArrayOfKeywords(FILE *header_file, Tree *tokenizer_tree, NameTable 
 
 	for (size_t cur_el = 0; cur_el < table->size; ++cur_el) {
 		if (strcmp(table->names[cur_el]->token->txt, "splitters") == 0 ||
-			strcmp(table->names[cur_el]->token->txt, "start")     == 0 ||
-			strcmp(table->names[cur_el]->token->txt, "white_space") == 0) {
+			strcmp(GetTxt(table->names[cur_el]), "start")     == 0 ||
+			strcmp(GetTxt(table->names[cur_el]), "white_space") == 0) {
 			continue;
 		}
 
@@ -313,7 +321,7 @@ void GenerateArrayOfKeywords(FILE *header_file, Tree *tokenizer_tree, NameTable 
 		"};\n\n");
 }
 
-void GenerateCommonCommands(FILE *c_file, Tree *tokenizer_tree, NameTable *table)
+void GenerateCommonCommands(FILE *c_file)
 {
 	fprintf(c_file,
 		"int64_t GEN_IdentifyToken(char *cur_word)\n"
@@ -411,7 +419,7 @@ void GenerateCommonCommands(FILE *c_file, Tree *tokenizer_tree, NameTable *table
 	);
 }
 
-void GenerateSplittersCommands(FILE *c_file, Tree *tokenizer_tree, NameTable *table)
+void GenerateSplittersCommands(FILE *c_file, NameTable *table)
 {
 	for (size_t cur_el = 0; cur_el < table->size; ++cur_el) {
 		if (strcmp(table->names[cur_el]->token->txt, "splitters") == 0) {
@@ -434,7 +442,7 @@ void GenerateSplittersCommands(FILE *c_file, Tree *tokenizer_tree, NameTable *ta
 	}
 }
 
-void GenerateTokenizerCmd(FILE *c_file, Tree *tokenizer_tree, NameTable *table)
+void GenerateTokenizerCmd(FILE *c_file)
 {
 	fprintf(c_file,
 		"GEN_Token *GEN_Tokenizer(char *source_text, uint64_t *n_tokens)\n"
@@ -485,7 +493,7 @@ void GenerateTokenizerCmd(FILE *c_file, Tree *tokenizer_tree, NameTable *table)
 		"}\n\n");
 }
 
-void GenerateTranslationCommand(FILE *c_file, Tree *tokenizer_tree, NameTable *table, NameTable *parser_table)
+void GenerateTranslationCommand(FILE *c_file, NameTable *table, NameTable *parser_table)
 {
 	fprintf(c_file,
 		"const char *GEN_TranslateTokenType(GEN_TokenType type)\n"
@@ -572,8 +580,8 @@ void GenerateTokenizerFile(
 		"} GEN_PrsrNdType;\n\n"
 		);
 
-	GenerateConstants(header_file, tokenizer_tree, table);
-	GenerateEnumOfTokens(header_file, tokenizer_tree, table, parser_table);
+	GenerateConstants(header_file, table);
+	GenerateEnumOfTokens(header_file, table, parser_table);
 
 	fprintf(header_file,
 		"typedef struct\n"
@@ -583,7 +591,7 @@ void GenerateTokenizerFile(
 		"} GEN_Context;\n\n"
 		);
 
-	GenerateArrayOfKeywords(header_file, tokenizer_tree, table);
+	GenerateArrayOfKeywords(header_file, table);
 	fprintf(header_file,
 		"GEN_Token *GEN_Tokenizer(char *name, uint64_t *n_tokens);\n");
 
@@ -594,12 +602,12 @@ void GenerateTokenizerFile(
 	// C-file:
 	fprintf(c_file,
 		"#include <Tokenizer_GEN.h>\n\n");
-	GenerateSplittersCommands(c_file, tokenizer_tree, table);
-	GenerateCommonCommands(c_file, tokenizer_tree, table);
+	GenerateSplittersCommands(c_file, table);
+	GenerateCommonCommands(c_file);
 
-	GenerateTranslationCommand(c_file, tokenizer_tree, table, parser_table);
+	GenerateTranslationCommand(c_file, table, parser_table);
 
-	GenerateTokenizerCmd(c_file, tokenizer_tree, table);
+	GenerateTokenizerCmd(c_file);
 
 	fclose(c_file);
 }
@@ -672,6 +680,51 @@ void WriteObviousCommands(FILE *header_file, FILE *c_file, NameTable *table)
 		}
 
 	}
+}
+
+static void WriteChain(FILE *c_file, Node *chain, char *tabs, uint64_t cur_child, char *name_of_rule)
+{
+	msg(D_FILE_PRINT, M,
+		"Current node in line:%s\n", chain->token->txt);
+
+	fprintf(c_file,
+		"%stab_incr();\n"
+		"%smsg(D_PARSER_WORK, M, \"new chain in option\\n\");\n"
+		"%stab_incr();\n",
+		tabs, tabs, tabs);
+
+	if (chain->token->parser_type == NOT_SPECIAL) {
+		fprintf(c_file,
+			"%snew_ctx = GEN_TryToken(&%s_%lu_tree, sequence, %s, try_ctx, n_tokens);\n",
+			tabs, name_of_rule, cur_child + 1, TranslateTokenType(chain->token->type));
+
+	} else if (chain->token->parser_type == RULE_NAME_REFERENCE) {
+		fprintf(c_file,
+			"%snew_ctx = Try_%s(&%s_%lu_tree, sequence, try_ctx, n_tokens);\n",
+			tabs, chain->token->txt, name_of_rule, cur_child + 1);
+	} else if (chain->token->parser_type == VAR_NAME_REFERENCE) {
+		fprintf(c_file,
+			"%snew_ctx = GEN_TryToken(&%s_%lu_tree, sequence, %s, try_ctx, n_tokens);\n",
+			tabs, name_of_rule, cur_child + 1, chain->token->txt);
+	}
+
+	fprintf(c_file,
+		"%stab_decr();\n",
+		tabs);
+
+	fprintf(c_file,
+		"%sif (memcmp(&new_ctx, &try_ctx, sizeof(GEN_Context)) == 0) {\n"
+		"%s\tmsg(D_PARSER_WORK, M, \"NOT NEEDED OPTION: Try_%s_%lu\\n\");\n"
+		"%s\ttab_decr();\n"
+		"%s\treturn ctx;\n"
+		"%s}\n"
+		"%stry_ctx = new_ctx;\n",
+		tabs, tabs, name_of_rule, cur_child + 1, tabs, tabs, tabs, tabs);
+
+	fprintf(c_file,
+		"%smsg(D_PARSER_WORK, M, \"END chain in option\\n\");\n"
+		"%stab_decr();\n\n",
+		tabs, tabs);
 }
 
 void GenerateCommand(FILE *header_file, FILE *c_file, Node *n)
@@ -795,51 +848,6 @@ void GenerateCommand(FILE *header_file, FILE *c_file, Node *n)
 	fprintf(c_file, "}\n\n");
 }
 
-void WriteChain(FILE *c_file, Node *chain, char *tabs, uint64_t cur_child, char *name_of_rule)
-{
-	msg(D_FILE_PRINT, M,
-		"Current node in line:%s\n", chain->token->txt);
-
-	fprintf(c_file,
-		"%stab_incr();\n"
-		"%smsg(D_PARSER_WORK, M, \"new chain in option\\n\");\n"
-		"%stab_incr();\n",
-		tabs, tabs, tabs);
-
-	if (chain->token->parser_type == NOT_SPECIAL) {
-		fprintf(c_file,
-			"%snew_ctx = GEN_TryToken(&%s_%lu_tree, sequence, %s, try_ctx, n_tokens);\n",
-			tabs, name_of_rule, cur_child + 1, TranslateTokenType(chain->token->type));
-
-	} else if (chain->token->parser_type == RULE_NAME_REFERENCE) {
-		fprintf(c_file,
-			"%snew_ctx = Try_%s(&%s_%lu_tree, sequence, try_ctx, n_tokens);\n",
-			tabs, chain->token->txt, name_of_rule, cur_child + 1);
-	} else if (chain->token->parser_type == VAR_NAME_REFERENCE) {
-		fprintf(c_file,
-			"%snew_ctx = GEN_TryToken(&%s_%lu_tree, sequence, %s, try_ctx, n_tokens);\n",
-			tabs, name_of_rule, cur_child + 1, chain->token->txt);
-	}
-
-	fprintf(c_file,
-		"%stab_decr();\n",
-		tabs);
-
-	fprintf(c_file,
-		"%sif (memcmp(&new_ctx, &try_ctx, sizeof(GEN_Context)) == 0) {\n"
-		"%s\tmsg(D_PARSER_WORK, M, \"NOT NEEDED OPTION: Try_%s_%lu\\n\");\n"
-		"%s\ttab_decr();\n"
-		"%s\treturn ctx;\n"
-		"%s}\n"
-		"%stry_ctx = new_ctx;\n",
-		tabs, tabs, name_of_rule, cur_child + 1, tabs, tabs, tabs, tabs);
-
-	fprintf(c_file,
-		"%smsg(D_PARSER_WORK, M, \"END chain in option\\n\");\n"
-		"%stab_decr();\n\n",
-		tabs, tabs);
-}
-
 void GenerateCommands(FILE *header_file, FILE *c_file, Node *n)
 {
 	assert(header_file != NULL && "Null parametr\n");
@@ -885,14 +893,6 @@ void SearchNamesInBranceParser(Node *n, NameTable *table, NameTable *parser_tabl
 
 	bool is_ref = false;
 	if (n->token->type == TOKEN_NAME) {
-		// if (n->parent != NULL && n->parent->parent != NULL &&
-		// 		Ttype(GetChild(n->parent->parent, 0)) == TOKEN_NAME) {
-
-		// 	if (SearchInTable(GetChild(n->parent->parent, 0), table) != -1) {
-		// 		n->token->parser_type = VAR_NAME_REFERENCE;
-		// 		is_ref = true;
-		// 	}
-		// }
 		if (SearchInTable(n, table) != -1) {
 			n->token->parser_type = VAR_NAME_REFERENCE;
 			is_ref = true;
@@ -907,25 +907,6 @@ void SearchNamesInBranceParser(Node *n, NameTable *table, NameTable *parser_tabl
 				n->token->parser_type = RULE_NAME_REFERENCE;
 			}
 		}
-
-		// if (SearchInTable(n, parser_table) != -1) {
-		// 	n->token->parser_type = RULE_NAME_REFERENCE;
-		// 	is_ref = true;
-		// }
-
-		// if (!is_ref) {
-		// 	AddName(parser_table, n);
-		// 	n->token->parser_type = RULE_NAME;
-		// 	// if (n->children != NULL && GetChild(n, 0)->token->type == TOKEN_SEMICOLON) {
-		// 	// } else {
-		// 	// 	n->token->parser_type = RULE_NAME_REFERENCE;
-		// 	// }
-		// 	// if (AddName(parser_table, n) == true) {
-		// 	// 	n->token->parser_type = VAR_NAME;
-		// 	// } else {
-		// 	// 	n->token->parser_type = VAR_NAME_REFERENCE;
-		// 	// }
-		// }
 	}
 
 	if (n->children != NULL) {
@@ -945,7 +926,6 @@ void FindAllRuleNames(Node *n, NameTable *parser_table)
 	if (n->token->type == TOKEN_NAME &&
 			n->children != NULL &&
 			GetChild(n,0)->token->type == TOKEN_COLON) {
-		printf("added node:(%s)\n", n->token->txt);
 		AddName(parser_table, n);
 	}
 
@@ -975,7 +955,7 @@ NameTable *ScanParserNames(Tree *parser_tree, NameTable *table)
 	return parser_table;
 }
 
-void GenerateParserFile(Tree *t, Token *s, uint64_t n_tokens, NameTable *table, FILE *header_file)
+void GenerateParserFile(Tree *t, NameTable *table, FILE *header_file)
 {
 	// FILE *header_file = fopen("../src/Parser_GEN.h", "w");
 	FILE *c_file = fopen("../out/Parser_GEN.c", "w");
@@ -1092,7 +1072,9 @@ void GenerateTreeFile(FILE *header_file)
 		"\t}\n"
 		"\treturn t->current;\n"
 		"}\n\n"
+		);
 
+	fprintf(c_file,
 		"void GEN_InsertParent(GEN_Tree *t, GEN_Node *n)\n"
 		"{\n"
 		"\tGEN_Node *old_current = t->current;\n"
@@ -1190,7 +1172,9 @@ void GenerateTreeFile(FILE *header_file)
 		"\tfclose(f);\n"
 		"\tsystem(\"dot -Tpng ../graph.dot -o ../graph.png\");\n"
 		"}\n\n"
+		);
 
+	fprintf(c_file,
 		"void GEN_Parent(GEN_Tree *t)\n"
 		"{ t->current = (GEN_Node *)t->current->parent; }\n\n"
 
@@ -1274,36 +1258,34 @@ void GenerateTreeFile(FILE *header_file)
 
 		"void GEN_CompressTree(GEN_Tree *t, GEN_Node *n)\n"
 		"{\n"
-		"   t->current = n;\n"
-		"	int n_changes = 0;\n"
-		"   while(true) {\n"
-		"		if (n->children != NULL) {\n"
-		"			GEN_Node *save_cur = n;\n"
-		"			for (size_t cur_child = 0; cur_child < n->children->size; ++cur_child) {\n"
-		"				GEN_Node *child = GEN_GetChild(n, cur_child);\n"
-		"				if (child->children != NULL && child->children->size == 1) {\n"
-		"					GEN_Node *grandson = GEN_GetChild(child, 0);\n"
-		"					grandson->parent = n;\n"
-		"					\n"
-		"					++n_changes;\n"
-		"					memcpy((GEN_Node**)n->children->data + cur_child, &grandson, sizeof(GEN_Node*));\n"
-		"				}\n"
-		"			}\n"
-		"		}\n"
-		"		if (n_changes == 0) {\n"
-		"			break;\n"
-		"		}\n"
-		"		n_changes = 0;\n"
-		"	}\n"
-		"	if (n->children != NULL) {\n"
-		"		for (size_t cur_child = 0; cur_child < n->children->size; ++cur_child) {\n"
-		"			GEN_CompressTree(t, GEN_GetChild(n, cur_child));\n"
-		"		}\n"
-		"	}\n"
+		"\tt->current = n;\n"
+		"\tint n_changes = 0;\n"
+		"\twhile(true) {\n"
+		"\tif (n->children != NULL) {\n"
+		"\t\tGEN_Node *save_cur = n;\n"
+		"\t\tfor (size_t cur_child = 0; cur_child < n->children->size; ++cur_child) {\n"
+		"\t\t\tGEN_Node *child = GEN_GetChild(n, cur_child);\n"
+		"\t\t\tif (child->children != NULL && child->children->size == 1) {\n"
+		"\t\t\t\tGEN_Node *grandson = GEN_GetChild(child, 0);\n"
+		"\t\t\t\tgrandson->parent = n;\n\n"
+		"\t\t\t\t++n_changes;\n"
+		"\t\t\t\tmemcpy((GEN_Node**)n->children->data + cur_child, &grandson, sizeof(GEN_Node*));\n"
+		"\t\t\t}\n"
+		"\t\t}\n"
+		"\t}\n"
+		"\tif (n_changes == 0) {\n"
+		"\t\tbreak;\n"
+		"\t}\n"
+		"\tn_changes = 0;\n"
+		"\t}\n"
+		"\tif (n->children != NULL) {\n"
+		"\t\tfor (size_t cur_child = 0; cur_child < n->children->size; ++cur_child) {\n"
+		"\t\t\tGEN_CompressTree(t, GEN_GetChild(n, cur_child));\n"
+		"\t\t}\n"
+		"\t}\n"
 		"}\n"
 		);
 
-	// fclose(header_file);
 	fclose(c_file);
 }
 
@@ -1315,7 +1297,7 @@ void GenerateFiles(Token *s, uint64_t n_tokens)
 	Tree *parser_tree    = TreeCtor(PARSER_TREE);
 
 	GenerateTrees(parser_tree, tokenizer_tree, s, n_tokens);
-	// Scan trees for names
+
 	NameTable *table        = ScanTokenizerNames(tokenizer_tree);
 	DebugTree(tokenizer_tree);
 
@@ -1330,10 +1312,8 @@ void GenerateFiles(Token *s, uint64_t n_tokens)
 	GenerateTokenizerFile(tokenizer_tree, table, header_file, parser_table);
 	GenerateTreeFile(header_file);
 
-	GenerateParserFile(parser_tree, s, n_tokens, table, header_file);
+	GenerateParserFile(parser_tree, table, header_file);
 	DebugTree(parser_tree);
-	// exit(0);
-
 
 	fclose(header_file);
 }

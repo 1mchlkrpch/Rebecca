@@ -46,7 +46,9 @@ typedef enum TokenType
   PARSER_TREE
 } TokenType;
 
-const char *TranslateTokenType(TokenType type);
+char const *TranslateTokenType(TokenType type);
+
+char *GetSourceText(char const *name);
 
 // Lexer part --------------------------------------------------------------------------------
 
@@ -91,6 +93,8 @@ static const char kSplitSymbols[] =
   '\\',
   '\0'
 };
+
+static const size_t kInitSizeNamesArray = 512;
 
 // Types of node for parser.
 typedef enum PrsrNdType
@@ -167,44 +171,39 @@ typedef struct
   const char *data;
 } Tree;
 
-char *GetSourceText(const char *name);
-
-void GenerateTrees(Tree *parser_tree, Tree *tokenizer_tree, Token *sequence, uint64_t n_tokens);
-
-void GenerateFiles(Token *sequence, uint64_t n_tokens);
-
 // Tree library -----------------------------------------------------------------------------
-Node *AddChild(Tree *t, Node *n);
 
-TokenType Ttype(Node *n);
+void Parent(Tree *t);
+
+TokenType GetType(Node *n);
+
+char *GetTxt(Node *n);
 
 Node *GetChild(Node *n, uint64_t idx);
 
-void FillCurrent(Tree *t, Token *token);
+// Constructors -----------------------------------
 
-void DebugTree(Tree *t);
+Node *CreateNodeByType(Tree *t, TokenType type);
 
-void Parent(Tree *t);
+Node *CreateNode(Tree *t, Token *token);
 
 Node *NodeCtor();
 
 Tree *TreeCtor();
 
-void AppendTree(Tree *first, Tree *second);
+// Common functions -------------------------------
 
-void FillNodeWith(Token *token);
+Node *AddChild(Tree *t, Node *n);
 
 void InsertParent(Tree *t, Node *n);
 
-void PrintNode(FILE *f, Node *n);
+void AppendTree(Tree *first, Tree *second);
 
-Node *CreateNode(Tree *t, Token *token);
+void DebugTree(Tree *t);
 
-Node *CreateNodeByType(Tree *t, TokenType type);
+// Parser's functions -----------------------------------------------------------------------
 
-void PreParserAnalisys(Token *sequence, uint64_t n_tokens);
-
-static const size_t kInitSizeNamesArray = 512;
+void GenerateFiles(Token *sequence, uint64_t n_tokens);
 
 typedef struct NameTable
 {
