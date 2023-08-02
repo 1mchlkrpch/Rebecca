@@ -216,7 +216,7 @@ static void GenerateConstants(FILE *header_file, NameTable *table)
 	fprintf(header_file, "static const int64_t kUndefinedStableWordIdx = -1;\n\n");
 }
 
-void GenerateEnumOfTokens
+static void GenerateEnumOfTokens
 	(FILE *header_file, NameTable *table, NameTable *parser_table)
 {
 	fprintf(header_file,
@@ -239,9 +239,9 @@ void GenerateEnumOfTokens
 			continue;
 		}
 
-		// printf("generate tokens\n");
 		Node *in_parser_tree = parser_table->names[cur_el];
 		fprintf(header_file, "\t%s,\n", in_parser_tree->token->txt);
+
 		for (size_t cur_child = 0; cur_child < GetChild(in_parser_tree, 0)->children->size; ++cur_child) {
 			fprintf(header_file, "\t%s_%ld,\n", in_parser_tree->token->txt, cur_child + 1);
 		}
@@ -261,7 +261,7 @@ void GenerateEnumOfTokens
 		"} GEN_Token;\n\n");
 }
 
-void GenerateArrayOfKeywords(FILE *header_file, NameTable *table)
+static void GenerateArrayOfKeywords(FILE *header_file, NameTable *table)
 {
 	fprintf(header_file,
 		"typedef struct {\n"
@@ -321,7 +321,7 @@ void GenerateArrayOfKeywords(FILE *header_file, NameTable *table)
 		"};\n\n");
 }
 
-void GenerateCommonCommands(FILE *c_file)
+static void GenerateCommonCommands(FILE *c_file)
 {
 	fprintf(c_file,
 		"int64_t GEN_IdentifyToken(char *cur_word)\n"
@@ -419,7 +419,7 @@ void GenerateCommonCommands(FILE *c_file)
 	);
 }
 
-void GenerateSplittersCommands(FILE *c_file, NameTable *table)
+static void GenerateSplittersCommands(FILE *c_file, NameTable *table)
 {
 	for (size_t cur_el = 0; cur_el < table->size; ++cur_el) {
 		if (strcmp(table->names[cur_el]->token->txt, "splitters") == 0) {
@@ -442,7 +442,7 @@ void GenerateSplittersCommands(FILE *c_file, NameTable *table)
 	}
 }
 
-void GenerateTokenizerCmd(FILE *c_file)
+static void GenerateTokenizerCmd(FILE *c_file)
 {
 	fprintf(c_file,
 		"GEN_Token *GEN_Tokenizer(char *source_text, uint64_t *n_tokens)\n"
@@ -493,7 +493,7 @@ void GenerateTokenizerCmd(FILE *c_file)
 		"}\n\n");
 }
 
-void GenerateTranslationCommand(FILE *c_file, NameTable *table, NameTable *parser_table)
+static void GenerateTranslationCommand(FILE *c_file, NameTable *table, NameTable *parser_table)
 {
 	fprintf(c_file,
 		"const char *GEN_TranslateTokenType(GEN_TokenType type)\n"
@@ -546,7 +546,7 @@ void GenerateTranslationCommand(FILE *c_file, NameTable *table, NameTable *parse
 		);
 }
 
-void GenerateTokenizerFile(
+static void GenerateTokenizerFile(
 	Tree *tokenizer_tree, NameTable *table, FILE *header_file, NameTable *parser_table)
 {
 	assert(tokenizer_tree != NULL && "Null param");
@@ -613,7 +613,8 @@ void GenerateTokenizerFile(
 }
 
 // Generation parser file. -------------------------------------------------------------
-void WritePrefixOfParserFunction(FILE *header_file, FILE *c_file, const char *name_of_rule)
+
+static void WritePrefixOfParserFunction(FILE *header_file, FILE *c_file, const char *name_of_rule)
 {
 	assert(header_file  != NULL && "Null parametr\n");
 	assert(name_of_rule != NULL && "Null parametr\n");
@@ -631,7 +632,7 @@ void WritePrefixOfParserFunction(FILE *header_file, FILE *c_file, const char *na
 		"\tGEN_Context new_ctx = {0};\n\n", name_of_rule, name_of_rule, name_of_rule);
 }
 
-void WriteReferenceToOtherRules(FILE *header_file, char *tabs, uint64_t cur_child, uint64_t *n_tabs, char *name_of_rule)
+static void WriteReferenceToOtherRules(FILE *header_file, char *tabs, uint64_t cur_child, uint64_t *n_tabs, char *name_of_rule)
 {
 	tabs[(*n_tabs)++] = '\t';
 
@@ -644,7 +645,7 @@ void WriteReferenceToOtherRules(FILE *header_file, char *tabs, uint64_t cur_chil
 		tabs);
 }
 
-void WriteObviousCommands(FILE *header_file, FILE *c_file, NameTable *table)
+static void WriteObviousCommands(FILE *header_file, FILE *c_file, NameTable *table)
 {
 	fprintf(header_file,
 		"GEN_Context GEN_TryToken(GEN_Tree *t, GEN_Token *sequence, GEN_TokenType expected_type, GEN_Context ctx, uint64_t n_tokens);\n");
@@ -727,7 +728,7 @@ static void WriteChain(FILE *c_file, Node *chain, char *tabs, uint64_t cur_child
 		tabs, tabs);
 }
 
-void GenerateCommand(FILE *header_file, FILE *c_file, Node *n)
+static void GenerateCommand(FILE *header_file, FILE *c_file, Node *n)
 {
 	assert(header_file != NULL && "Null parametr\n");
 	assert(n           != NULL && "Null parametr\n");
@@ -848,7 +849,7 @@ void GenerateCommand(FILE *header_file, FILE *c_file, Node *n)
 	fprintf(c_file, "}\n\n");
 }
 
-void GenerateCommands(FILE *header_file, FILE *c_file, Node *n)
+static void GenerateCommands(FILE *header_file, FILE *c_file, Node *n)
 {
 	assert(header_file != NULL && "Null parametr\n");
 	assert(n           != NULL && "Null parametr\n");
@@ -886,7 +887,7 @@ void GenerateCommands(FILE *header_file, FILE *c_file, Node *n)
 }
 
 //////////////////////////////////////////////////
-void SearchNamesInBranceParser(Node *n, NameTable *table, NameTable *parser_table)
+static void SearchNamesInBranceParser(Node *n, NameTable *table, NameTable *parser_table)
 {
 	assert(n     != NULL && "Null parametr\n");
 	assert(table != NULL && "Null parametr\n");
@@ -921,7 +922,7 @@ void SearchNamesInBranceParser(Node *n, NameTable *table, NameTable *parser_tabl
 	}
 }
 
-void FindAllRuleNames(Node *n, NameTable *parser_table)
+static void FindAllRuleNames(Node *n, NameTable *parser_table)
 {
 	if (n->token->type == TOKEN_NAME &&
 			n->children != NULL &&
@@ -955,7 +956,7 @@ NameTable *ScanParserNames(Tree *parser_tree, NameTable *table)
 	return parser_table;
 }
 
-void GenerateParserFile(Tree *t, NameTable *table, FILE *header_file)
+static void GenerateParserFile(Tree *t, NameTable *table, FILE *header_file)
 {
 	// FILE *header_file = fopen("../src/Parser_GEN.h", "w");
 	FILE *c_file = fopen("../out/Parser_GEN.c", "w");
@@ -974,7 +975,7 @@ void GenerateParserFile(Tree *t, NameTable *table, FILE *header_file)
 	fclose(c_file);
 }
 
-void GenerateTreeFile(FILE *header_file)
+static void GenerateTreeFile(FILE *header_file)
 {
 	FILE *c_file = fopen("../out/Tree_GEN.c", "w");
 
