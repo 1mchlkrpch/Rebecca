@@ -65,7 +65,8 @@ void tab_decr()
  */
 void WriteStatusFile(const char style)
 {
-  // Prefix message contains: message status, time, split pipe-symbol.
+  //  Prefix message contains:
+  // message status, time, split pipe-symbol.
   char msg_prefix[512] = "";
 
   char *cursor = msg_prefix;

@@ -1,32 +1,33 @@
 # Generator of parser
 
-That is simple tool to generate parser for arbitrary grammar.
+That is simple tool to generate parser for arbitrary grammar defined as sequences of tokens.
 
 ## Compile and try out first example
 
-The compilation is divided into two parts: the first is the compilation of the parser,
-tokenizer and tree library files:
-```c++
+Let's make AST for file [examples/function.rbc](https://github.com/mchlkrpch/Rebecca/blob/main/examples/function.rbc).
+1. Clone the project:
+```
 git clone git@github.com:mchlkrpch/Rebecca.git
 cd Rebecca
-make init  // Create build folder
-make build // Generate 'Makefile' from cmake
-cd build   // Execute the program
+```
+2. Generate parser's and tokenizer's files from file [include/function.rbc](https://github.com/mchlkrpch/Rebecca/blob/main/include/function.rbc); this file defile grammar of language by [YACC-similar-rules](https://www.ibm.com/docs/en/aix/7.2?topic=information-yacc-rules)
+```
+make init
+cd build
 cmake ..
 make
-./rbc
+./rbc ../include/function.rbc
 ```
-the second is to compile out/main.c along with the generated
-files to build the examples/*.rbc program tree.
-```c++
+3. Parse the program.
+```
 cd ../out
-make init  // Create build folder
-make build // Generate 'Makefile' from cmake
-cd build   // Execute the program
+make init
+cd build
 cmake ..
 make
-./rbc
+./rbc ../../examples/function.rbc
 ```
+![AST](https://github.com/mchlkrpch/Rebecca/tree/main/ast_example.png?raw=true)
 
 ## Structure of project
 
@@ -38,7 +39,7 @@ make
 
 - [out/](https://github.com/mchlkrpch/Rebecca/tree/main/out) Folder to try out generated files:
 	> Generator files:
-		`Tokenizer_GEN.h`, `Tokenizer_GEN.c`, `Parser_GEN.c`, `Tree_GEN.c`
+		`lib_GEN.h`, `Tokenizer_GEN.c`, `Parser_GEN.c`, `Tree_GEN.c`
 	  Visualization:
 	  	`graph.dot`, `graph.png`
 

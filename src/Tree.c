@@ -9,9 +9,17 @@ inline __attribute__((always_inline))
 void Parent(Tree *t)
 { t->current = (Node *)t->current->parent; }
 
+/**
+ * @brief Gets Node's type
+ * @returns   Type of node.
+ */
 TokenType GetType(Node *n)
 { return n->token->type; }
 
+/**
+ * @brief Gets Node's txt
+ * @param   Text of node.
+ */
 char *GetTxt(Node *n)
 { return n->token->txt; }
 
@@ -51,6 +59,13 @@ static const char *BorderFmt(TokenType t)
 	}
 }
 
+/**
+ * @brief Return border's color
+ * for parser's generator AST
+ * 
+ * @param type   Type of incoming node from tree.
+ * @returns      const char border color.
+ */
 static const char *BorderColor(PrsrNdType type)
 {
 	switch (type) {

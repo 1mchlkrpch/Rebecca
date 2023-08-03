@@ -11,7 +11,7 @@ build:
 
 clean:
 	rm -f *_GEN.c
-	rm -f Tokenizer_GEN.h
+	rm -f lib_GEN.h
 	rm -f graph.*
 	rm -f -r build/*
 	rmdir build

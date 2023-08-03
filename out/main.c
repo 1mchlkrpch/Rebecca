@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include <Tokenizer_GEN.h>
+#include <lib_GEN.h>
 #include <../MchlkrpchLogger/logger.h>
 
 char *GetSourceText(const char *name)
@@ -31,9 +31,15 @@ char *GetSourceText(const char *name)
   return source_text;
 }
 
-int main() {
+int main(int argc, char *argv[]) {
+	if (argc != 2) {
+		printf("Pleace choose file to parse!\n");
+		return 0;
+	}
+
 	uint64_t n_tokens2 = 0;
-	char *source = GetSourceText("../../examples/function.rbc");
+	// For example: "../../examples/function.rbc"
+	char *source = GetSourceText(argv[1]);
 	GEN_Token *sequence2 = GEN_Tokenizer(source, &n_tokens2);
 
 	for (uint64_t cur_token = 0; cur_token < n_tokens2; ++cur_token) {

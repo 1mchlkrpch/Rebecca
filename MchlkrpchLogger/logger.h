@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <MchlkrpchLogger/loggerGroups.h>
 
-// Colored text in console.
 #define YELLOW_FMT "\033[0;33m"
 #define    RED_FMT "\033[0;31m"
 #define  WHITE_FMT "\033[0;37m"
@@ -27,8 +26,8 @@ struct Logger
   uint64_t tab_size;
   // Number of tabs in message.
   uint64_t n_tabs;
-  /*Indent string to insert
-  it before every message.*/
+   // Indent string to insert
+  // it before every message.
   char indent[256];
   // Logger file.
   FILE *f;

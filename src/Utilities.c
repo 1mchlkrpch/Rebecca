@@ -1,8 +1,8 @@
+#include <stdio.h>
+
 #include <include/Utilities.h>
 #include <include/RebeccaGenerator.h>
 #include <MchlkrpchLogger/logger.h>
-
-#include <stdio.h>
 
 /**
  * @brief returns source text
@@ -36,9 +36,7 @@ char *GetSourceText(const char *name)
   source_text[n_symbols] = EOF;
   
   fclose(f);
-
   tab_decr();
-  // printf("source:(%c)\n", source_text[0]);
 
   return source_text;
 }

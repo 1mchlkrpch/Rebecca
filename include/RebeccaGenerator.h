@@ -14,6 +14,8 @@
 #define kTokenMaxLen 256
 /// Initial size of sequence of token sequence.
 static const uint64_t kInitSequenceSize = 1024;
+/// Name in table wasn't found index
+static const int64_t kUndefinedIdx = -1;
 /**
  * @brief Types of tokens
  * in tokenizing/parsing of parser's AST parseing.
